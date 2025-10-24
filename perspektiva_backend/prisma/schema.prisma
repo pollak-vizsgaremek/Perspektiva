@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String         @id @default(uuid())
+  email     String         @unique
+  password  String
+  name      String?
+  admin     Admin?
+  interests UserInterest[]
+}
+
+model Admin {
+  id     Int    @id @default(autoincrement())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model Publicist {
+  id       Int       @id @default(autoincrement())
+  name     String
+  articles Article[]
+}
+
+model Article {
+  id          Int               @id @default(autoincrement())
+  title       String
+  publicist   Publicist         @relation(fields: [publicistId], references: [id])
+  publicistId Int
+  interests   ArticleInterest[]
+}
+
+model Interest {
+  id       Int               @id @default(autoincrement())
+  name     String
+  users    UserInterest[]
+  articles ArticleInterest[]
+}
+
+model UserInterest {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  interest   Interest @relation(fields: [interestId], references: [id])
+  interestId Int
+
+  @@id([userId, interestId])
+  @@map("users_interests")
+}
+
+model ArticleInterest {
+  article    Article  @relation(fields: [articleId], references: [id])
+  articleId  Int
+  interest   Interest @relation(fields: [interestId], references: [id])
+  interestId Int
+
+  @@id([articleId, interestId])
+  @@map("articles_interests")
+}
+
+
