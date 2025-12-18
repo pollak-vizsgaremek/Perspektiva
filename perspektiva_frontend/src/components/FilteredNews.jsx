@@ -53,7 +53,7 @@ export default function FilteredNews() {
   ];
 
   // Aktív források, ezt is megoldjuk majd máshogy idk
-  const activeSources = ["Index", "444!", "Mandiner"];
+  const activeSources = ["Index", "444!"];
 
   const filteredNews = allNews.filter((news) =>
     activeSources.includes(news.source)
@@ -70,6 +70,14 @@ export default function FilteredNews() {
           <h1 className="text-2xl font-bold text-red-600 dark:text-red-500">
             Saját Hírfolyam
           </h1>
+          <input
+            type="text"
+            id="sourceSearch"
+            placeholder="Keresés..."
+            className="w-120 p-3 border border-gray-300 dark:border-gray-700 rounded-lg
+                      focus:ring-red-500 focus:border-red-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+          />
+
           <button
             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
             onClick={backToPortalFilters}

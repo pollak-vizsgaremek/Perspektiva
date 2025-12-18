@@ -1,11 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 export default function Home() {
+  const navigate = useNavigate();
+
+  function ProfilePage() {
+    navigate("/Profile");
+  }
+
   return (
     <div>
-      <header className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-red-600">HÍRFOLYAM</h1>
+      <header className="bg-white shadow-md rounded-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center rounded-xl">
+          <h1 className="text-3xl font-bold text-red-600">PERSPEKTÍVA</h1>
+
           <nav className="space-x-6 hidden md:block">
             <a
               href="#"
@@ -44,10 +52,16 @@ export default function Home() {
               Médiumok
             </a>
           </nav>
-          <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150">
+          <button
+            onClick={ProfilePage}
+            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
+          >
             Profil
           </button>
         </div>
+        {/* <p className="text-gray-600 float-left">
+          Fedezd fel a legfrissebb híreket és elemzéseket!
+        </p> */}
       </header>
 
       <main className="max-w-7xl mx-auto mt-8 px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-8">

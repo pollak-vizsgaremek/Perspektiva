@@ -9,6 +9,7 @@ const RegisterPage = lazy(() => import("./components/Register.jsx"));
 const HomePage = lazy(() => import("./components/Home.jsx"));
 const PortalsFilterPage = lazy(() => import("./components/PortalsFilter.jsx"));
 const FilteredNewsPage = lazy(() => import("./components/FilteredNews.jsx"));
+const ProfilePage = lazy(() => import("./components/Profile.jsx"));
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/Home" element={<HomePage />} />
         <Route path="/Portals" element={<PortalsFilterPage />} />
         <Route path="/FilteredNews" element={<FilteredNewsPage />} />
+        <Route path="/Profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
