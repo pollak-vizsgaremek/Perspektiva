@@ -56,7 +56,7 @@ export default function FilteredNews() {
   const activeSources = ["Index", "444!"];
 
   const filteredNews = allNews.filter((news) =>
-    activeSources.includes(news.source)
+    activeSources.includes(news.source),
   );
 
   function backToPortalFilters() {
@@ -82,7 +82,7 @@ export default function FilteredNews() {
             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
             onClick={backToPortalFilters}
           >
-            Beállítások
+            Vissza
           </button>
         </div>
       </header>
