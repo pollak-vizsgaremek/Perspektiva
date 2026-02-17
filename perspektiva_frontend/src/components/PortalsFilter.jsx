@@ -24,7 +24,7 @@ export default function PortalsFilter() {
 
   // Szűrési logika a keresőhöz
   const filteredSources = sources.filter((source) =>
-    source.name.toLowerCase().includes(searchTerm.toLowerCase())
+    source.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -50,7 +50,7 @@ export default function PortalsFilter() {
       </header>
 
       <main className="max-w-7xl mx-auto mt-8 px-4 sm:px-6 lg:px-8 pb-12 mb-20">
-        <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-6">
+        <h2 className="text-3xl font-extrabold text-amber-400 dark:text-white mb-6">
           Válaszd Ki Kedvenc Hírforrásaidat
         </h2>
 
@@ -60,7 +60,7 @@ export default function PortalsFilter() {
             id="sourceSearch"
             placeholder="Keresés hírforrás névre (pl. Mandiner)..."
             className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg
-                      focus:ring-red-500 focus:border-red-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+                      focus:ring-red-500 focus:border-red-500 dark:bg-gray-800 dark:text-white dark:placeholder-amber-400"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -109,7 +109,7 @@ export default function PortalsFilter() {
                   className={`toggle-button text-sm ${
                     source.active
                       ? "text-gray-500 hover:text-red-700 dark:text-gray-400 dark:hover:text-red-400"
-                      : "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                      : "text-amber-400 hover:text-amber-500 dark:text-blue-400 dark:hover:text-blue-300"
                   }`}
                 >
                   {source.active

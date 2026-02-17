@@ -28,7 +28,6 @@
 
 a {
   font-weight: 500;
-  color: #37c0d8;
   text-decoration: inherit;
 }
 a:hover {
@@ -83,8 +82,5 @@ button:focus-visible {
   }
   a:hover {
     color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }

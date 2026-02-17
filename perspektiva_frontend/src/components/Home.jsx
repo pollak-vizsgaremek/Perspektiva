@@ -17,37 +17,37 @@ export default function Home() {
           <nav className="space-x-6 hidden md:block">
             <a
               href="#"
-              className="text-gray-600 hover:text-red-600 font-medium transition duration-150"
+              className="text-amber-400 hover:text-red-600 font-medium transition duration-150"
             >
               Kezdőlap
             </a>
             <a
               href="#"
-              className="text-gray-600 hover:text-red-600 font-medium transition duration-150"
+              className="text-amber-400 hover:text-red-600 font-medium transition duration-150"
             >
               Politika
             </a>
             <a
               href="#"
-              className="text-gray-600 hover:text-red-600 font-medium transition duration-150"
+              className="text-amber-400 hover:text-red-600 font-medium transition duration-150"
             >
               Sport
             </a>
             <a
               href="#"
-              className="text-gray-600 hover:text-red-600 font-medium transition duration-150"
+              className="text-amber-400 hover:text-red-600 font-medium transition duration-150"
             >
               Tech
             </a>
             <a
               href="#"
-              className="text-gray-600 hover:text-red-600 font-medium transition duration-150"
+              className="text-amber-400 hover:text-red-600 font-medium transition duration-150"
             >
               Életmód
             </a>
             <a
               href="/Portals"
-              className="text-gray-600 hover:text-red-600 font-medium transition duration-150"
+              className="text-amber-400 hover:text-red-600 font-medium transition duration-150"
             >
               Médiumok
             </a>
@@ -169,7 +169,7 @@ export default function Home() {
           </div>
 
           <div className="flex justify-center pt-4">
-            <button className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-150">
+            <button className="bg-gray-200 text-gray-400 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-150">
               További Hírek Betöltése
             </button>
           </div>
