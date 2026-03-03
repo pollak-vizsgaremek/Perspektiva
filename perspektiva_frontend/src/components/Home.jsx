@@ -1,8 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Profile from "./Profile";
 
 export default function Home() {
+  const [article, setArticle] = useState([]);
+  function getarticle() {
+    fetch("http://localhost:3300/api/articles").then(async (res) => {
+      const data = await res.json();
+
+      console.log(data);
+
+      setArticle(data);
+    });
+  }
+  useEffect(() => {
+    getarticle();
+  }, []);
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -101,29 +115,29 @@ export default function Home() {
                   Szerző: Kovács Péter | 5 perce
                 </div>
               </div>
+              01
             </article>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <article className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
-                <div className="h-40 bg-gray-300 flex items-center justify-center text-gray-600">
-                  KÉP 1
-                </div>
-                <div className="p-4">
-                  <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
-                    Tech
-                  </span>
-                  <h3 className="mt-1 text-lg font-semibold text-gray-900 hover:text-blue-600 transition duration-150">
-                    <a href="#">
-                      A következő generációs mesterséges intelligencia kihívásai
-                    </a>
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-2">
-                    A technológiai fejlődés exponenciális üteme új etikai
-                    kérdéseket vet fel.
-                  </p>
-                </div>
-              </article>
-
+              {article.map((item) => (
+                <article
+                  className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
+                  key={item.id}
+                >
+                  <div className="h-40 bg-gray-300 flex items-center justify-center text-gray-600">
+                    {item.picture}
+                  </div>
+                  <div className="p-4">
+                    <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
+                      {item.category}
+                    </span>
+                    <h3 className="mt-1 text-lg font-semibold text-gray-900 hover:text-blue-600 transition duration-150">
+                      <a href="#">{item.title}</a>
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-2">{item.content}</p>
+                  </div>
+                </article>
+              ))}
               <article className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
                 <div className="h-40 bg-gray-300 flex items-center justify-center text-gray-600">
                   KÉP 2
