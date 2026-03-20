@@ -3,6 +3,8 @@ import "dotenv/config";
 import { PrismaClient } from "./generated/prisma/index.js";
 import cors from "cors";
 
+import authController from "./controllers/auth.controller.js";
+
 const app = e();
 app.use(e.json());
 
@@ -11,16 +13,21 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use("/api/v1/auth", authController);
 
 const prisma = new PrismaClient();
 
 app.get("/api/priorities", async (req, res) => {
+  // ["Index", "HVG"]
+
   try {
     const priorities = req.body.priorities;
     const Filtereltpriorities = await prisma.article.findMany({
       select: {
         where: {
-          publisher: priorities,
+          publisher: {
+            in: priorities,
+          },
         },
       },
     });

@@ -1,9 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { useIntersection } from "../hooks/useIntersection";
 import { useNavigate } from "react-router";
 import Profile from "./Profile";
 
 export default function Home() {
   const [article, setArticle] = useState([]);
+  const [oldalSzam, setOldalSzam] = useState(1);
+  const triggerRef = useRef(null);
+  const isVisible = useIntersection(triggerRef, "0px");
+
+  const nextPage = useCallback(
+    function () {
+      setOldalSzam((prevOldalszam) => {
+        const maxPage = Math.ceil(article.length / 4);
+
+        if (maxPage > oldalSzam) return prevOldalszam + 1;
+        return prevOldalszam;
+      });
+    },
+    [article.length, oldalSzam],
+  );
+
   function getarticle() {
     fetch("http://localhost:3300/api/articles").then(async (res) => {
       const data = await res.json();
@@ -16,6 +33,12 @@ export default function Home() {
   useEffect(() => {
     getarticle();
   }, []);
+
+  useEffect(() => {
+    if (isVisible) {
+      nextPage();
+    }
+  }, [nextPage, isVisible]);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -117,9 +140,8 @@ export default function Home() {
               </div>
               01
             </article>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {article.map((item) => (
+              {article.slice(0, 4 + (oldalSzam - 1) * 4).map((item) => (
                 <article
                   className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
                   key={item.id}
@@ -138,70 +160,14 @@ export default function Home() {
                   </div>
                 </article>
               ))}
-              <article className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
-                <div className="h-40 bg-gray-300 flex items-center justify-center text-gray-600">
-                  KÉP 2
-                </div>
-                <div className="p-4">
-                  <span className="text-xs font-semibold text-green-600 uppercase tracking-wider">
-                    Sport
-                  </span>
-                  <h3 className="mt-1 text-lg font-semibold text-gray-900 hover:text-green-600 transition duration-150">
-                    <a href="#">
-                      Meglepetés a bajnokságban: A kis csapat tarolt
-                    </a>
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Senki nem számított rá, de a döntőben is magabiztosan
-                    győztek.
-                  </p>
-                </div>
-              </article>
-
-              <article className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
-                <div className="h-40 bg-gray-300 flex items-center justify-center text-gray-600">
-                  KÉP 3
-                </div>
-                <div className="p-4">
-                  <span className="text-xs font-semibold text-pink-600 uppercase tracking-wider">
-                    Életmód
-                  </span>
-                  <h3 className="mt-1 text-lg font-semibold text-gray-900 hover:text-pink-600 transition duration-150">
-                    <a href="#">
-                      Egészséges reggelik 5 perc alatt: Tippek rohanóknak
-                    </a>
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Gyors, tápláló és finom megoldások a mozgalmas
-                    hétköznapokra.
-                  </p>
-                </div>
-              </article>
-
-              <article className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
-                <div className="h-40 bg-gray-300 flex items-center justify-center text-gray-600">
-                  KÉP 4
-                </div>
-                <div className="p-4">
-                  <span className="text-xs font-semibold text-yellow-600 uppercase tracking-wider">
-                    Gazdaság
-                  </span>
-                  <h3 className="mt-1 text-lg font-semibold text-gray-900 hover:text-yellow-600 transition duration-150">
-                    <a href="#">
-                      Az ingatlanpiac rejtett mozgatórugói a negyedik
-                      negyedévben
-                    </a>
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Elemzés a jelenlegi trendekről és a jövőbeli
-                    előrejelzésekről.
-                  </p>
-                </div>
-              </article>
             </div>
 
             <div className="flex justify-center pt-4">
-              <button className="bg-gray-200 text-gray-400 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-150">
+              <button
+                onClick={nextPage}
+                ref={triggerRef}
+                className="bg-gray-200 text-gray-400 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-150"
+              >
                 További Hírek Betöltése
               </button>
             </div>
