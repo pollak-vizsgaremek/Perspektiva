@@ -10,25 +10,25 @@ export default function Login() {
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-  //   function save() {
-  //     console.log("Save func");
+    function save() {
+      console.log("Save func");
 
-  //     axios
-  //       .post(`${API_URL}/auth/login`, {
-  //         email,
-  //         password,
-  //       })
-  //       .then(async (res) => {
-  //         const data = await res.data;
-  //         localStorage.setItem("userId", data.id);
-  //       });
-  //   }
+      axios
+        .post(`${API_URL}/auth/login`, {
+          email,
+          password,
+        })
+        .then(async (res) => {
+          const data = await res.data;
+          localStorage.setItem("userId", data.id);
+        });
+    }
 
-  //       useEffect(() => {
-  //     if(localStorage.getItem("userId")){
-  //       navigate("/messages")
-  //     }
-  //   })
+        useEffect(() => {
+      if(localStorage.getItem("userId")){
+        navigate("/messages")
+      }
+    })
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-cyan-500/50 shadow-lg shadow-cyan-500/50 max-h-120 min-w-lg rounded-xl ">
@@ -53,7 +53,7 @@ export default function Login() {
             type="button"
             value="Bejelentkezes"
             className="border-2 rounded-md hover:bg-blue-300 hover:cursor-pointer"
-            //   onClick={save}
+            onClick={save}
           />
           <a className="a2 h-2" href="/Register">
             Még nincs fiókom...!

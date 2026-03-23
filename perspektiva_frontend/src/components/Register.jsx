@@ -12,25 +12,26 @@ export default function Register() {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-  // function save(){
-  //     console.log("Save func");
+  function save(){
+      console.log("Save func");
 
-  //     axios.post(`${API_URL}/auth/register`,{
-  //         email,
-  //         username,
-  //         fullName,
-  //         password,
-  //         password2
-  //     }).then(async (res) => {
-  //         console.log(await res.data);
+      axios.post(`${API_URL}/api/v1/auth/register`,{
+          email,
+          username,
+          fullName,
+          password,
+          password2
+      }).then(async (res) => {
+          console.log(await res.data);
 
-  //     })
-  //   }
+      })
+    }
 
-  //     useEffect(() => {
-  //       if(localStorage.getItem("userId")){
-  //         navigate("/Home")
-  //       }
+      useEffect(() => {
+        if(localStorage.getItem("userId")){
+          navigate("/Home")
+        }
+      },)
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-cyan-500/50 shadow-lg shadow-cyan-500/50 max-h-120 min-w-lg rounded-xl ">
@@ -76,7 +77,7 @@ export default function Register() {
             type="button"
             value="Regisztráció"
             className="border-2 rounded-md hover:bg-blue-300 hover:cursor-pointer"
-            //   onClick={save}
+            onClick={save}
           />
           <a className="a2 h-2" href="/">
             Van fiókom...!
