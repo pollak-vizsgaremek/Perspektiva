@@ -51,6 +51,62 @@ app.get("/api/articles", async (req, res) => {
   }
 });
 
+app.put("/api/articles", async (req, res) => {
+  try {
+    const { Article_id, Interest_id, Publicist_id, title } = req.body;
+    const updatearticle = await prisma.article.update({
+      where: {
+        id: Article_id,
+      },
+      data: {
+        Article_id,
+        Interest_id,
+        Publicist_id,
+        title,
+      }
+    });
+    res.status(201).json(updatedarticle);
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: "Sikertelen frissítés!", error: error.message });
+  }
+});
+
+app.delete("/api/articles", async (req, res) => {
+  try {
+    const { Article_id } = req.body;
+    const deletearticle = await prisma.article.delete({
+      where: {
+        id: Article_id,
+      }
+    });
+    res.status(204).send();
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: "Sikertelen törlés!", error: error.message });
+  }
+});
+
+app.post("/api/articles", async (req, res) => {
+  try {
+    const { Interest_id, Publicist, title } = req.body;
+    const newArticle = await prisma.article.create({
+      data: {
+        Interest_id,
+        Publicist_id: Publicist,
+        title,
+      }
+    });
+    res.status(201).json(newArticle);
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: "Sikertelen létrehozás!", error: error.message });
+  }
+});
+
 app.listen(3300, () => {
   console.log("Backend fut port: 3300");
 });
