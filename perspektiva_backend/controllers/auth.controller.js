@@ -4,7 +4,7 @@ import { PrismaClient } from "../generated/prisma/index.js";
 const router = Router();
 const prisma = new PrismaClient();
 
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -21,17 +21,19 @@ router.get("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json({ message: "Login successful", user });
   } catch (error) {
+    console.log(error);
+
     res.status(401).json({ message: "Login failed", error: error.message });
   }
 });
 
 router.post("/register", async (req, res) => {
   try {
-    const { username, email, password, password2, fullname } = req.body;
+    const { name, email, password, password2 } = req.body;
 
-    if (!username || !email || !password || !password2 || !fullname) {
+    if (!name || !email || !password || !password2) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -42,15 +44,16 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
-        username,
+        name,
         email,
         password: hashedPassword,
-        fullname,
       },
     });
 
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
+    console.log(error);
+
     res
       .status(500)
       .json({ message: "User registration failed", error: error.message });

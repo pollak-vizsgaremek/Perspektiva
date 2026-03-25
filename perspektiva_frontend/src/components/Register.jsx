@@ -4,34 +4,36 @@ import axios from "axios";
 
 export default function Register() {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [fullName, setFullName] = useState("");
 
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-  function save(){
-      console.log("Save func");
+  function save() {
+    console.log("Save func");
 
-      axios.post(`${API_URL}/api/v1/auth/register`,{
-          email,
-          username,
-          fullName,
-          password,
-          password2
-      }).then(async (res) => {
-          console.log(await res.data);
-
+    axios
+      .post(`${API_URL}/api/v1/auth/register`, {
+        email,
+        name,
+        password,
+        password2,
       })
-    }
-
-      useEffect(() => {
-        if(localStorage.getItem("userId")){
-          navigate("/Home")
+      .then(async (res) => {
+        console.log(await res.data);
+        if (res.status == 201) {
+          navigate("/");
         }
-      },)
+      });
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem("userId")) {
+      navigate("/Home");
+    }
+  });
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-cyan-500/50 shadow-lg shadow-cyan-500/50 max-h-120 min-w-lg rounded-xl ">
@@ -42,7 +44,7 @@ export default function Register() {
             type="text"
             placeholder="Username"
             className="border-2 rounded-md p-1"
-            value={username}
+            value={name}
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
@@ -65,13 +67,6 @@ export default function Register() {
             className="border-2 rounded-md p-1"
             value={password2}
             onChange={(e) => setPassword2(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Gipsz Jakab"
-            className="border-2 rounded-md p-1"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
           />
           <input
             type="button"

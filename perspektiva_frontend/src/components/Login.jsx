@@ -10,25 +10,28 @@ export default function Login() {
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-    function save() {
-      console.log("Save func");
+  function save() {
+    console.log("Save func");
 
-      axios
-        .post(`${API_URL}/auth/login`, {
-          email,
-          password,
-        })
-        .then(async (res) => {
-          const data = await res.data;
-          localStorage.setItem("userId", data.id);
-        });
+    axios
+      .post(`${API_URL}/api/v1/auth/login`, {
+        email,
+        password,
+      })
+      .then(async (res) => {
+        const data = await res.data;
+        localStorage.setItem("userId", data.user.id);
+        if (res.status == 200) {
+          navigate("/Home");
+        }
+      });
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem("userId")) {
+      navigate("/Home");
     }
-
-        useEffect(() => {
-      if(localStorage.getItem("userId")){
-        navigate("/messages")
-      }
-    })
+  });
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-cyan-500/50 shadow-lg shadow-cyan-500/50 max-h-120 min-w-lg rounded-xl ">
