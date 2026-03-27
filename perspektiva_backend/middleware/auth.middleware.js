@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 export async function authMiddleware(req, res, next) {
   if (req.options === "OPTIONS") {
     return next();
@@ -22,9 +23,10 @@ export async function authMiddleware(req, res, next) {
       email: decodedToken.email,
     };
 
-    req.user = user;
     return next();
   } catch (error) {
+    console.log(error);
+
     return res.status(401).json({ message: "Unauthorized" });
   }
 }

@@ -5,7 +5,11 @@ export default function Profile({ closeProfile = () => void 0 }) {
   const [userme, setUserMe] = useState([]);
 
   function getuser() {
-    fetch("http://localhost:3300/api/user/me").then(async (res) => {
+    fetch("http://localhost:3300/api/user/me", {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("accessToken"),
+      },
+    }).then(async (res) => {
       const data = await res.json();
 
       console.log(data);
