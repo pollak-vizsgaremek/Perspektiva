@@ -21,6 +21,7 @@ export default function Login() {
       .then(async (res) => {
         const data = await res.data;
         localStorage.setItem("userId", data.user.id);
+        localStorage.setItem("accessToken", data.token);
         if (res.status == 200) {
           navigate("/Home");
         }

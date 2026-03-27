@@ -74,6 +74,9 @@ export default function Register() {
             className="border-2 rounded-md hover:bg-blue-300 hover:cursor-pointer"
             onClick={save}
           />
+          <label htmlFor=""> Újságíró vagy?</label>
+          <input type="checkbox" name="Publicist" id="Publicist"  />
+
           <a className="a2 h-2" href="/">
             Van fiókom...!
           </a>

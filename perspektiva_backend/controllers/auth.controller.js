@@ -1,6 +1,7 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "../generated/prisma/index.js";
+import jwt from "jsonwebtoken";
 const router = Router();
 const prisma = new PrismaClient();
 
@@ -21,7 +22,16 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    res.status(200).json({ message: "Login successful", user });
+    const token = jwt.sign(
+      { username: user.name, email: user.email },
+      process.env.JWT_SECRET,
+      {
+        algorithm: "HS512",
+        subject: user.id,
+      },
+    );
+
+    res.status(200).json({ message: "Login successful", user, token });
   } catch (error) {
     console.log(error);
 

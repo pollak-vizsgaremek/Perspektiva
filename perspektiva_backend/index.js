@@ -4,6 +4,7 @@ import { PrismaClient } from "./generated/prisma/index.js";
 import cors from "cors";
 
 import authController from "./controllers/auth.controller.js";
+import { authMiddleware } from "./middleware/auth.middleware.js";
 
 const app = e();
 app.use(e.json());
@@ -16,6 +17,23 @@ app.use(cors(corsOptions));
 app.use("/api/v1/auth", authController);
 
 const prisma = new PrismaClient();
+
+app.get("/api/user/me", authMiddleware, async (req, res) => {
+  const user_id = req.user.id;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: user_id,
+    },
+    include: {
+      article: true,
+    },
+  });
+
+  
+
+  res;
+});
 
 app.get("/api/priorities", async (req, res) => {
   // ["Index", "HVG"]
@@ -50,6 +68,16 @@ app.get("/api/articles", async (req, res) => {
       .json({ message: "Sikertelen lekérdezés!", error: error.message });
   }
 });
+app.get("/api/user", async (req, res) => {
+  try {
+    const user = await prisma.user.findMany();
+    res.status(200).json(articles);
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: "Sikertelen lekérdezés!", error: error.message });
+  }
+});
 
 app.put("/api/articles", async (req, res) => {
   try {
@@ -63,7 +91,7 @@ app.put("/api/articles", async (req, res) => {
         Interest_id,
         Publicist_id,
         title,
-      }
+      },
     });
     res.status(201).json(updatedarticle);
   } catch (error) {
@@ -79,7 +107,7 @@ app.delete("/api/articles", async (req, res) => {
     const deletearticle = await prisma.article.delete({
       where: {
         id: Article_id,
-      }
+      },
     });
     res.status(204).send();
   } catch (error) {
@@ -97,7 +125,7 @@ app.post("/api/articles", async (req, res) => {
         Interest_id,
         Publicist_id: Publicist,
         title,
-      }
+      },
     });
     res.status(201).json(newArticle);
   } catch (error) {
