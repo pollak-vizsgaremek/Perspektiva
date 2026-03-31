@@ -8,6 +8,7 @@ export default function Home() {
   const [oldalSzam, setOldalSzam] = useState(1);
   const triggerRef = useRef(null);
   const isVisible = useIntersection(triggerRef, "0px");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const nextPage = useCallback(
     function () {
@@ -40,6 +41,11 @@ export default function Home() {
     }
   }, [nextPage, isVisible]);
 
+  useEffect(() => {
+    const getToken = localStorage.getItem("accessToken");
+    setIsLoggedIn(getToken ?? false);
+  }, [isLoggedIn]);
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -66,7 +72,7 @@ export default function Home() {
             <nav className="space-x-6 hidden md:block">
               <a
                 href="#"
-                className="text-amber-400 hover:text-red-600 font-medium transition duration-150"
+                className="text-amber-400 hover:text-red-600 font-medium transition duration-150 active"
               >
                 Kezdőlap
               </a>
@@ -101,12 +107,21 @@ export default function Home() {
                 Médiumok
               </a>
             </nav>
-            <button
-              onClick={openProfile}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
-            >
-              Profil
-            </button>
+            {isLoggedIn ? (
+              <button
+                onClick={openProfile}
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
+              >
+                Profil
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate("/")}
+                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
+              >
+                Login
+              </button>
+            )}
           </div>
           {/* <p className="text-gray-600 float-left">
           Fedezd fel a legfrissebb híreket és elemzéseket!
@@ -141,25 +156,28 @@ export default function Home() {
               01
             </article>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {article.slice(0, 4 + (oldalSzam - 1) * 4).map((item) => (
-                <article
-                  className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
-                  key={item.id}
-                >
-                  <div className="h-40 bg-gray-300 flex items-center justify-center text-gray-600">
-                    {item.picture}
-                  </div>
-                  <div className="p-4">
-                    <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
-                      {item.category}
-                    </span>
-                    <h3 className="mt-1 text-lg font-semibold text-gray-900 hover:text-blue-600 transition duration-150">
-                      <a href="#">{item.title}</a>
-                    </h3>
-                    <p className="text-sm text-gray-500 mt-2">{item.content}</p>
-                  </div>
-                </article>
-              ))}
+              {article &&
+                article.slice(0, 4 + (oldalSzam - 1) * 4).map((item) => (
+                  <article
+                    className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
+                    key={item.id}
+                  >
+                    <div className="h-40 bg-gray-300 flex items-center justify-center text-gray-600">
+                      {item.picture}
+                    </div>
+                    <div className="p-4">
+                      <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
+                        {item.category}
+                      </span>
+                      <h3 className="mt-1 text-lg font-semibold text-gray-900 hover:text-blue-600 transition duration-150">
+                        <a href="#">{item.title}</a>
+                      </h3>
+                      <p className="text-sm text-gray-500 mt-2">
+                        {item.content}
+                      </p>
+                    </div>
+                  </article>
+                ))}
             </div>
 
             <div className="flex justify-center pt-4">
@@ -263,12 +281,14 @@ export default function Home() {
           </div>
         </footer>
       </div>
-      <div
-        className="absolute top-[50%] left-[50%] w-full h-full bg-gray-900/50 z-10 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
-        style={{ display: isProfileOpen ? "flex" : "none" }}
-      >
-        <Profile closeProfile={closeProfile} />
-      </div>
+      {isLoggedIn && (
+        <div
+          className="absolute top-[50%] left-[50%] w-full h-full bg-gray-900/50 z-10 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
+          style={{ display: isProfileOpen ? "flex" : "none" }}
+        >
+          <Profile closeProfile={closeProfile} />
+        </div>
+      )}
     </>
   );
 }

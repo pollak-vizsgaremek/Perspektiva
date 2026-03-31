@@ -37,6 +37,7 @@ model article {
   content     String            @db.LongText
   publicist   publicist         @relation(fields: [publicistId], references: [id], map: "Article_publicistId_fkey")
   interests   ArticleInterest[]
+  favourites  favourites[]
 
   @@index([publicistId], map: "Article_publicistId_fkey")
 }
@@ -59,11 +60,34 @@ model publicist {
 }
 
 model user {
-  id        String         @id
-  email     String         @unique(map: "User_email_key")
-  password  String
-  name      String?
-  isAdmin   Boolean        @default(false)
-  publicist publicist[]
-  interests UserInterest[]
+  id         String         @id @default(uuid())
+  email      String         @unique(map: "User_email_key")
+  password   String
+  name       String?
+  isAdmin    Boolean        @default(false)
+  favourites favourites[]
+  publicist  publicist[]
+  interests  UserInterest[]
+  mediums mediums[]
+}
+
+model favourites {
+  id         Int      @id @default(autoincrement())
+  user_id    String?
+  article_id Int?
+  article    article? @relation(fields: [article_id], references: [id], onUpdate: SetNull)
+  user       user?    @relation(fields: [user_id], references: [id], onUpdate: SetNull)
+
+  @@unique([user_id, article_id])
+  @@index([article_id], map: "favourites_article_id_fkey")
+}
+
+model mediums {
+  id      Int     @id @default(autoincrement())
+  name    String
+  active  Boolean
+  user_id String
+
+  user user @relation(fields: [user_id], references: [id])
+  @@index([user_id], map: "user_id")
 }

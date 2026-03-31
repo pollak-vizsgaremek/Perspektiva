@@ -7,6 +7,7 @@ export default function Register() {
   const [name, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [ispublicist, setIsPublicist] = useState(false);
 
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -20,6 +21,7 @@ export default function Register() {
         name,
         password,
         password2,
+        ispublicist,
       })
       .then(async (res) => {
         console.log(await res.data);
@@ -75,7 +77,13 @@ export default function Register() {
             onClick={save}
           />
           <label htmlFor=""> Újságíró vagy?</label>
-          <input type="checkbox" name="Publicist" id="Publicist"  />
+          <input
+            type="checkbox"
+            name="Publicist"
+            id="Publicist"
+            value={ispublicist}
+            onChange={(e) => setIsPublicist(e.target.checked)}
+          />
 
           <a className="a2 h-2" href="/">
             Van fiókom...!

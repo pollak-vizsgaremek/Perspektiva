@@ -92,21 +92,14 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  password: 'password',
-  name: 'name'
+exports.Prisma.UserInterestScalarFieldEnum = {
+  userId: 'userId',
+  interestId: 'interestId'
 };
 
-exports.Prisma.AdminScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId'
-};
-
-exports.Prisma.PublicistScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
+exports.Prisma.ArticleInterestScalarFieldEnum = {
+  articleId: 'articleId',
+  interestId: 'interestId'
 };
 
 exports.Prisma.ArticleScalarFieldEnum = {
@@ -121,14 +114,31 @@ exports.Prisma.InterestScalarFieldEnum = {
   name: 'name'
 };
 
-exports.Prisma.UserInterestScalarFieldEnum = {
-  userId: 'userId',
-  interestId: 'interestId'
+exports.Prisma.PublicistScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  user_id: 'user_id'
 };
 
-exports.Prisma.ArticleInterestScalarFieldEnum = {
-  articleId: 'articleId',
-  interestId: 'interestId'
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password',
+  name: 'name',
+  isAdmin: 'isAdmin'
+};
+
+exports.Prisma.FavouritesScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  article_id: 'article_id'
+};
+
+exports.Prisma.MediumsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  active: 'active',
+  user_id: 'user_id'
 };
 
 exports.Prisma.SortOrder = {
@@ -136,48 +146,55 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.UserInterestOrderByRelevanceFieldEnum = {
+  userId: 'userId'
+};
+
+exports.Prisma.articleOrderByRelevanceFieldEnum = {
+  title: 'title',
+  content: 'content'
+};
+
+exports.Prisma.interestOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
 
-exports.Prisma.UserOrderByRelevanceFieldEnum = {
+exports.Prisma.publicistOrderByRelevanceFieldEnum = {
+  name: 'name',
+  user_id: 'user_id'
+};
+
+exports.Prisma.userOrderByRelevanceFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
   name: 'name'
 };
 
-exports.Prisma.AdminOrderByRelevanceFieldEnum = {
-  userId: 'userId'
+exports.Prisma.favouritesOrderByRelevanceFieldEnum = {
+  user_id: 'user_id'
 };
 
-exports.Prisma.PublicistOrderByRelevanceFieldEnum = {
-  name: 'name'
-};
-
-exports.Prisma.ArticleOrderByRelevanceFieldEnum = {
-  title: 'title',
-  content: 'content'
-};
-
-exports.Prisma.InterestOrderByRelevanceFieldEnum = {
-  name: 'name'
-};
-
-exports.Prisma.UserInterestOrderByRelevanceFieldEnum = {
-  userId: 'userId'
+exports.Prisma.mediumsOrderByRelevanceFieldEnum = {
+  name: 'name',
+  user_id: 'user_id'
 };
 
 
 exports.Prisma.ModelName = {
-  User: 'User',
-  Admin: 'Admin',
-  Publicist: 'Publicist',
-  Article: 'Article',
-  Interest: 'Interest',
   UserInterest: 'UserInterest',
-  ArticleInterest: 'ArticleInterest'
+  ArticleInterest: 'ArticleInterest',
+  article: 'article',
+  interest: 'interest',
+  publicist: 'publicist',
+  user: 'user',
+  favourites: 'favourites',
+  mediums: 'mediums'
 };
 /**
  * Create the Client
@@ -190,7 +207,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\Perspektiva\\Perspektiva\\perspektiva_backend\\generated\\prisma",
+      "value": "D:\\vizsgaremek\\Perspektiva\\Perspektiva\\perspektiva_backend\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -204,7 +221,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\Perspektiva\\Perspektiva\\perspektiva_backend\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\vizsgaremek\\Perspektiva\\Perspektiva\\perspektiva_backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -226,13 +243,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        String         @id @default(uuid())\n  email     String         @unique\n  password  String\n  name      String?\n  admin     Admin?\n  interests UserInterest[]\n}\n\nmodel Admin {\n  id     Int    @id @default(autoincrement())\n  user   User   @relation(fields: [userId], references: [id])\n  userId String @unique\n}\n\nmodel Publicist {\n  id       Int       @id @default(autoincrement())\n  name     String\n  articles Article[]\n}\n\nmodel Article {\n  id          Int               @id @default(autoincrement())\n  title       String\n  publicist   Publicist         @relation(fields: [publicistId], references: [id])\n  publicistId Int\n  content     String            @db.LongText\n  interests   ArticleInterest[]\n}\n\nmodel Interest {\n  id       Int               @id @default(autoincrement())\n  name     String\n  users    UserInterest[]\n  articles ArticleInterest[]\n}\n\nmodel UserInterest {\n  user       User     @relation(fields: [userId], references: [id])\n  userId     String\n  interest   Interest @relation(fields: [interestId], references: [id])\n  interestId Int\n\n  @@id([userId, interestId])\n  @@map(\"users_interests\")\n}\n\nmodel ArticleInterest {\n  article    Article  @relation(fields: [articleId], references: [id])\n  articleId  Int\n  interest   Interest @relation(fields: [interestId], references: [id])\n  interestId Int\n\n  @@id([articleId, interestId])\n  @@map(\"articles_interests\")\n}\n",
-  "inlineSchemaHash": "9efd4b9afb71d290179493a0053bb130100fbf6bc3c8fe7c3a182eda1a9f5439",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel UserInterest {\n  userId     String\n  interestId Int\n  interest   interest @relation(fields: [interestId], references: [id])\n  user       user     @relation(fields: [userId], references: [id])\n\n  @@id([userId, interestId])\n  @@index([interestId], map: \"users_interests_interestId_fkey\")\n  @@map(\"users_interests\")\n}\n\nmodel ArticleInterest {\n  articleId  Int\n  interestId Int\n  article    article  @relation(fields: [articleId], references: [id])\n  interest   interest @relation(fields: [interestId], references: [id])\n\n  @@id([articleId, interestId])\n  @@index([interestId], map: \"articles_interests_interestId_fkey\")\n  @@map(\"articles_interests\")\n}\n\nmodel article {\n  id          Int               @id @default(autoincrement())\n  title       String\n  publicistId Int\n  content     String            @db.LongText\n  publicist   publicist         @relation(fields: [publicistId], references: [id], map: \"Article_publicistId_fkey\")\n  interests   ArticleInterest[]\n  favourites  favourites[]\n\n  @@index([publicistId], map: \"Article_publicistId_fkey\")\n}\n\nmodel interest {\n  id       Int               @id @default(autoincrement())\n  name     String\n  articles ArticleInterest[]\n  users    UserInterest[]\n}\n\nmodel publicist {\n  id      Int       @id @default(autoincrement())\n  name    String\n  user_id String?\n  article article[]\n  user    user?     @relation(fields: [user_id], references: [id], onUpdate: SetNull, map: \"publicist_ibfk_1\")\n\n  @@index([user_id], map: \"user_id\")\n}\n\nmodel user {\n  id         String         @id @default(uuid())\n  email      String         @unique(map: \"User_email_key\")\n  password   String\n  name       String?\n  isAdmin    Boolean        @default(false)\n  favourites favourites[]\n  publicist  publicist[]\n  interests  UserInterest[]\n  mediums    mediums[]\n}\n\nmodel favourites {\n  id         Int      @id @default(autoincrement())\n  user_id    String?\n  article_id Int?\n  article    article? @relation(fields: [article_id], references: [id], onUpdate: SetNull)\n  user       user?    @relation(fields: [user_id], references: [id], onUpdate: SetNull)\n\n  @@unique([user_id, article_id])\n  @@index([article_id], map: \"favourites_article_id_fkey\")\n}\n\nmodel mediums {\n  id      Int     @id @default(autoincrement())\n  name    String\n  active  Boolean\n  user_id String\n\n  user user @relation(fields: [user_id], references: [id])\n\n  @@index([user_id], map: \"user_id\")\n}\n",
+  "inlineSchemaHash": "f83dcd37ff31bc0189b09ee59555ff5d521cdf82d34f29581a58941e97e34f89",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"admin\",\"kind\":\"object\",\"type\":\"Admin\",\"relationName\":\"AdminToUser\"},{\"name\":\"interests\",\"kind\":\"object\",\"type\":\"UserInterest\",\"relationName\":\"UserToUserInterest\"}],\"dbName\":null},\"Admin\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AdminToUser\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Publicist\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"articles\",\"kind\":\"object\",\"type\":\"Article\",\"relationName\":\"ArticleToPublicist\"}],\"dbName\":null},\"Article\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicist\",\"kind\":\"object\",\"type\":\"Publicist\",\"relationName\":\"ArticleToPublicist\"},{\"name\":\"publicistId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"interests\",\"kind\":\"object\",\"type\":\"ArticleInterest\",\"relationName\":\"ArticleToArticleInterest\"}],\"dbName\":null},\"Interest\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"UserInterest\",\"relationName\":\"InterestToUserInterest\"},{\"name\":\"articles\",\"kind\":\"object\",\"type\":\"ArticleInterest\",\"relationName\":\"ArticleInterestToInterest\"}],\"dbName\":null},\"UserInterest\":{\"fields\":[{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserInterest\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"interest\",\"kind\":\"object\",\"type\":\"Interest\",\"relationName\":\"InterestToUserInterest\"},{\"name\":\"interestId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":\"users_interests\"},\"ArticleInterest\":{\"fields\":[{\"name\":\"article\",\"kind\":\"object\",\"type\":\"Article\",\"relationName\":\"ArticleToArticleInterest\"},{\"name\":\"articleId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"interest\",\"kind\":\"object\",\"type\":\"Interest\",\"relationName\":\"ArticleInterestToInterest\"},{\"name\":\"interestId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":\"articles_interests\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"UserInterest\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"interestId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"interest\",\"kind\":\"object\",\"type\":\"interest\",\"relationName\":\"UserInterestTointerest\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"UserInterestTouser\"}],\"dbName\":\"users_interests\"},\"ArticleInterest\":{\"fields\":[{\"name\":\"articleId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"interestId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"article\",\"relationName\":\"ArticleInterestToarticle\"},{\"name\":\"interest\",\"kind\":\"object\",\"type\":\"interest\",\"relationName\":\"ArticleInterestTointerest\"}],\"dbName\":\"articles_interests\"},\"article\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicistId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicist\",\"kind\":\"object\",\"type\":\"publicist\",\"relationName\":\"articleTopublicist\"},{\"name\":\"interests\",\"kind\":\"object\",\"type\":\"ArticleInterest\",\"relationName\":\"ArticleInterestToarticle\"},{\"name\":\"favourites\",\"kind\":\"object\",\"type\":\"favourites\",\"relationName\":\"articleTofavourites\"}],\"dbName\":null},\"interest\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"articles\",\"kind\":\"object\",\"type\":\"ArticleInterest\",\"relationName\":\"ArticleInterestTointerest\"},{\"name\":\"users\",\"kind\":\"object\",\"type\":\"UserInterest\",\"relationName\":\"UserInterestTointerest\"}],\"dbName\":null},\"publicist\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"article\",\"relationName\":\"articleTopublicist\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"publicistTouser\"}],\"dbName\":null},\"user\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isAdmin\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"favourites\",\"kind\":\"object\",\"type\":\"favourites\",\"relationName\":\"favouritesTouser\"},{\"name\":\"publicist\",\"kind\":\"object\",\"type\":\"publicist\",\"relationName\":\"publicistTouser\"},{\"name\":\"interests\",\"kind\":\"object\",\"type\":\"UserInterest\",\"relationName\":\"UserInterestTouser\"},{\"name\":\"mediums\",\"kind\":\"object\",\"type\":\"mediums\",\"relationName\":\"mediumsTouser\"}],\"dbName\":null},\"favourites\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"article_id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"article\",\"relationName\":\"articleTofavourites\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"favouritesTouser\"}],\"dbName\":null},\"mediums\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"user_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"mediumsTouser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

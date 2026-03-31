@@ -111,6 +111,15 @@ export default function PortalsFilter() {
                       ? "text-gray-500 hover:text-red-700 dark:text-gray-400 dark:hover:text-red-400"
                       : "text-amber-400 hover:text-amber-500 dark:text-blue-400 dark:hover:text-blue-300"
                   }`}
+                  onClick={() => {
+                    setSources((prevSources) =>
+                      prevSources.map((item) =>
+                        item.id === source.id
+                          ? { ...item, active: !item.active }
+                          : item,
+                      ),
+                    );
+                  }}
                 >
                   {source.active
                     ? "Kattints a kikapcsoláshoz"

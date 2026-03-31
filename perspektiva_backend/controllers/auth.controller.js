@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, password2 } = req.body;
+    const { name, email, password, password2, ispublicist } = req.body;
 
     if (!name || !email || !password || !password2) {
       return res.status(400).json({ message: "All fields are required" });
@@ -59,7 +59,14 @@ router.post("/register", async (req, res) => {
         password: hashedPassword,
       },
     });
-
+    if (ispublicist) {
+      const Publicist = prisma.publicist.create({
+        data: {
+          name,
+          user_id: user.id,
+        },
+      });
+    }
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     console.log(error);

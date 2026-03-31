@@ -21,18 +21,20 @@ const prisma = new PrismaClient();
 app.get("/api/user/me", authMiddleware, async (req, res) => {
   const user_id = req.user.id;
 
-  const user = await prisma.user.findUnique({
+  const favourites = await prisma.user.findUnique({
     where: {
       id: user_id,
     },
     include: {
-      article: true,
+      favourites: {
+        include: {
+          article: true,
+        },
+      },
     },
   });
 
-  
-
-  res;
+  res.status(200).json(favourites);
 });
 
 app.get("/api/priorities", async (req, res) => {
@@ -68,6 +70,7 @@ app.get("/api/articles", async (req, res) => {
       .json({ message: "Sikertelen lekérdezés!", error: error.message });
   }
 });
+
 app.get("/api/user", async (req, res) => {
   try {
     const user = await prisma.user.findMany();

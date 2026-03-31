@@ -120,21 +120,14 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  password: 'password',
-  name: 'name'
+exports.Prisma.UserInterestScalarFieldEnum = {
+  userId: 'userId',
+  interestId: 'interestId'
 };
 
-exports.Prisma.AdminScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId'
-};
-
-exports.Prisma.PublicistScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
+exports.Prisma.ArticleInterestScalarFieldEnum = {
+  articleId: 'articleId',
+  interestId: 'interestId'
 };
 
 exports.Prisma.ArticleScalarFieldEnum = {
@@ -149,14 +142,31 @@ exports.Prisma.InterestScalarFieldEnum = {
   name: 'name'
 };
 
-exports.Prisma.UserInterestScalarFieldEnum = {
-  userId: 'userId',
-  interestId: 'interestId'
+exports.Prisma.PublicistScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  user_id: 'user_id'
 };
 
-exports.Prisma.ArticleInterestScalarFieldEnum = {
-  articleId: 'articleId',
-  interestId: 'interestId'
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password',
+  name: 'name',
+  isAdmin: 'isAdmin'
+};
+
+exports.Prisma.FavouritesScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  article_id: 'article_id'
+};
+
+exports.Prisma.MediumsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  active: 'active',
+  user_id: 'user_id'
 };
 
 exports.Prisma.SortOrder = {
@@ -164,48 +174,55 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.UserInterestOrderByRelevanceFieldEnum = {
+  userId: 'userId'
+};
+
+exports.Prisma.articleOrderByRelevanceFieldEnum = {
+  title: 'title',
+  content: 'content'
+};
+
+exports.Prisma.interestOrderByRelevanceFieldEnum = {
+  name: 'name'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
 
-exports.Prisma.UserOrderByRelevanceFieldEnum = {
+exports.Prisma.publicistOrderByRelevanceFieldEnum = {
+  name: 'name',
+  user_id: 'user_id'
+};
+
+exports.Prisma.userOrderByRelevanceFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
   name: 'name'
 };
 
-exports.Prisma.AdminOrderByRelevanceFieldEnum = {
-  userId: 'userId'
+exports.Prisma.favouritesOrderByRelevanceFieldEnum = {
+  user_id: 'user_id'
 };
 
-exports.Prisma.PublicistOrderByRelevanceFieldEnum = {
-  name: 'name'
-};
-
-exports.Prisma.ArticleOrderByRelevanceFieldEnum = {
-  title: 'title',
-  content: 'content'
-};
-
-exports.Prisma.InterestOrderByRelevanceFieldEnum = {
-  name: 'name'
-};
-
-exports.Prisma.UserInterestOrderByRelevanceFieldEnum = {
-  userId: 'userId'
+exports.Prisma.mediumsOrderByRelevanceFieldEnum = {
+  name: 'name',
+  user_id: 'user_id'
 };
 
 
 exports.Prisma.ModelName = {
-  User: 'User',
-  Admin: 'Admin',
-  Publicist: 'Publicist',
-  Article: 'Article',
-  Interest: 'Interest',
   UserInterest: 'UserInterest',
-  ArticleInterest: 'ArticleInterest'
+  ArticleInterest: 'ArticleInterest',
+  article: 'article',
+  interest: 'interest',
+  publicist: 'publicist',
+  user: 'user',
+  favourites: 'favourites',
+  mediums: 'mediums'
 };
 
 /**
