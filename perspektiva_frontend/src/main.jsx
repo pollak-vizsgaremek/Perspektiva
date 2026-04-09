@@ -9,6 +9,7 @@ const HomePage = lazy(() => import("./components/Home.jsx"));
 const PortalsFilterPage = lazy(() => import("./components/PortalsFilter.jsx"));
 const FilteredNewsPage = lazy(() => import("./components/FilteredNews.jsx"));
 const ProfilePage = lazy(() => import("./components/Profile.jsx"));
+const AdminPage = lazy(() => import("./components/Admin.jsx"));
 
 function LoadingFallback() {
   return <div className="flex items-center justify-center h-screen">Betöltés...</div>;
@@ -25,6 +26,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/Portals" element={<PortalsFilterPage />} />
           <Route path="/FilteredNews" element={<FilteredNewsPage />} />
           <Route path="/Profile" element={<ProfilePage />} />
+          <Route path="/Admin" element={<AdminPage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
