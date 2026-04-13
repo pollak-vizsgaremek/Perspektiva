@@ -23,7 +23,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { username: user.name, email: user.email },
+      { username: user.name, email: user.email, admin: user.isAdmin },
       process.env.JWT_SECRET,
       {
         algorithm: "HS512",

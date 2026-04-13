@@ -20,8 +20,14 @@ export default function Login() {
       })
       .then(async (res) => {
         const data = await res.data;
+        const base64Url = data.token.split(".")[1];
+        const base64 = base64Url.replace("-", "+").replace("_", "/");
+        const parsedJwt = JSON.parse(window.atob(base64));
+
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("accessToken", data.token);
+        localStorage.setItem("isAdmin", parsedJwt.admin);
+
         if (res.status == 200) {
           navigate("/Home");
         }
