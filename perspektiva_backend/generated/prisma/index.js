@@ -209,7 +209,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\gané\\Perspektiva\\perspektiva_backend\\generated\\prisma",
+      "value": "D:\\varjal\\Perspektiva\\perspektiva_backend\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -223,7 +223,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\gané\\Perspektiva\\perspektiva_backend\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\varjal\\Perspektiva\\perspektiva_backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

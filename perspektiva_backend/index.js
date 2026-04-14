@@ -141,3 +141,6 @@ app.post("/api/articles", async (req, res) => {
 app.listen(3300, () => {
   console.log("Backend fut port: 3300");
 });
+
+export default app;
+export { prisma };

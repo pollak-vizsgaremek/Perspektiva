@@ -24,6 +24,10 @@ export default function Login({ closeLogin = () => void 0 }) {
         const base64 = base64Url.replace("-", "+").replace("_", "/");
         const parsedJwt = JSON.parse(window.atob(base64));
 
+        const base64Url = data.token.split(".")[1];
+        const base64 = base64Url.replace("-", "+").replace("_", "/");
+        const parsedJwt = JSON.parse(window.atob(base64));
+
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("accessToken", data.token);
         localStorage.setItem("isAdmin", parsedJwt.admin);
@@ -61,7 +65,13 @@ export default function Login({ closeLogin = () => void 0 }) {
         )}
 
         {/* Form */}
-        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); save(); }}>
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            save();
+          }}
+        >
           <div>
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Email
@@ -105,7 +115,10 @@ export default function Login({ closeLogin = () => void 0 }) {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Még nincs fiókod?{" "}
-            <a href="/Register" className="text-red-600 hover:text-red-700 font-semibold">
+            <a
+              href="/Register"
+              className="text-red-600 hover:text-red-700 font-semibold"
+            >
               Regisztrálj
             </a>
           </p>
