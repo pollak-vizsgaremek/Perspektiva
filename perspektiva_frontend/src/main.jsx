@@ -2,6 +2,7 @@ import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router";
+import ProtectedRoute from "./guards/ProtectedRoute.jsx";
 
 const LoginPage = lazy(() => import("./components/Login.jsx"));
 const RegisterPage = lazy(() => import("./components/Register.jsx"));
@@ -12,7 +13,9 @@ const ProfilePage = lazy(() => import("./components/Profile.jsx"));
 const AdminPage = lazy(() => import("./components/Admin.jsx"));
 
 function LoadingFallback() {
-  return <div className="flex items-center justify-center h-screen">Betöltés...</div>;
+  return (
+    <div className="flex items-center justify-center h-screen">Betöltés...</div>
+  );
 }
 
 createRoot(document.getElementById("root")).render(
@@ -26,9 +29,11 @@ createRoot(document.getElementById("root")).render(
           <Route path="/Portals" element={<PortalsFilterPage />} />
           <Route path="/FilteredNews" element={<FilteredNewsPage />} />
           <Route path="/Profile" element={<ProfilePage />} />
-          <Route path="/Admin" element={<AdminPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/Admin" element={<AdminPage />} />
+          </Route>
         </Routes>
       </Suspense>
     </BrowserRouter>
-  </StrictMode>
+  </StrictMode>,
 );

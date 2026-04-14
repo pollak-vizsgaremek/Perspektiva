@@ -1,16 +1,17 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import axios from "axios";
 
 export default function Profile({ closeProfile = () => void 0 }) {
   const [userData, setUserData] = useState(null);
   const [activeTab, setActiveTab] = useState("articles");
   const [filterCategory, setFilterCategory] = useState("all");
   const [isEditing, setIsEditing] = useState(false);
-  const [editedEmail, setEditedEmail] = useState("");
+  const [updatedEmail, setUpdatedEmail] = useState("");
   const [editedPassword, setEditedPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
+  const [defaultEmail, setDefaultEmail] = useState("");
+
 
   useEffect(() => {
     fetchUserData();
@@ -18,7 +19,8 @@ export default function Profile({ closeProfile = () => void 0 }) {
 
   useEffect(() => {
     if (userData) {
-      setEditedEmail(userData.email);
+      setUpdatedEmail(userData.email);
+      setDefaultEmail(userData.email);
     }
   }, [userData]);
 
@@ -56,6 +58,23 @@ export default function Profile({ closeProfile = () => void 0 }) {
       fav => fav.article && fav.article.category === filterCategory
     );
   };
+
+   axios
+      .post(`${API_URL}/api/v1/auth/changes`, {
+        defaultEmail,
+        updatedEmail,
+        password,
+      })
+      .then(async (res) => {
+        const data = await res.data;
+        if (res.status == 200) {
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        setError(err.response?.data?.message || "Sikertelen szerkesztés");
+        setLoading(false);
+      });
 
   if (!userData) {
     return (
@@ -260,7 +279,7 @@ export default function Profile({ closeProfile = () => void 0 }) {
             onClick={() => {
               localStorage.removeItem("accessToken");
               localStorage.removeItem("userId");
-              navigate("/");
+              window.location.reload();
             }}
             className="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white px-6 py-3 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors duration-300 font-medium"
           >

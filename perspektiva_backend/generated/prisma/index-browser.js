@@ -153,7 +153,8 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   name: 'name',
-  isAdmin: 'isAdmin'
+  isAdmin: 'isAdmin',
+  deleted: 'deleted'
 };
 
 exports.Prisma.FavouritesScalarFieldEnum = {

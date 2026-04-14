@@ -1546,16 +1546,16 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     favourites: number
+    mediums: number
     publicist: number
     interests: number
-    mediums: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     favourites?: boolean | UserCountOutputTypeCountFavouritesArgs
+    mediums?: boolean | UserCountOutputTypeCountMediumsArgs
     publicist?: boolean | UserCountOutputTypeCountPublicistArgs
     interests?: boolean | UserCountOutputTypeCountInterestsArgs
-    mediums?: boolean | UserCountOutputTypeCountMediumsArgs
   }
 
   // Custom InputTypes
@@ -1579,6 +1579,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountMediumsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: mediumsWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountPublicistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: publicistWhereInput
   }
@@ -1588,13 +1595,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountInterestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserInterestWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountMediumsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: mediumsWhereInput
   }
 
 
@@ -6478,6 +6478,7 @@ export namespace Prisma {
     password: string | null
     name: string | null
     isAdmin: boolean | null
+    deleted: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -6486,6 +6487,7 @@ export namespace Prisma {
     password: string | null
     name: string | null
     isAdmin: boolean | null
+    deleted: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -6494,6 +6496,7 @@ export namespace Prisma {
     password: number
     name: number
     isAdmin: number
+    deleted: number
     _all: number
   }
 
@@ -6504,6 +6507,7 @@ export namespace Prisma {
     password?: true
     name?: true
     isAdmin?: true
+    deleted?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -6512,6 +6516,7 @@ export namespace Prisma {
     password?: true
     name?: true
     isAdmin?: true
+    deleted?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -6520,6 +6525,7 @@ export namespace Prisma {
     password?: true
     name?: true
     isAdmin?: true
+    deleted?: true
     _all?: true
   }
 
@@ -6601,6 +6607,7 @@ export namespace Prisma {
     password: string
     name: string | null
     isAdmin: boolean
+    deleted: boolean
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -6626,10 +6633,11 @@ export namespace Prisma {
     password?: boolean
     name?: boolean
     isAdmin?: boolean
+    deleted?: boolean
     favourites?: boolean | user$favouritesArgs<ExtArgs>
+    mediums?: boolean | user$mediumsArgs<ExtArgs>
     publicist?: boolean | user$publicistArgs<ExtArgs>
     interests?: boolean | user$interestsArgs<ExtArgs>
-    mediums?: boolean | user$mediumsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6641,14 +6649,15 @@ export namespace Prisma {
     password?: boolean
     name?: boolean
     isAdmin?: boolean
+    deleted?: boolean
   }
 
-  export type userOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "isAdmin", ExtArgs["result"]["user"]>
+  export type userOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "isAdmin" | "deleted", ExtArgs["result"]["user"]>
   export type userInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     favourites?: boolean | user$favouritesArgs<ExtArgs>
+    mediums?: boolean | user$mediumsArgs<ExtArgs>
     publicist?: boolean | user$publicistArgs<ExtArgs>
     interests?: boolean | user$interestsArgs<ExtArgs>
-    mediums?: boolean | user$mediumsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6656,9 +6665,9 @@ export namespace Prisma {
     name: "user"
     objects: {
       favourites: Prisma.$favouritesPayload<ExtArgs>[]
+      mediums: Prisma.$mediumsPayload<ExtArgs>[]
       publicist: Prisma.$publicistPayload<ExtArgs>[]
       interests: Prisma.$UserInterestPayload<ExtArgs>[]
-      mediums: Prisma.$mediumsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6666,6 +6675,7 @@ export namespace Prisma {
       password: string
       name: string | null
       isAdmin: boolean
+      deleted: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -7007,9 +7017,9 @@ export namespace Prisma {
   export interface Prisma__userClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     favourites<T extends user$favouritesArgs<ExtArgs> = {}>(args?: Subset<T, user$favouritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$favouritesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mediums<T extends user$mediumsArgs<ExtArgs> = {}>(args?: Subset<T, user$mediumsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$mediumsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     publicist<T extends user$publicistArgs<ExtArgs> = {}>(args?: Subset<T, user$publicistArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$publicistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     interests<T extends user$interestsArgs<ExtArgs> = {}>(args?: Subset<T, user$interestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInterestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    mediums<T extends user$mediumsArgs<ExtArgs> = {}>(args?: Subset<T, user$mediumsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$mediumsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7044,6 +7054,7 @@ export namespace Prisma {
     readonly password: FieldRef<"user", 'String'>
     readonly name: FieldRef<"user", 'String'>
     readonly isAdmin: FieldRef<"user", 'Boolean'>
+    readonly deleted: FieldRef<"user", 'Boolean'>
   }
     
 
@@ -7411,6 +7422,30 @@ export namespace Prisma {
   }
 
   /**
+   * user.mediums
+   */
+  export type user$mediumsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the mediums
+     */
+    select?: mediumsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the mediums
+     */
+    omit?: mediumsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: mediumsInclude<ExtArgs> | null
+    where?: mediumsWhereInput
+    orderBy?: mediumsOrderByWithRelationInput | mediumsOrderByWithRelationInput[]
+    cursor?: mediumsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MediumsScalarFieldEnum | MediumsScalarFieldEnum[]
+  }
+
+  /**
    * user.publicist
    */
   export type user$publicistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7456,30 +7491,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserInterestScalarFieldEnum | UserInterestScalarFieldEnum[]
-  }
-
-  /**
-   * user.mediums
-   */
-  export type user$mediumsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the mediums
-     */
-    select?: mediumsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the mediums
-     */
-    omit?: mediumsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
-    where?: mediumsWhereInput
-    orderBy?: mediumsOrderByWithRelationInput | mediumsOrderByWithRelationInput[]
-    cursor?: mediumsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MediumsScalarFieldEnum | MediumsScalarFieldEnum[]
   }
 
   /**
@@ -9502,7 +9513,8 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     name: 'name',
-    isAdmin: 'isAdmin'
+    isAdmin: 'isAdmin',
+    deleted: 'deleted'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -9892,10 +9904,11 @@ export namespace Prisma {
     password?: StringFilter<"user"> | string
     name?: StringNullableFilter<"user"> | string | null
     isAdmin?: BoolFilter<"user"> | boolean
+    deleted?: BoolFilter<"user"> | boolean
     favourites?: FavouritesListRelationFilter
+    mediums?: MediumsListRelationFilter
     publicist?: PublicistListRelationFilter
     interests?: UserInterestListRelationFilter
-    mediums?: MediumsListRelationFilter
   }
 
   export type userOrderByWithRelationInput = {
@@ -9904,10 +9917,11 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrderInput | SortOrder
     isAdmin?: SortOrder
+    deleted?: SortOrder
     favourites?: favouritesOrderByRelationAggregateInput
+    mediums?: mediumsOrderByRelationAggregateInput
     publicist?: publicistOrderByRelationAggregateInput
     interests?: UserInterestOrderByRelationAggregateInput
-    mediums?: mediumsOrderByRelationAggregateInput
     _relevance?: userOrderByRelevanceInput
   }
 
@@ -9920,11 +9934,12 @@ export namespace Prisma {
     password?: StringFilter<"user"> | string
     name?: StringNullableFilter<"user"> | string | null
     isAdmin?: BoolFilter<"user"> | boolean
+    deleted?: BoolFilter<"user"> | boolean
     favourites?: FavouritesListRelationFilter
+    mediums?: MediumsListRelationFilter
     publicist?: PublicistListRelationFilter
     interests?: UserInterestListRelationFilter
-    mediums?: MediumsListRelationFilter
-  }, "id" | "email">
+  }, "id" | "id" | "email">
 
   export type userOrderByWithAggregationInput = {
     id?: SortOrder
@@ -9932,6 +9947,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrderInput | SortOrder
     isAdmin?: SortOrder
+    deleted?: SortOrder
     _count?: userCountOrderByAggregateInput
     _max?: userMaxOrderByAggregateInput
     _min?: userMinOrderByAggregateInput
@@ -9946,6 +9962,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"user"> | string
     name?: StringNullableWithAggregatesFilter<"user"> | string | null
     isAdmin?: BoolWithAggregatesFilter<"user"> | boolean
+    deleted?: BoolWithAggregatesFilter<"user"> | boolean
   }
 
   export type favouritesWhereInput = {
@@ -10262,10 +10279,11 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
     favourites?: favouritesCreateNestedManyWithoutUserInput
+    mediums?: mediumsCreateNestedManyWithoutUserInput
     publicist?: publicistCreateNestedManyWithoutUserInput
     interests?: UserInterestCreateNestedManyWithoutUserInput
-    mediums?: mediumsCreateNestedManyWithoutUserInput
   }
 
   export type userUncheckedCreateInput = {
@@ -10274,10 +10292,11 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
     favourites?: favouritesUncheckedCreateNestedManyWithoutUserInput
+    mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
     publicist?: publicistUncheckedCreateNestedManyWithoutUserInput
     interests?: UserInterestUncheckedCreateNestedManyWithoutUserInput
-    mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type userUpdateInput = {
@@ -10286,10 +10305,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     favourites?: favouritesUpdateManyWithoutUserNestedInput
+    mediums?: mediumsUpdateManyWithoutUserNestedInput
     publicist?: publicistUpdateManyWithoutUserNestedInput
     interests?: UserInterestUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUpdateManyWithoutUserNestedInput
   }
 
   export type userUncheckedUpdateInput = {
@@ -10298,10 +10318,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     favourites?: favouritesUncheckedUpdateManyWithoutUserNestedInput
+    mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
     publicist?: publicistUncheckedUpdateManyWithoutUserNestedInput
     interests?: UserInterestUncheckedUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type userCreateManyInput = {
@@ -10310,6 +10331,7 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
   }
 
   export type userUpdateManyMutationInput = {
@@ -10318,6 +10340,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type userUncheckedUpdateManyInput = {
@@ -10326,6 +10349,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type favouritesCreateInput = {
@@ -10741,23 +10765,23 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type PublicistListRelationFilter = {
-    every?: publicistWhereInput
-    some?: publicistWhereInput
-    none?: publicistWhereInput
-  }
-
   export type MediumsListRelationFilter = {
     every?: mediumsWhereInput
     some?: mediumsWhereInput
     none?: mediumsWhereInput
   }
 
-  export type publicistOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type PublicistListRelationFilter = {
+    every?: publicistWhereInput
+    some?: publicistWhereInput
+    none?: publicistWhereInput
   }
 
   export type mediumsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type publicistOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10773,6 +10797,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     isAdmin?: SortOrder
+    deleted?: SortOrder
   }
 
   export type userMaxOrderByAggregateInput = {
@@ -10781,6 +10806,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     isAdmin?: SortOrder
+    deleted?: SortOrder
   }
 
   export type userMinOrderByAggregateInput = {
@@ -10789,6 +10815,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     isAdmin?: SortOrder
+    deleted?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -11224,6 +11251,13 @@ export namespace Prisma {
     connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
   }
 
+  export type mediumsCreateNestedManyWithoutUserInput = {
+    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
+    createMany?: mediumsCreateManyUserInputEnvelope
+    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
+  }
+
   export type publicistCreateNestedManyWithoutUserInput = {
     create?: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput> | publicistCreateWithoutUserInput[] | publicistUncheckedCreateWithoutUserInput[]
     connectOrCreate?: publicistCreateOrConnectWithoutUserInput | publicistCreateOrConnectWithoutUserInput[]
@@ -11238,18 +11272,18 @@ export namespace Prisma {
     connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
   }
 
-  export type mediumsCreateNestedManyWithoutUserInput = {
-    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
-    createMany?: mediumsCreateManyUserInputEnvelope
-    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-  }
-
   export type favouritesUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<favouritesCreateWithoutUserInput, favouritesUncheckedCreateWithoutUserInput> | favouritesCreateWithoutUserInput[] | favouritesUncheckedCreateWithoutUserInput[]
     connectOrCreate?: favouritesCreateOrConnectWithoutUserInput | favouritesCreateOrConnectWithoutUserInput[]
     createMany?: favouritesCreateManyUserInputEnvelope
     connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
+  }
+
+  export type mediumsUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
+    createMany?: mediumsCreateManyUserInputEnvelope
+    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
   }
 
   export type publicistUncheckedCreateNestedManyWithoutUserInput = {
@@ -11264,13 +11298,6 @@ export namespace Prisma {
     connectOrCreate?: UserInterestCreateOrConnectWithoutUserInput | UserInterestCreateOrConnectWithoutUserInput[]
     createMany?: UserInterestCreateManyUserInputEnvelope
     connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-  }
-
-  export type mediumsUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
-    createMany?: mediumsCreateManyUserInputEnvelope
-    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -11289,6 +11316,20 @@ export namespace Prisma {
     update?: favouritesUpdateWithWhereUniqueWithoutUserInput | favouritesUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: favouritesUpdateManyWithWhereWithoutUserInput | favouritesUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: favouritesScalarWhereInput | favouritesScalarWhereInput[]
+  }
+
+  export type mediumsUpdateManyWithoutUserNestedInput = {
+    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
+    upsert?: mediumsUpsertWithWhereUniqueWithoutUserInput | mediumsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: mediumsCreateManyUserInputEnvelope
+    set?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
+    disconnect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
+    delete?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
+    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
+    update?: mediumsUpdateWithWhereUniqueWithoutUserInput | mediumsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: mediumsUpdateManyWithWhereWithoutUserInput | mediumsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
   }
 
   export type publicistUpdateManyWithoutUserNestedInput = {
@@ -11319,20 +11360,6 @@ export namespace Prisma {
     deleteMany?: UserInterestScalarWhereInput | UserInterestScalarWhereInput[]
   }
 
-  export type mediumsUpdateManyWithoutUserNestedInput = {
-    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
-    upsert?: mediumsUpsertWithWhereUniqueWithoutUserInput | mediumsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: mediumsCreateManyUserInputEnvelope
-    set?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    disconnect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    delete?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    update?: mediumsUpdateWithWhereUniqueWithoutUserInput | mediumsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: mediumsUpdateManyWithWhereWithoutUserInput | mediumsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
-  }
-
   export type favouritesUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<favouritesCreateWithoutUserInput, favouritesUncheckedCreateWithoutUserInput> | favouritesCreateWithoutUserInput[] | favouritesUncheckedCreateWithoutUserInput[]
     connectOrCreate?: favouritesCreateOrConnectWithoutUserInput | favouritesCreateOrConnectWithoutUserInput[]
@@ -11345,6 +11372,20 @@ export namespace Prisma {
     update?: favouritesUpdateWithWhereUniqueWithoutUserInput | favouritesUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: favouritesUpdateManyWithWhereWithoutUserInput | favouritesUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: favouritesScalarWhereInput | favouritesScalarWhereInput[]
+  }
+
+  export type mediumsUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
+    upsert?: mediumsUpsertWithWhereUniqueWithoutUserInput | mediumsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: mediumsCreateManyUserInputEnvelope
+    set?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
+    disconnect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
+    delete?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
+    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
+    update?: mediumsUpdateWithWhereUniqueWithoutUserInput | mediumsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: mediumsUpdateManyWithWhereWithoutUserInput | mediumsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
   }
 
   export type publicistUncheckedUpdateManyWithoutUserNestedInput = {
@@ -11373,20 +11414,6 @@ export namespace Prisma {
     update?: UserInterestUpdateWithWhereUniqueWithoutUserInput | UserInterestUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserInterestUpdateManyWithWhereWithoutUserInput | UserInterestUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserInterestScalarWhereInput | UserInterestScalarWhereInput[]
-  }
-
-  export type mediumsUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
-    upsert?: mediumsUpsertWithWhereUniqueWithoutUserInput | mediumsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: mediumsCreateManyUserInputEnvelope
-    set?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    disconnect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    delete?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    update?: mediumsUpdateWithWhereUniqueWithoutUserInput | mediumsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: mediumsUpdateManyWithWhereWithoutUserInput | mediumsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
   }
 
   export type articleCreateNestedOneWithoutFavouritesInput = {
@@ -11620,9 +11647,10 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
     favourites?: favouritesCreateNestedManyWithoutUserInput
-    publicist?: publicistCreateNestedManyWithoutUserInput
     mediums?: mediumsCreateNestedManyWithoutUserInput
+    publicist?: publicistCreateNestedManyWithoutUserInput
   }
 
   export type userUncheckedCreateWithoutInterestsInput = {
@@ -11631,9 +11659,10 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
     favourites?: favouritesUncheckedCreateNestedManyWithoutUserInput
-    publicist?: publicistUncheckedCreateNestedManyWithoutUserInput
     mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
+    publicist?: publicistUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type userCreateOrConnectWithoutInterestsInput = {
@@ -11680,9 +11709,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     favourites?: favouritesUpdateManyWithoutUserNestedInput
-    publicist?: publicistUpdateManyWithoutUserNestedInput
     mediums?: mediumsUpdateManyWithoutUserNestedInput
+    publicist?: publicistUpdateManyWithoutUserNestedInput
   }
 
   export type userUncheckedUpdateWithoutInterestsInput = {
@@ -11691,9 +11721,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     favourites?: favouritesUncheckedUpdateManyWithoutUserNestedInput
-    publicist?: publicistUncheckedUpdateManyWithoutUserNestedInput
     mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
+    publicist?: publicistUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type articleCreateWithoutInterestsInput = {
@@ -12011,9 +12042,10 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
     favourites?: favouritesCreateNestedManyWithoutUserInput
-    interests?: UserInterestCreateNestedManyWithoutUserInput
     mediums?: mediumsCreateNestedManyWithoutUserInput
+    interests?: UserInterestCreateNestedManyWithoutUserInput
   }
 
   export type userUncheckedCreateWithoutPublicistInput = {
@@ -12022,9 +12054,10 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
     favourites?: favouritesUncheckedCreateNestedManyWithoutUserInput
-    interests?: UserInterestUncheckedCreateNestedManyWithoutUserInput
     mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
+    interests?: UserInterestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type userCreateOrConnectWithoutPublicistInput = {
@@ -12075,9 +12108,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     favourites?: favouritesUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUpdateManyWithoutUserNestedInput
     mediums?: mediumsUpdateManyWithoutUserNestedInput
+    interests?: UserInterestUpdateManyWithoutUserNestedInput
   }
 
   export type userUncheckedUpdateWithoutPublicistInput = {
@@ -12086,9 +12120,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     favourites?: favouritesUncheckedUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUncheckedUpdateManyWithoutUserNestedInput
     mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
+    interests?: UserInterestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type favouritesCreateWithoutUserInput = {
@@ -12107,6 +12142,27 @@ export namespace Prisma {
 
   export type favouritesCreateManyUserInputEnvelope = {
     data: favouritesCreateManyUserInput | favouritesCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type mediumsCreateWithoutUserInput = {
+    name: string
+    active: boolean
+  }
+
+  export type mediumsUncheckedCreateWithoutUserInput = {
+    id?: number
+    name: string
+    active: boolean
+  }
+
+  export type mediumsCreateOrConnectWithoutUserInput = {
+    where: mediumsWhereUniqueInput
+    create: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput>
+  }
+
+  export type mediumsCreateManyUserInputEnvelope = {
+    data: mediumsCreateManyUserInput | mediumsCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -12149,27 +12205,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type mediumsCreateWithoutUserInput = {
-    name: string
-    active: boolean
-  }
-
-  export type mediumsUncheckedCreateWithoutUserInput = {
-    id?: number
-    name: string
-    active: boolean
-  }
-
-  export type mediumsCreateOrConnectWithoutUserInput = {
-    where: mediumsWhereUniqueInput
-    create: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput>
-  }
-
-  export type mediumsCreateManyUserInputEnvelope = {
-    data: mediumsCreateManyUserInput | mediumsCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
   export type favouritesUpsertWithWhereUniqueWithoutUserInput = {
     where: favouritesWhereUniqueInput
     update: XOR<favouritesUpdateWithoutUserInput, favouritesUncheckedUpdateWithoutUserInput>
@@ -12184,6 +12219,32 @@ export namespace Prisma {
   export type favouritesUpdateManyWithWhereWithoutUserInput = {
     where: favouritesScalarWhereInput
     data: XOR<favouritesUpdateManyMutationInput, favouritesUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type mediumsUpsertWithWhereUniqueWithoutUserInput = {
+    where: mediumsWhereUniqueInput
+    update: XOR<mediumsUpdateWithoutUserInput, mediumsUncheckedUpdateWithoutUserInput>
+    create: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput>
+  }
+
+  export type mediumsUpdateWithWhereUniqueWithoutUserInput = {
+    where: mediumsWhereUniqueInput
+    data: XOR<mediumsUpdateWithoutUserInput, mediumsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type mediumsUpdateManyWithWhereWithoutUserInput = {
+    where: mediumsScalarWhereInput
+    data: XOR<mediumsUpdateManyMutationInput, mediumsUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type mediumsScalarWhereInput = {
+    AND?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
+    OR?: mediumsScalarWhereInput[]
+    NOT?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
+    id?: IntFilter<"mediums"> | number
+    name?: StringFilter<"mediums"> | string
+    active?: BoolFilter<"mediums"> | boolean
+    user_id?: StringFilter<"mediums"> | string
   }
 
   export type publicistUpsertWithWhereUniqueWithoutUserInput = {
@@ -12227,32 +12288,6 @@ export namespace Prisma {
     data: XOR<UserInterestUpdateManyMutationInput, UserInterestUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type mediumsUpsertWithWhereUniqueWithoutUserInput = {
-    where: mediumsWhereUniqueInput
-    update: XOR<mediumsUpdateWithoutUserInput, mediumsUncheckedUpdateWithoutUserInput>
-    create: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput>
-  }
-
-  export type mediumsUpdateWithWhereUniqueWithoutUserInput = {
-    where: mediumsWhereUniqueInput
-    data: XOR<mediumsUpdateWithoutUserInput, mediumsUncheckedUpdateWithoutUserInput>
-  }
-
-  export type mediumsUpdateManyWithWhereWithoutUserInput = {
-    where: mediumsScalarWhereInput
-    data: XOR<mediumsUpdateManyMutationInput, mediumsUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type mediumsScalarWhereInput = {
-    AND?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
-    OR?: mediumsScalarWhereInput[]
-    NOT?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
-    id?: IntFilter<"mediums"> | number
-    name?: StringFilter<"mediums"> | string
-    active?: BoolFilter<"mediums"> | boolean
-    user_id?: StringFilter<"mediums"> | string
-  }
-
   export type articleCreateWithoutFavouritesInput = {
     title: string
     content: string
@@ -12279,9 +12314,10 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
+    mediums?: mediumsCreateNestedManyWithoutUserInput
     publicist?: publicistCreateNestedManyWithoutUserInput
     interests?: UserInterestCreateNestedManyWithoutUserInput
-    mediums?: mediumsCreateNestedManyWithoutUserInput
   }
 
   export type userUncheckedCreateWithoutFavouritesInput = {
@@ -12290,9 +12326,10 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
+    mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
     publicist?: publicistUncheckedCreateNestedManyWithoutUserInput
     interests?: UserInterestUncheckedCreateNestedManyWithoutUserInput
-    mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type userCreateOrConnectWithoutFavouritesInput = {
@@ -12343,9 +12380,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    mediums?: mediumsUpdateManyWithoutUserNestedInput
     publicist?: publicistUpdateManyWithoutUserNestedInput
     interests?: UserInterestUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUpdateManyWithoutUserNestedInput
   }
 
   export type userUncheckedUpdateWithoutFavouritesInput = {
@@ -12354,9 +12392,10 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
+    mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
     publicist?: publicistUncheckedUpdateManyWithoutUserNestedInput
     interests?: UserInterestUncheckedUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type userCreateWithoutMediumsInput = {
@@ -12365,6 +12404,7 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
     favourites?: favouritesCreateNestedManyWithoutUserInput
     publicist?: publicistCreateNestedManyWithoutUserInput
     interests?: UserInterestCreateNestedManyWithoutUserInput
@@ -12376,6 +12416,7 @@ export namespace Prisma {
     password: string
     name?: string | null
     isAdmin?: boolean
+    deleted?: boolean
     favourites?: favouritesUncheckedCreateNestedManyWithoutUserInput
     publicist?: publicistUncheckedCreateNestedManyWithoutUserInput
     interests?: UserInterestUncheckedCreateNestedManyWithoutUserInput
@@ -12403,6 +12444,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     favourites?: favouritesUpdateManyWithoutUserNestedInput
     publicist?: publicistUpdateManyWithoutUserNestedInput
     interests?: UserInterestUpdateManyWithoutUserNestedInput
@@ -12414,6 +12456,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    deleted?: BoolFieldUpdateOperationsInput | boolean
     favourites?: favouritesUncheckedUpdateManyWithoutUserNestedInput
     publicist?: publicistUncheckedUpdateManyWithoutUserNestedInput
     interests?: UserInterestUncheckedUpdateManyWithoutUserNestedInput
@@ -12518,6 +12561,12 @@ export namespace Prisma {
     article_id?: number | null
   }
 
+  export type mediumsCreateManyUserInput = {
+    id?: number
+    name: string
+    active: boolean
+  }
+
   export type publicistCreateManyUserInput = {
     id?: number
     name: string
@@ -12525,12 +12574,6 @@ export namespace Prisma {
 
   export type UserInterestCreateManyUserInput = {
     interestId: number
-  }
-
-  export type mediumsCreateManyUserInput = {
-    id?: number
-    name: string
-    active: boolean
   }
 
   export type favouritesUpdateWithoutUserInput = {
@@ -12545,6 +12588,23 @@ export namespace Prisma {
   export type favouritesUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     article_id?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type mediumsUpdateWithoutUserInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type mediumsUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type mediumsUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    active?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type publicistUpdateWithoutUserInput = {
@@ -12573,23 +12633,6 @@ export namespace Prisma {
 
   export type UserInterestUncheckedUpdateManyWithoutUserInput = {
     interestId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type mediumsUpdateWithoutUserInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type mediumsUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type mediumsUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
   }
 
 

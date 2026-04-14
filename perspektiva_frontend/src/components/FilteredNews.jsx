@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 export default function FilteredNews() {
   const navigate = useNavigate();
 
-  // Csak teszt niggerek, ez nem tudom honnan jön majd XD
   const allNews = [
     {
       id: 1,

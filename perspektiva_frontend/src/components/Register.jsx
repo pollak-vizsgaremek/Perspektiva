@@ -13,7 +13,7 @@ export default function Register() {
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
   function save() {
-    console.log("Save func");
+    console.log(ispublicist);
 
     axios
       .post(`${API_URL}/api/v1/auth/register`, {

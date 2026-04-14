@@ -2,6 +2,7 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "../generated/prisma/index.js";
 import jwt from "jsonwebtoken";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 const router = Router();
 const prisma = new PrismaClient();
 
@@ -23,7 +24,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { username: user.name, email: user.email },
+      { username: user.name, email: user.email, admin: user.isAdmin },
       process.env.JWT_SECRET,
       {
         algorithm: "HS512",
@@ -60,7 +61,7 @@ router.post("/register", async (req, res) => {
       },
     });
     if (ispublicist) {
-      const Publicist = prisma.publicist.create({
+      const Publicist = await prisma.publicist.create({
         data: {
           name,
           user_id: user.id,
@@ -74,6 +75,155 @@ router.post("/register", async (req, res) => {
     res
       .status(500)
       .json({ message: "User registration failed", error: error.message });
+  }
+});
+
+router.get("/admin", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const admin = await prisma.user.findUnique({
+      where: {
+        id: userId,
+        deleted: false,
+      },
+    });
+
+    if (!admin) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!admin.isAdmin) {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    const users = await prisma.user.findMany({
+      omit: {
+        password: true,
+      },
+    });
+
+    const portals = await prisma.mediums.findMany();
+    const articlecount = await prisma.article.count();
+
+    res.status(200).json({ users, portals, articlecount });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch admin data", error: error.message });
+  }
+});
+
+router.put("/changes", authMiddleware, async (req, res) => {
+  try {
+    const { updatedemail, password } = req.body;
+    const userId = req.user.id;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const updateData = {};
+
+    if (updatedemail) {
+      updateData.email = updatedemail;
+    }
+
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({
+        message: "At least one field (email or password) must be provided",
+      });
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: updateData,
+      omit: {
+        password: true,
+      },
+    });
+
+    res
+      .status(200)
+      .json({ message: "User updated successfully", user: updatedUser });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Failed to update user", error: error.message });
+  }
+});
+
+router.post("/userDelete", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        deleted: true,
+      },
+    });
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Failed to delete user", error: error.message });
+  }
+});
+
+router.delete("/applicantDelete", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const user = await prisma.publicist.findUnique({
+      where: {
+        user_id: userId,
+      },
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await prisma.publicist.update({
+      where: {
+        user_id: userId,
+      },
+      data: {
+        accepted: false,
+      },
+    });
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Failed to delete user", error: error.message });
   }
 });
 
