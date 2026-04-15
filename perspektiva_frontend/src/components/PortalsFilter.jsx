@@ -33,7 +33,7 @@ export default function PortalsFilter() {
 
   return (
     <>
-      <header className="bg-white dark:bg-gray-800 shadow-lg rounded-xl mb-50">
+      <header className="fixed top-0 left-23 right-23 z-50 bg-white dark:bg-gray-800 shadow-lg rounded-b-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <button
             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"

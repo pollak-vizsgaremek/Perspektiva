@@ -42,14 +42,6 @@ export default function Login({ closeLogin = () => void 0 }) {
   return (
     <div className="text-black w-full flex justify-center">
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full p-8 transition-all duration-300 animate-fade-in relative">
-        {/* Close Button */}
-        <button
-          className="absolute top-4 right-4 bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-700 transition duration-150 font-bold"
-          onClick={closeLogin}
-        >
-          ✕
-        </button>
-
         {/* Header */}
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center pt-2">
           Bejelentkezés
@@ -122,12 +114,12 @@ export default function Login({ closeLogin = () => void 0 }) {
           </p>
         </div>
 
-        {/* Cancel Button */}
+        {/* Continue Without Login Button */}
         <button
-          onClick={closeLogin}
-          className="w-full mt-4 bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white px-6 py-2 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors duration-300 font-medium"
+          onClick={() => navigate("/Home")}
+          className="w-full mt-4 bg-white dark:bg-gray-700 border-2 border-gray-400 dark:border-gray-500 text-gray-900 dark:text-white px-6 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300 font-medium"
         >
-          Mégsem
+          Bejelentkezés nélkül használat
         </button>
       </div>
     </div>
