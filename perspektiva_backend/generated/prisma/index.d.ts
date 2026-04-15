@@ -5496,18 +5496,21 @@ export namespace Prisma {
     id: number | null
     name: string | null
     user_id: string | null
+    accepted: boolean | null
   }
 
   export type PublicistMaxAggregateOutputType = {
     id: number | null
     name: string | null
     user_id: string | null
+    accepted: boolean | null
   }
 
   export type PublicistCountAggregateOutputType = {
     id: number
     name: number
     user_id: number
+    accepted: number
     _all: number
   }
 
@@ -5524,18 +5527,21 @@ export namespace Prisma {
     id?: true
     name?: true
     user_id?: true
+    accepted?: true
   }
 
   export type PublicistMaxAggregateInputType = {
     id?: true
     name?: true
     user_id?: true
+    accepted?: true
   }
 
   export type PublicistCountAggregateInputType = {
     id?: true
     name?: true
     user_id?: true
+    accepted?: true
     _all?: true
   }
 
@@ -5629,6 +5635,7 @@ export namespace Prisma {
     id: number
     name: string
     user_id: string | null
+    accepted: boolean
     _count: PublicistCountAggregateOutputType | null
     _avg: PublicistAvgAggregateOutputType | null
     _sum: PublicistSumAggregateOutputType | null
@@ -5654,6 +5661,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     user_id?: boolean
+    accepted?: boolean
     article?: boolean | publicist$articleArgs<ExtArgs>
     user?: boolean | publicist$userArgs<ExtArgs>
     _count?: boolean | PublicistCountOutputTypeDefaultArgs<ExtArgs>
@@ -5665,9 +5673,10 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     user_id?: boolean
+    accepted?: boolean
   }
 
-  export type publicistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "user_id", ExtArgs["result"]["publicist"]>
+  export type publicistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "user_id" | "accepted", ExtArgs["result"]["publicist"]>
   export type publicistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     article?: boolean | publicist$articleArgs<ExtArgs>
     user?: boolean | publicist$userArgs<ExtArgs>
@@ -5684,6 +5693,7 @@ export namespace Prisma {
       id: number
       name: string
       user_id: string | null
+      accepted: boolean
     }, ExtArgs["result"]["publicist"]>
     composites: {}
   }
@@ -6058,6 +6068,7 @@ export namespace Prisma {
     readonly id: FieldRef<"publicist", 'Int'>
     readonly name: FieldRef<"publicist", 'String'>
     readonly user_id: FieldRef<"publicist", 'String'>
+    readonly accepted: FieldRef<"publicist", 'Boolean'>
   }
     
 
@@ -9502,7 +9513,8 @@ export namespace Prisma {
   export const PublicistScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    user_id: 'user_id'
+    user_id: 'user_id',
+    accepted: 'accepted'
   };
 
   export type PublicistScalarFieldEnum = (typeof PublicistScalarFieldEnum)[keyof typeof PublicistScalarFieldEnum]
@@ -9851,6 +9863,7 @@ export namespace Prisma {
     id?: IntFilter<"publicist"> | number
     name?: StringFilter<"publicist"> | string
     user_id?: StringNullableFilter<"publicist"> | string | null
+    accepted?: BoolFilter<"publicist"> | boolean
     article?: ArticleListRelationFilter
     user?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
   }
@@ -9859,6 +9872,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     user_id?: SortOrderInput | SortOrder
+    accepted?: SortOrder
     article?: articleOrderByRelationAggregateInput
     user?: userOrderByWithRelationInput
     _relevance?: publicistOrderByRelevanceInput
@@ -9871,6 +9885,7 @@ export namespace Prisma {
     NOT?: publicistWhereInput | publicistWhereInput[]
     name?: StringFilter<"publicist"> | string
     user_id?: StringNullableFilter<"publicist"> | string | null
+    accepted?: BoolFilter<"publicist"> | boolean
     article?: ArticleListRelationFilter
     user?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
   }, "id">
@@ -9879,6 +9894,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     user_id?: SortOrderInput | SortOrder
+    accepted?: SortOrder
     _count?: publicistCountOrderByAggregateInput
     _avg?: publicistAvgOrderByAggregateInput
     _max?: publicistMaxOrderByAggregateInput
@@ -9893,6 +9909,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"publicist"> | number
     name?: StringWithAggregatesFilter<"publicist"> | string
     user_id?: StringNullableWithAggregatesFilter<"publicist"> | string | null
+    accepted?: BoolWithAggregatesFilter<"publicist"> | boolean
   }
 
   export type userWhereInput = {
@@ -10233,6 +10250,7 @@ export namespace Prisma {
 
   export type publicistCreateInput = {
     name: string
+    accepted?: boolean
     article?: articleCreateNestedManyWithoutPublicistInput
     user?: userCreateNestedOneWithoutPublicistInput
   }
@@ -10241,11 +10259,13 @@ export namespace Prisma {
     id?: number
     name: string
     user_id?: string | null
+    accepted?: boolean
     article?: articleUncheckedCreateNestedManyWithoutPublicistInput
   }
 
   export type publicistUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    accepted?: BoolFieldUpdateOperationsInput | boolean
     article?: articleUpdateManyWithoutPublicistNestedInput
     user?: userUpdateOneWithoutPublicistNestedInput
   }
@@ -10254,6 +10274,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    accepted?: BoolFieldUpdateOperationsInput | boolean
     article?: articleUncheckedUpdateManyWithoutPublicistNestedInput
   }
 
@@ -10261,16 +10282,19 @@ export namespace Prisma {
     id?: number
     name: string
     user_id?: string | null
+    accepted?: boolean
   }
 
   export type publicistUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    accepted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type publicistUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    accepted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type userCreateInput = {
@@ -10690,6 +10714,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type ArticleListRelationFilter = {
     every?: articleWhereInput
     some?: articleWhereInput
@@ -10720,6 +10749,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     user_id?: SortOrder
+    accepted?: SortOrder
   }
 
   export type publicistAvgOrderByAggregateInput = {
@@ -10730,12 +10760,14 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     user_id?: SortOrder
+    accepted?: SortOrder
   }
 
   export type publicistMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     user_id?: SortOrder
+    accepted?: SortOrder
   }
 
   export type publicistSumOrderByAggregateInput = {
@@ -10760,9 +10792,12 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type MediumsListRelationFilter = {
@@ -10816,14 +10851,6 @@ export namespace Prisma {
     name?: SortOrder
     isAdmin?: SortOrder
     deleted?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -11202,6 +11229,10 @@ export namespace Prisma {
     connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type articleUpdateManyWithoutPublicistNestedInput = {
     create?: XOR<articleCreateWithoutPublicistInput, articleUncheckedCreateWithoutPublicistInput> | articleCreateWithoutPublicistInput[] | articleUncheckedCreateWithoutPublicistInput[]
     connectOrCreate?: articleCreateOrConnectWithoutPublicistInput | articleCreateOrConnectWithoutPublicistInput[]
@@ -11298,10 +11329,6 @@ export namespace Prisma {
     connectOrCreate?: UserInterestCreateOrConnectWithoutUserInput | UserInterestCreateOrConnectWithoutUserInput[]
     createMany?: UserInterestCreateManyUserInputEnvelope
     connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type favouritesUpdateManyWithoutUserNestedInput = {
@@ -11556,6 +11583,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
@@ -11583,11 +11615,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -11813,6 +11840,7 @@ export namespace Prisma {
 
   export type publicistCreateWithoutArticleInput = {
     name: string
+    accepted?: boolean
     user?: userCreateNestedOneWithoutPublicistInput
   }
 
@@ -11820,6 +11848,7 @@ export namespace Prisma {
     id?: number
     name: string
     user_id?: string | null
+    accepted?: boolean
   }
 
   export type publicistCreateOrConnectWithoutArticleInput = {
@@ -11877,6 +11906,7 @@ export namespace Prisma {
 
   export type publicistUpdateWithoutArticleInput = {
     name?: StringFieldUpdateOperationsInput | string
+    accepted?: BoolFieldUpdateOperationsInput | boolean
     user?: userUpdateOneWithoutPublicistNestedInput
   }
 
@@ -11884,6 +11914,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    accepted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ArticleInterestUpsertWithWhereUniqueWithoutArticleInput = {
@@ -12168,12 +12199,14 @@ export namespace Prisma {
 
   export type publicistCreateWithoutUserInput = {
     name: string
+    accepted?: boolean
     article?: articleCreateNestedManyWithoutPublicistInput
   }
 
   export type publicistUncheckedCreateWithoutUserInput = {
     id?: number
     name: string
+    accepted?: boolean
     article?: articleUncheckedCreateNestedManyWithoutPublicistInput
   }
 
@@ -12270,6 +12303,7 @@ export namespace Prisma {
     id?: IntFilter<"publicist"> | number
     name?: StringFilter<"publicist"> | string
     user_id?: StringNullableFilter<"publicist"> | string | null
+    accepted?: BoolFilter<"publicist"> | boolean
   }
 
   export type UserInterestUpsertWithWhereUniqueWithoutUserInput = {
@@ -12570,6 +12604,7 @@ export namespace Prisma {
   export type publicistCreateManyUserInput = {
     id?: number
     name: string
+    accepted?: boolean
   }
 
   export type UserInterestCreateManyUserInput = {
@@ -12609,18 +12644,21 @@ export namespace Prisma {
 
   export type publicistUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
+    accepted?: BoolFieldUpdateOperationsInput | boolean
     article?: articleUpdateManyWithoutPublicistNestedInput
   }
 
   export type publicistUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    accepted?: BoolFieldUpdateOperationsInput | boolean
     article?: articleUncheckedUpdateManyWithoutPublicistNestedInput
   }
 
   export type publicistUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    accepted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserInterestUpdateWithoutUserInput = {

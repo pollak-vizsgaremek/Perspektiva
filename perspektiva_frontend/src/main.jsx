@@ -1,7 +1,7 @@
 import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router";
 import ProtectedRoute from "./guards/ProtectedRoute.jsx";
 
 const LoginPage = lazy(() => import("./components/Login.jsx"));
@@ -32,6 +32,7 @@ createRoot(document.getElementById("root")).render(
           <Route element={<ProtectedRoute />}>
             <Route path="/Admin" element={<AdminPage />} />
           </Route>
+          <Route path="*" element={<Navigate to="/Home" />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

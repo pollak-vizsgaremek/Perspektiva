@@ -3,6 +3,10 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 
 export default function AdminPage() {
+  useEffect(() => {
+    document.title = `Perspektíva — Admin`;
+  }, []);
+
   const [activeTab, setActiveTab] = useState("overview");
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -125,6 +129,7 @@ export default function AdminPage() {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userId");
+    localStorage.removeItem("isAdmin");
     navigate("/");
   };
 

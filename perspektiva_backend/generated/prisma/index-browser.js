@@ -145,7 +145,8 @@ exports.Prisma.InterestScalarFieldEnum = {
 exports.Prisma.PublicistScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  user_id: 'user_id'
+  user_id: 'user_id',
+  accepted: 'accepted'
 };
 
 exports.Prisma.UserScalarFieldEnum = {

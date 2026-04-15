@@ -11,7 +11,9 @@ export default function Profile({ closeProfile = () => void 0 }) {
   const [editedPassword, setEditedPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [defaultEmail, setDefaultEmail] = useState("");
-
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchUserData();
@@ -59,8 +61,10 @@ export default function Profile({ closeProfile = () => void 0 }) {
     );
   };
 
-   axios
-      .post(`${API_URL}/api/v1/auth/changes`, {
+  const handleUpdate = () => {
+    setLoading(true);
+    axios
+      .post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/changes`, {
         defaultEmail,
         updatedEmail,
         password,
@@ -75,6 +79,7 @@ export default function Profile({ closeProfile = () => void 0 }) {
         setError(err.response?.data?.message || "Sikertelen szerkesztés");
         setLoading(false);
       });
+  };
 
   if (!userData) {
     return (
@@ -111,8 +116,8 @@ export default function Profile({ closeProfile = () => void 0 }) {
             <div className="flex gap-2">
               <input
                 type="email"
-                value={editedEmail}
-                onChange={(e) => setEditedEmail(e.target.value)}
+                value={updatedEmail}
+                onChange={(e) => setUpdatedEmail(e.target.value)}
                 disabled={!isEditing}
                 className="flex-1 px-4 py-2 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:border-red-600 disabled:bg-gray-100 dark:disabled:bg-gray-600 disabled:text-gray-600 dark:disabled:text-gray-400 transition duration-150"
               />
@@ -256,7 +261,7 @@ export default function Profile({ closeProfile = () => void 0 }) {
               <button
                 onClick={() => {
                   setIsEditing(false);
-                  setEditedEmail(userData.email);
+                  setUpdatedEmail(userData.email);
                   setEditedPassword("");
                 }}
                 className="flex-1 bg-gray-400 dark:bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-500 dark:hover:bg-gray-500 transition-colors duration-300 font-medium"

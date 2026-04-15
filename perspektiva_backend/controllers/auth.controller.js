@@ -1,10 +1,10 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "../generated/prisma/index.js";
 import jwt from "jsonwebtoken";
 import { authMiddleware } from "../middleware/auth.middleware.js";
+import { prisma } from "../index.js";
+
 const router = Router();
-const prisma = new PrismaClient();
 
 router.post("/login", async (req, res) => {
   try {
@@ -200,18 +200,18 @@ router.post("/userDelete", authMiddleware, async (req, res) => {
 router.delete("/applicantDelete", authMiddleware, async (req, res) => {
   try {
     const userId = req.body.userId;
-    const user = await prisma.publicist.findUnique({
+    const publicist = await prisma.publicist.findFirst({
       where: {
         user_id: userId,
       },
     });
-    if (!user) {
+    if (!publicist) {
       return res.status(404).json({ message: "User not found" });
     }
 
     await prisma.publicist.update({
       where: {
-        user_id: userId,
+        id: publicist.id,
       },
       data: {
         accepted: false,

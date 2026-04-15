@@ -1,7 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { useEffect } from "react";
 
 export default function FilteredNews() {
+  useEffect(() => {
+    document.title = `Perspektíva — Saját Hírfolyam`;
+  }, []);
   const navigate = useNavigate();
 
   const allNews = [

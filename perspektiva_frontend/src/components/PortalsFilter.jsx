@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import {} from "react";
 
 export default function PortalsFilter() {
+  useEffect(() => {
+    document.title = `Perspektíva — Források Kezelése`;
+  }, []);
   const navigate = useNavigate();
 
   // Az adatok listája (Majd leszívjuk valahonnan, adatb vagy idk)

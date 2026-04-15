@@ -50,11 +50,12 @@ model interest {
 }
 
 model publicist {
-  id      Int       @id @default(autoincrement())
-  name    String
-  user_id String?
-  article article[]
-  user    user?     @relation(fields: [user_id], references: [id], onUpdate: SetNull, map: "publicist_ibfk_1")
+  id       Int       @id @default(autoincrement())
+  name     String
+  user_id  String?
+  accepted Boolean   @default(false)
+  article  article[]
+  user     user?     @relation(fields: [user_id], references: [id], onUpdate: SetNull, map: "publicist_ibfk_1")
 
   @@index([user_id], map: "user_id")
 }

@@ -1,6 +1,6 @@
-import 'dotenv/config';
 import app, { prisma } from "../index.js";
 import request from "supertest";
+import 'dotenv/config';
 import bcrypt from "bcrypt";
 
 describe("API Endpoints Tests", () => {
@@ -65,6 +65,11 @@ describe("API Endpoints Tests", () => {
   });
 
   afterAll(async () => {
+    await prisma.user.deleteMany({
+      where: {
+        email: "test@example.com",
+      },
+    });
     await prisma.$disconnect();
   });
 
@@ -193,13 +198,5 @@ describe("API Endpoints Tests", () => {
 
       expect(response.body).toHaveProperty("message");
     });
-  });
-});
-
-afterAll(async () => {
-  await prisma.user.deleteMany({
-    where: {
-      email: "test@example.com",
-    },
   });
 });

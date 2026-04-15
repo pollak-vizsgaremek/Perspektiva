@@ -38,21 +38,25 @@ app.get("/api/user/me", authMiddleware, async (req, res) => {
 });
 
 app.get("/api/priorities", async (req, res) => {
-  // ["Index", "HVG"]
-
   try {
     const priorities = req.body.priorities;
-    const Filtereltpriorities = await prisma.article.findMany({
-      select: {
-        where: {
-          publisher: {
+    if (!priorities || !Array.isArray(priorities) || priorities.length === 0) {
+      return res.status(404).json({ message: "Prioritások szükségesek!", error: "No priorities provided" });
+    }
+    const articles = await prisma.article.findMany({
+      where: {
+        publicist: {
+          name: {
             in: priorities,
           },
         },
       },
+      include: {
+        publicist: true,
+      },
     });
 
-    res.status(200).json(Filtereltpriorities);
+    res.status(200).json(articles);
   } catch (error) {
     res
       .status(404)
@@ -74,7 +78,7 @@ app.get("/api/articles", async (req, res) => {
 app.get("/api/user", async (req, res) => {
   try {
     const user = await prisma.user.findMany();
-    res.status(200).json(articles);
+    res.status(200).json(user);
   } catch (error) {
     res
       .status(404)
@@ -84,19 +88,17 @@ app.get("/api/user", async (req, res) => {
 
 app.put("/api/articles", async (req, res) => {
   try {
-    const { Article_id, Interest_id, Publicist_id, title } = req.body;
+    const { Article_id, publicistId, title } = req.body;
     const updatearticle = await prisma.article.update({
       where: {
         id: Article_id,
       },
       data: {
-        Article_id,
-        Interest_id,
-        Publicist_id,
+        publicistId,
         title,
       },
     });
-    res.status(201).json(updatedarticle);
+    res.status(201).json(updatearticle);
   } catch (error) {
     res
       .status(404)
@@ -122,12 +124,12 @@ app.delete("/api/articles", async (req, res) => {
 
 app.post("/api/articles", async (req, res) => {
   try {
-    const { Interest_id, Publicist, title } = req.body;
+    const { publicistId, title, content } = req.body;
     const newArticle = await prisma.article.create({
       data: {
-        Interest_id,
-        Publicist_id: Publicist,
+        publicistId,
         title,
+        content: content || '',
       },
     });
     res.status(201).json(newArticle);
@@ -138,9 +140,11 @@ app.post("/api/articles", async (req, res) => {
   }
 });
 
-app.listen(3300, () => {
-  console.log("Backend fut port: 3300");
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(3300, () => {
+    console.log("Backend fut port: 3300");
+  });
+}
 
 export default app;
 export { prisma };
