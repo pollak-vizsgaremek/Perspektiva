@@ -57,6 +57,7 @@ export default function Register() {
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
+            id="password"
             type="password"
             placeholder="********"
             className="border-2 rounded-md p-1"
@@ -64,6 +65,7 @@ export default function Register() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <input
+            id="password2"
             type="password"
             placeholder="********"
             className="border-2 rounded-md p-1"
