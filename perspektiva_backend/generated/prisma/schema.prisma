@@ -11,8 +11,6 @@ datasource db {
 model UserInterest {
   userId     String
   interestId Int
-  interest   interest @relation(fields: [interestId], references: [id])
-  user       user     @relation(fields: [userId], references: [id])
 
   @@id([userId, interestId])
   @@index([interestId], map: "users_interests_interestId_fkey")
@@ -22,8 +20,6 @@ model UserInterest {
 model ArticleInterest {
   articleId  Int
   interestId Int
-  article    article  @relation(fields: [articleId], references: [id])
-  interest   interest @relation(fields: [interestId], references: [id])
 
   @@id([articleId, interestId])
   @@index([interestId], map: "articles_interests_interestId_fkey")
@@ -31,54 +27,44 @@ model ArticleInterest {
 }
 
 model article {
-  id          Int               @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   title       String
   publicistId Int
-  content     String            @db.LongText
-  publicist   publicist         @relation(fields: [publicistId], references: [id], map: "Article_publicistId_fkey")
-  interests   ArticleInterest[]
-  favourites  favourites[]
+  content     String @db.LongText
 
   @@index([publicistId], map: "Article_publicistId_fkey")
 }
 
 model interest {
-  id       Int               @id @default(autoincrement())
-  name     String
-  articles ArticleInterest[]
-  users    UserInterest[]
+  id   Int    @id @default(autoincrement())
+  name String
 }
 
 model publicist {
-  id       Int       @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
   name     String
-  user_id  String?
-  accepted Boolean   @default(false)
-  article  article[]
-  user     user?     @relation(fields: [user_id], references: [id], onUpdate: SetNull, map: "publicist_ibfk_1")
+  user_id  String  @unique
+  accepted Boolean @default(false)
+  user     user    @relation(fields: [user_id], references: [id])
 
   @@index([user_id], map: "user_id")
 }
 
 model user {
-  id         String         @id @unique @default(uuid())
-  email      String         @unique(map: "User_email_key")
-  password   String
-  name       String?
-  isAdmin    Boolean        @default(false)
-  deleted    Boolean        @default(false)
-  favourites favourites[]
-  mediums    mediums[]
-  publicist  publicist[]
-  interests  UserInterest[]
+  id       String  @id @unique @default(uuid())
+  email    String  @unique(map: "User_email_key")
+  password String
+  name     String?
+  isAdmin  Boolean @default(false)
+  deleted  Boolean @default(false)
+
+  publicist publicist? @relation()
 }
 
 model favourites {
-  id         Int      @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   user_id    String?
   article_id Int?
-  article    article? @relation(fields: [article_id], references: [id], onUpdate: SetNull)
-  user       user?    @relation(fields: [user_id], references: [id], onUpdate: SetNull)
 
   @@unique([user_id, article_id])
   @@index([article_id], map: "favourites_article_id_fkey")
@@ -89,7 +75,6 @@ model mediums {
   name    String
   active  Boolean
   user_id String
-  user    user    @relation(fields: [user_id], references: [id])
 
   @@index([user_id], map: "user_id")
 }

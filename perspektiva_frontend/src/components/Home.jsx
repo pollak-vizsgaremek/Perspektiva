@@ -3,6 +3,7 @@ import { useIntersection } from "../hooks/useIntersection";
 import { useNavigate } from "react-router";
 import Profile from "./Profile";
 import Login from "./Login";
+import News from "./News";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // --- GEMINI KONFIGURÁCIÓ ---
@@ -20,6 +21,10 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isNewsOpen, setIsNewsOpen] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3300";
   const navigate = useNavigate();
 
   // --- WORDLE STATE-EK ---
@@ -127,10 +132,39 @@ export default function Home() {
     setIsLoggedIn(!!getToken);
   }, []);
 
+  // fetch current user details (to check publicist.accepted)
+  useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        if (!token) return;
+        const res = await fetch(`${API_URL}/api/user/me`, {
+          headers: { authorization: "Bearer " + token },
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        setUserData(data);
+      } catch (_) {
+        // ignore
+      }
+    };
+    fetchMe();
+  }, [API_URL]);
+
   const openProfile = () => setIsProfileOpen(true);
   const closeProfile = () => setIsProfileOpen(false);
   const openLogin = () => setIsLoginOpen(true);
   const closeLogin = () => setIsLoginOpen(false);
+
+  function openArticle(item) {
+    setSelectedArticle(item);
+    setIsNewsOpen(true);
+  }
+
+  const closeNews = () => {
+    setIsNewsOpen(false);
+    setSelectedArticle(null);
+  };
 
   return (
     <>
@@ -177,12 +211,23 @@ export default function Home() {
               </a>
             </nav>
             {isLoggedIn ? (
-              <button
-                onClick={openProfile}
-                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
-              >
-                Profil
-              </button>
+              <div className="flex items-center gap-2">
+                {userData?.publicist?.accepted === 1 ||
+                userData?.publicist?.accepted === true ? (
+                  <button
+                    onClick={() => navigate("/ArticleCreation")}
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
+                  >
+                    Új cikk
+                  </button>
+                ) : null}
+                <button
+                  onClick={openProfile}
+                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
+                >
+                  Profil
+                </button>
+              </div>
             ) : (
               <button
                 onClick={openLogin}
@@ -237,10 +282,16 @@ export default function Home() {
                       <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
                         {item.category}
                       </span>
-                      <h3 className="mt-1 text-lg font-semibold text-gray-900 hover:text-blue-600 transition duration-150">
-                        <a href="#">{item.title}</a>
+                      <h3 className="mt-1">
+                        <button
+                          type="button"
+                          onClick={() => openArticle(item)}
+                          className="w-full text-left block text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-150 px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+                        >
+                          <span className="truncate block">{item.title}</span>
+                        </button>
                       </h3>
-                      <p className="text-sm text-gray-500 mt-2">
+                      <p className="text-sm text-gray-500 mt-2 ">
                         {item.content}
                       </p>
                     </div>
@@ -370,6 +421,12 @@ export default function Home() {
       {!isLoggedIn && isLoginOpen && (
         <div className="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center backdrop-blur-sm">
           <Login closeLogin={closeLogin} />
+        </div>
+      )}
+
+      {isNewsOpen && selectedArticle && (
+        <div className="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center backdrop-blur-sm">
+          <News article={selectedArticle} onClose={closeNews} />
         </div>
       )}
     </>

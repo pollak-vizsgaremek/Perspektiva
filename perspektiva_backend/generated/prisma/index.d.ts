@@ -1429,174 +1429,6 @@ export namespace Prisma {
    */
 
 
-  /**
-   * Count Type ArticleCountOutputType
-   */
-
-  export type ArticleCountOutputType = {
-    interests: number
-    favourites: number
-  }
-
-  export type ArticleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    interests?: boolean | ArticleCountOutputTypeCountInterestsArgs
-    favourites?: boolean | ArticleCountOutputTypeCountFavouritesArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * ArticleCountOutputType without action
-   */
-  export type ArticleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ArticleCountOutputType
-     */
-    select?: ArticleCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ArticleCountOutputType without action
-   */
-  export type ArticleCountOutputTypeCountInterestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ArticleInterestWhereInput
-  }
-
-  /**
-   * ArticleCountOutputType without action
-   */
-  export type ArticleCountOutputTypeCountFavouritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: favouritesWhereInput
-  }
-
-
-  /**
-   * Count Type InterestCountOutputType
-   */
-
-  export type InterestCountOutputType = {
-    articles: number
-    users: number
-  }
-
-  export type InterestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    articles?: boolean | InterestCountOutputTypeCountArticlesArgs
-    users?: boolean | InterestCountOutputTypeCountUsersArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * InterestCountOutputType without action
-   */
-  export type InterestCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InterestCountOutputType
-     */
-    select?: InterestCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * InterestCountOutputType without action
-   */
-  export type InterestCountOutputTypeCountArticlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ArticleInterestWhereInput
-  }
-
-  /**
-   * InterestCountOutputType without action
-   */
-  export type InterestCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserInterestWhereInput
-  }
-
-
-  /**
-   * Count Type PublicistCountOutputType
-   */
-
-  export type PublicistCountOutputType = {
-    article: number
-  }
-
-  export type PublicistCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    article?: boolean | PublicistCountOutputTypeCountArticleArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * PublicistCountOutputType without action
-   */
-  export type PublicistCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PublicistCountOutputType
-     */
-    select?: PublicistCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * PublicistCountOutputType without action
-   */
-  export type PublicistCountOutputTypeCountArticleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: articleWhereInput
-  }
-
-
-  /**
-   * Count Type UserCountOutputType
-   */
-
-  export type UserCountOutputType = {
-    favourites: number
-    mediums: number
-    publicist: number
-    interests: number
-  }
-
-  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    favourites?: boolean | UserCountOutputTypeCountFavouritesArgs
-    mediums?: boolean | UserCountOutputTypeCountMediumsArgs
-    publicist?: boolean | UserCountOutputTypeCountPublicistArgs
-    interests?: boolean | UserCountOutputTypeCountInterestsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserCountOutputType
-     */
-    select?: UserCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountFavouritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: favouritesWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountMediumsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: mediumsWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountPublicistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: publicistWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountInterestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserInterestWhereInput
-  }
-
 
   /**
    * Models
@@ -1776,8 +1608,6 @@ export namespace Prisma {
   export type UserInterestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     interestId?: boolean
-    interest?: boolean | interestDefaultArgs<ExtArgs>
-    user?: boolean | userDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userInterest"]>
 
 
@@ -1788,17 +1618,10 @@ export namespace Prisma {
   }
 
   export type UserInterestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "interestId", ExtArgs["result"]["userInterest"]>
-  export type UserInterestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    interest?: boolean | interestDefaultArgs<ExtArgs>
-    user?: boolean | userDefaultArgs<ExtArgs>
-  }
 
   export type $UserInterestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UserInterest"
-    objects: {
-      interest: Prisma.$interestPayload<ExtArgs>
-      user: Prisma.$userPayload<ExtArgs>
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       userId: string
       interestId: number
@@ -2142,8 +1965,6 @@ export namespace Prisma {
    */
   export interface Prisma__UserInterestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    interest<T extends interestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, interestDefaultArgs<ExtArgs>>): Prisma__interestClient<$Result.GetResult<Prisma.$interestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    user<T extends userDefaultArgs<ExtArgs> = {}>(args?: Subset<T, userDefaultArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2192,10 +2013,6 @@ export namespace Prisma {
      */
     omit?: UserInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
-    /**
      * Filter, which UserInterest to fetch.
      */
     where: UserInterestWhereUniqueInput
@@ -2214,10 +2031,6 @@ export namespace Prisma {
      */
     omit?: UserInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
-    /**
      * Filter, which UserInterest to fetch.
      */
     where: UserInterestWhereUniqueInput
@@ -2235,10 +2048,6 @@ export namespace Prisma {
      * Omit specific fields from the UserInterest
      */
     omit?: UserInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
     /**
      * Filter, which UserInterest to fetch.
      */
@@ -2288,10 +2097,6 @@ export namespace Prisma {
      */
     omit?: UserInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
-    /**
      * Filter, which UserInterest to fetch.
      */
     where?: UserInterestWhereInput
@@ -2340,10 +2145,6 @@ export namespace Prisma {
      */
     omit?: UserInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
-    /**
      * Filter, which UserInterests to fetch.
      */
     where?: UserInterestWhereInput
@@ -2387,10 +2188,6 @@ export namespace Prisma {
      */
     omit?: UserInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
-    /**
      * The data needed to create a UserInterest.
      */
     data: XOR<UserInterestCreateInput, UserInterestUncheckedCreateInput>
@@ -2419,10 +2216,6 @@ export namespace Prisma {
      * Omit specific fields from the UserInterest
      */
     omit?: UserInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
     /**
      * The data needed to update a UserInterest.
      */
@@ -2464,10 +2257,6 @@ export namespace Prisma {
      */
     omit?: UserInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
-    /**
      * The filter to search for the UserInterest to update in case it exists.
      */
     where: UserInterestWhereUniqueInput
@@ -2493,10 +2282,6 @@ export namespace Prisma {
      * Omit specific fields from the UserInterest
      */
     omit?: UserInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
     /**
      * Filter which UserInterest to delete.
      */
@@ -2529,10 +2314,6 @@ export namespace Prisma {
      * Omit specific fields from the UserInterest
      */
     omit?: UserInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
   }
 
 
@@ -2714,8 +2495,6 @@ export namespace Prisma {
   export type ArticleInterestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     articleId?: boolean
     interestId?: boolean
-    article?: boolean | articleDefaultArgs<ExtArgs>
-    interest?: boolean | interestDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["articleInterest"]>
 
 
@@ -2726,17 +2505,10 @@ export namespace Prisma {
   }
 
   export type ArticleInterestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"articleId" | "interestId", ExtArgs["result"]["articleInterest"]>
-  export type ArticleInterestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    article?: boolean | articleDefaultArgs<ExtArgs>
-    interest?: boolean | interestDefaultArgs<ExtArgs>
-  }
 
   export type $ArticleInterestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ArticleInterest"
-    objects: {
-      article: Prisma.$articlePayload<ExtArgs>
-      interest: Prisma.$interestPayload<ExtArgs>
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       articleId: number
       interestId: number
@@ -3080,8 +2852,6 @@ export namespace Prisma {
    */
   export interface Prisma__ArticleInterestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    article<T extends articleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, articleDefaultArgs<ExtArgs>>): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    interest<T extends interestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, interestDefaultArgs<ExtArgs>>): Prisma__interestClient<$Result.GetResult<Prisma.$interestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3130,10 +2900,6 @@ export namespace Prisma {
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
-    /**
      * Filter, which ArticleInterest to fetch.
      */
     where: ArticleInterestWhereUniqueInput
@@ -3152,10 +2918,6 @@ export namespace Prisma {
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
-    /**
      * Filter, which ArticleInterest to fetch.
      */
     where: ArticleInterestWhereUniqueInput
@@ -3173,10 +2935,6 @@ export namespace Prisma {
      * Omit specific fields from the ArticleInterest
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
     /**
      * Filter, which ArticleInterest to fetch.
      */
@@ -3226,10 +2984,6 @@ export namespace Prisma {
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
-    /**
      * Filter, which ArticleInterest to fetch.
      */
     where?: ArticleInterestWhereInput
@@ -3278,10 +3032,6 @@ export namespace Prisma {
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
-    /**
      * Filter, which ArticleInterests to fetch.
      */
     where?: ArticleInterestWhereInput
@@ -3325,10 +3075,6 @@ export namespace Prisma {
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
-    /**
      * The data needed to create a ArticleInterest.
      */
     data: XOR<ArticleInterestCreateInput, ArticleInterestUncheckedCreateInput>
@@ -3357,10 +3103,6 @@ export namespace Prisma {
      * Omit specific fields from the ArticleInterest
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
     /**
      * The data needed to update a ArticleInterest.
      */
@@ -3402,10 +3144,6 @@ export namespace Prisma {
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
-    /**
      * The filter to search for the ArticleInterest to update in case it exists.
      */
     where: ArticleInterestWhereUniqueInput
@@ -3431,10 +3169,6 @@ export namespace Prisma {
      * Omit specific fields from the ArticleInterest
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
     /**
      * Filter which ArticleInterest to delete.
      */
@@ -3467,10 +3201,6 @@ export namespace Prisma {
      * Omit specific fields from the ArticleInterest
      */
     omit?: ArticleInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
   }
 
 
@@ -3668,10 +3398,6 @@ export namespace Prisma {
     title?: boolean
     publicistId?: boolean
     content?: boolean
-    publicist?: boolean | publicistDefaultArgs<ExtArgs>
-    interests?: boolean | article$interestsArgs<ExtArgs>
-    favourites?: boolean | article$favouritesArgs<ExtArgs>
-    _count?: boolean | ArticleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["article"]>
 
 
@@ -3684,20 +3410,10 @@ export namespace Prisma {
   }
 
   export type articleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "publicistId" | "content", ExtArgs["result"]["article"]>
-  export type articleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    publicist?: boolean | publicistDefaultArgs<ExtArgs>
-    interests?: boolean | article$interestsArgs<ExtArgs>
-    favourites?: boolean | article$favouritesArgs<ExtArgs>
-    _count?: boolean | ArticleCountOutputTypeDefaultArgs<ExtArgs>
-  }
 
   export type $articlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "article"
-    objects: {
-      publicist: Prisma.$publicistPayload<ExtArgs>
-      interests: Prisma.$ArticleInterestPayload<ExtArgs>[]
-      favourites: Prisma.$favouritesPayload<ExtArgs>[]
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
       title: string
@@ -4043,9 +3759,6 @@ export namespace Prisma {
    */
   export interface Prisma__articleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    publicist<T extends publicistDefaultArgs<ExtArgs> = {}>(args?: Subset<T, publicistDefaultArgs<ExtArgs>>): Prisma__publicistClient<$Result.GetResult<Prisma.$publicistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    interests<T extends article$interestsArgs<ExtArgs> = {}>(args?: Subset<T, article$interestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleInterestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    favourites<T extends article$favouritesArgs<ExtArgs> = {}>(args?: Subset<T, article$favouritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$favouritesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4096,10 +3809,6 @@ export namespace Prisma {
      */
     omit?: articleOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
-    /**
      * Filter, which article to fetch.
      */
     where: articleWhereUniqueInput
@@ -4118,10 +3827,6 @@ export namespace Prisma {
      */
     omit?: articleOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
-    /**
      * Filter, which article to fetch.
      */
     where: articleWhereUniqueInput
@@ -4139,10 +3844,6 @@ export namespace Prisma {
      * Omit specific fields from the article
      */
     omit?: articleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
     /**
      * Filter, which article to fetch.
      */
@@ -4192,10 +3893,6 @@ export namespace Prisma {
      */
     omit?: articleOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
-    /**
      * Filter, which article to fetch.
      */
     where?: articleWhereInput
@@ -4244,10 +3941,6 @@ export namespace Prisma {
      */
     omit?: articleOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
-    /**
      * Filter, which articles to fetch.
      */
     where?: articleWhereInput
@@ -4291,10 +3984,6 @@ export namespace Prisma {
      */
     omit?: articleOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
-    /**
      * The data needed to create a article.
      */
     data: XOR<articleCreateInput, articleUncheckedCreateInput>
@@ -4323,10 +4012,6 @@ export namespace Prisma {
      * Omit specific fields from the article
      */
     omit?: articleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
     /**
      * The data needed to update a article.
      */
@@ -4368,10 +4053,6 @@ export namespace Prisma {
      */
     omit?: articleOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
-    /**
      * The filter to search for the article to update in case it exists.
      */
     where: articleWhereUniqueInput
@@ -4398,10 +4079,6 @@ export namespace Prisma {
      */
     omit?: articleOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
-    /**
      * Filter which article to delete.
      */
     where: articleWhereUniqueInput
@@ -4422,54 +4099,6 @@ export namespace Prisma {
   }
 
   /**
-   * article.interests
-   */
-  export type article$interestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ArticleInterest
-     */
-    select?: ArticleInterestSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ArticleInterest
-     */
-    omit?: ArticleInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
-    where?: ArticleInterestWhereInput
-    orderBy?: ArticleInterestOrderByWithRelationInput | ArticleInterestOrderByWithRelationInput[]
-    cursor?: ArticleInterestWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ArticleInterestScalarFieldEnum | ArticleInterestScalarFieldEnum[]
-  }
-
-  /**
-   * article.favourites
-   */
-  export type article$favouritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the favourites
-     */
-    select?: favouritesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the favourites
-     */
-    omit?: favouritesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
-    where?: favouritesWhereInput
-    orderBy?: favouritesOrderByWithRelationInput | favouritesOrderByWithRelationInput[]
-    cursor?: favouritesWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FavouritesScalarFieldEnum | FavouritesScalarFieldEnum[]
-  }
-
-  /**
    * article without action
    */
   export type articleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4481,10 +4110,6 @@ export namespace Prisma {
      * Omit specific fields from the article
      */
     omit?: articleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
   }
 
 
@@ -4662,9 +4287,6 @@ export namespace Prisma {
   export type interestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    articles?: boolean | interest$articlesArgs<ExtArgs>
-    users?: boolean | interest$usersArgs<ExtArgs>
-    _count?: boolean | InterestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["interest"]>
 
 
@@ -4675,18 +4297,10 @@ export namespace Prisma {
   }
 
   export type interestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["interest"]>
-  export type interestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    articles?: boolean | interest$articlesArgs<ExtArgs>
-    users?: boolean | interest$usersArgs<ExtArgs>
-    _count?: boolean | InterestCountOutputTypeDefaultArgs<ExtArgs>
-  }
 
   export type $interestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "interest"
-    objects: {
-      articles: Prisma.$ArticleInterestPayload<ExtArgs>[]
-      users: Prisma.$UserInterestPayload<ExtArgs>[]
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
@@ -5030,8 +4644,6 @@ export namespace Prisma {
    */
   export interface Prisma__interestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    articles<T extends interest$articlesArgs<ExtArgs> = {}>(args?: Subset<T, interest$articlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArticleInterestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    users<T extends interest$usersArgs<ExtArgs> = {}>(args?: Subset<T, interest$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInterestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5080,10 +4692,6 @@ export namespace Prisma {
      */
     omit?: interestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
-    /**
      * Filter, which interest to fetch.
      */
     where: interestWhereUniqueInput
@@ -5102,10 +4710,6 @@ export namespace Prisma {
      */
     omit?: interestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
-    /**
      * Filter, which interest to fetch.
      */
     where: interestWhereUniqueInput
@@ -5123,10 +4727,6 @@ export namespace Prisma {
      * Omit specific fields from the interest
      */
     omit?: interestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
     /**
      * Filter, which interest to fetch.
      */
@@ -5176,10 +4776,6 @@ export namespace Prisma {
      */
     omit?: interestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
-    /**
      * Filter, which interest to fetch.
      */
     where?: interestWhereInput
@@ -5228,10 +4824,6 @@ export namespace Prisma {
      */
     omit?: interestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
-    /**
      * Filter, which interests to fetch.
      */
     where?: interestWhereInput
@@ -5275,10 +4867,6 @@ export namespace Prisma {
      */
     omit?: interestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
-    /**
      * The data needed to create a interest.
      */
     data: XOR<interestCreateInput, interestUncheckedCreateInput>
@@ -5307,10 +4895,6 @@ export namespace Prisma {
      * Omit specific fields from the interest
      */
     omit?: interestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
     /**
      * The data needed to update a interest.
      */
@@ -5352,10 +4936,6 @@ export namespace Prisma {
      */
     omit?: interestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
-    /**
      * The filter to search for the interest to update in case it exists.
      */
     where: interestWhereUniqueInput
@@ -5382,10 +4962,6 @@ export namespace Prisma {
      */
     omit?: interestOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
-    /**
      * Filter which interest to delete.
      */
     where: interestWhereUniqueInput
@@ -5406,54 +4982,6 @@ export namespace Prisma {
   }
 
   /**
-   * interest.articles
-   */
-  export type interest$articlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ArticleInterest
-     */
-    select?: ArticleInterestSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ArticleInterest
-     */
-    omit?: ArticleInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ArticleInterestInclude<ExtArgs> | null
-    where?: ArticleInterestWhereInput
-    orderBy?: ArticleInterestOrderByWithRelationInput | ArticleInterestOrderByWithRelationInput[]
-    cursor?: ArticleInterestWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ArticleInterestScalarFieldEnum | ArticleInterestScalarFieldEnum[]
-  }
-
-  /**
-   * interest.users
-   */
-  export type interest$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserInterest
-     */
-    select?: UserInterestSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserInterest
-     */
-    omit?: UserInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
-    where?: UserInterestWhereInput
-    orderBy?: UserInterestOrderByWithRelationInput | UserInterestOrderByWithRelationInput[]
-    cursor?: UserInterestWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserInterestScalarFieldEnum | UserInterestScalarFieldEnum[]
-  }
-
-  /**
    * interest without action
    */
   export type interestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5465,10 +4993,6 @@ export namespace Prisma {
      * Omit specific fields from the interest
      */
     omit?: interestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: interestInclude<ExtArgs> | null
   }
 
 
@@ -5634,7 +5158,7 @@ export namespace Prisma {
   export type PublicistGroupByOutputType = {
     id: number
     name: string
-    user_id: string | null
+    user_id: string
     accepted: boolean
     _count: PublicistCountAggregateOutputType | null
     _avg: PublicistAvgAggregateOutputType | null
@@ -5662,9 +5186,7 @@ export namespace Prisma {
     name?: boolean
     user_id?: boolean
     accepted?: boolean
-    article?: boolean | publicist$articleArgs<ExtArgs>
-    user?: boolean | publicist$userArgs<ExtArgs>
-    _count?: boolean | PublicistCountOutputTypeDefaultArgs<ExtArgs>
+    user?: boolean | userDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["publicist"]>
 
 
@@ -5678,21 +5200,18 @@ export namespace Prisma {
 
   export type publicistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "user_id" | "accepted", ExtArgs["result"]["publicist"]>
   export type publicistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    article?: boolean | publicist$articleArgs<ExtArgs>
-    user?: boolean | publicist$userArgs<ExtArgs>
-    _count?: boolean | PublicistCountOutputTypeDefaultArgs<ExtArgs>
+    user?: boolean | userDefaultArgs<ExtArgs>
   }
 
   export type $publicistPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "publicist"
     objects: {
-      article: Prisma.$articlePayload<ExtArgs>[]
-      user: Prisma.$userPayload<ExtArgs> | null
+      user: Prisma.$userPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
-      user_id: string | null
+      user_id: string
       accepted: boolean
     }, ExtArgs["result"]["publicist"]>
     composites: {}
@@ -6034,8 +5553,7 @@ export namespace Prisma {
    */
   export interface Prisma__publicistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    article<T extends publicist$articleArgs<ExtArgs> = {}>(args?: Subset<T, publicist$articleArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    user<T extends publicist$userArgs<ExtArgs> = {}>(args?: Subset<T, publicist$userArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends userDefaultArgs<ExtArgs> = {}>(args?: Subset<T, userDefaultArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6412,49 +5930,6 @@ export namespace Prisma {
   }
 
   /**
-   * publicist.article
-   */
-  export type publicist$articleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the article
-     */
-    select?: articleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the article
-     */
-    omit?: articleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
-    where?: articleWhereInput
-    orderBy?: articleOrderByWithRelationInput | articleOrderByWithRelationInput[]
-    cursor?: articleWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
-  }
-
-  /**
-   * publicist.user
-   */
-  export type publicist$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the user
-     */
-    select?: userSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the user
-     */
-    omit?: userOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: userInclude<ExtArgs> | null
-    where?: userWhereInput
-  }
-
-  /**
    * publicist without action
    */
   export type publicistDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6645,11 +6120,7 @@ export namespace Prisma {
     name?: boolean
     isAdmin?: boolean
     deleted?: boolean
-    favourites?: boolean | user$favouritesArgs<ExtArgs>
-    mediums?: boolean | user$mediumsArgs<ExtArgs>
     publicist?: boolean | user$publicistArgs<ExtArgs>
-    interests?: boolean | user$interestsArgs<ExtArgs>
-    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
 
@@ -6665,20 +6136,13 @@ export namespace Prisma {
 
   export type userOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "isAdmin" | "deleted", ExtArgs["result"]["user"]>
   export type userInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    favourites?: boolean | user$favouritesArgs<ExtArgs>
-    mediums?: boolean | user$mediumsArgs<ExtArgs>
     publicist?: boolean | user$publicistArgs<ExtArgs>
-    interests?: boolean | user$interestsArgs<ExtArgs>
-    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $userPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "user"
     objects: {
-      favourites: Prisma.$favouritesPayload<ExtArgs>[]
-      mediums: Prisma.$mediumsPayload<ExtArgs>[]
-      publicist: Prisma.$publicistPayload<ExtArgs>[]
-      interests: Prisma.$UserInterestPayload<ExtArgs>[]
+      publicist: Prisma.$publicistPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7027,10 +6491,7 @@ export namespace Prisma {
    */
   export interface Prisma__userClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    favourites<T extends user$favouritesArgs<ExtArgs> = {}>(args?: Subset<T, user$favouritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$favouritesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    mediums<T extends user$mediumsArgs<ExtArgs> = {}>(args?: Subset<T, user$mediumsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$mediumsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    publicist<T extends user$publicistArgs<ExtArgs> = {}>(args?: Subset<T, user$publicistArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$publicistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    interests<T extends user$interestsArgs<ExtArgs> = {}>(args?: Subset<T, user$interestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInterestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    publicist<T extends user$publicistArgs<ExtArgs> = {}>(args?: Subset<T, user$publicistArgs<ExtArgs>>): Prisma__publicistClient<$Result.GetResult<Prisma.$publicistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7409,54 +6870,6 @@ export namespace Prisma {
   }
 
   /**
-   * user.favourites
-   */
-  export type user$favouritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the favourites
-     */
-    select?: favouritesSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the favourites
-     */
-    omit?: favouritesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
-    where?: favouritesWhereInput
-    orderBy?: favouritesOrderByWithRelationInput | favouritesOrderByWithRelationInput[]
-    cursor?: favouritesWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FavouritesScalarFieldEnum | FavouritesScalarFieldEnum[]
-  }
-
-  /**
-   * user.mediums
-   */
-  export type user$mediumsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the mediums
-     */
-    select?: mediumsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the mediums
-     */
-    omit?: mediumsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
-    where?: mediumsWhereInput
-    orderBy?: mediumsOrderByWithRelationInput | mediumsOrderByWithRelationInput[]
-    cursor?: mediumsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MediumsScalarFieldEnum | MediumsScalarFieldEnum[]
-  }
-
-  /**
    * user.publicist
    */
   export type user$publicistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7473,35 +6886,6 @@ export namespace Prisma {
      */
     include?: publicistInclude<ExtArgs> | null
     where?: publicistWhereInput
-    orderBy?: publicistOrderByWithRelationInput | publicistOrderByWithRelationInput[]
-    cursor?: publicistWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PublicistScalarFieldEnum | PublicistScalarFieldEnum[]
-  }
-
-  /**
-   * user.interests
-   */
-  export type user$interestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserInterest
-     */
-    select?: UserInterestSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserInterest
-     */
-    omit?: UserInterestOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInterestInclude<ExtArgs> | null
-    where?: UserInterestWhereInput
-    orderBy?: UserInterestOrderByWithRelationInput | UserInterestOrderByWithRelationInput[]
-    cursor?: UserInterestWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserInterestScalarFieldEnum | UserInterestScalarFieldEnum[]
   }
 
   /**
@@ -7709,8 +7093,6 @@ export namespace Prisma {
     id?: boolean
     user_id?: boolean
     article_id?: boolean
-    article?: boolean | favourites$articleArgs<ExtArgs>
-    user?: boolean | favourites$userArgs<ExtArgs>
   }, ExtArgs["result"]["favourites"]>
 
 
@@ -7722,17 +7104,10 @@ export namespace Prisma {
   }
 
   export type favouritesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "article_id", ExtArgs["result"]["favourites"]>
-  export type favouritesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    article?: boolean | favourites$articleArgs<ExtArgs>
-    user?: boolean | favourites$userArgs<ExtArgs>
-  }
 
   export type $favouritesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "favourites"
-    objects: {
-      article: Prisma.$articlePayload<ExtArgs> | null
-      user: Prisma.$userPayload<ExtArgs> | null
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
       user_id: string | null
@@ -8077,8 +7452,6 @@ export namespace Prisma {
    */
   export interface Prisma__favouritesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    article<T extends favourites$articleArgs<ExtArgs> = {}>(args?: Subset<T, favourites$articleArgs<ExtArgs>>): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    user<T extends favourites$userArgs<ExtArgs> = {}>(args?: Subset<T, favourites$userArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8128,10 +7501,6 @@ export namespace Prisma {
      */
     omit?: favouritesOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
-    /**
      * Filter, which favourites to fetch.
      */
     where: favouritesWhereUniqueInput
@@ -8150,10 +7519,6 @@ export namespace Prisma {
      */
     omit?: favouritesOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
-    /**
      * Filter, which favourites to fetch.
      */
     where: favouritesWhereUniqueInput
@@ -8171,10 +7536,6 @@ export namespace Prisma {
      * Omit specific fields from the favourites
      */
     omit?: favouritesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
     /**
      * Filter, which favourites to fetch.
      */
@@ -8224,10 +7585,6 @@ export namespace Prisma {
      */
     omit?: favouritesOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
-    /**
      * Filter, which favourites to fetch.
      */
     where?: favouritesWhereInput
@@ -8276,10 +7633,6 @@ export namespace Prisma {
      */
     omit?: favouritesOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
-    /**
      * Filter, which favourites to fetch.
      */
     where?: favouritesWhereInput
@@ -8323,10 +7676,6 @@ export namespace Prisma {
      */
     omit?: favouritesOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
-    /**
      * The data needed to create a favourites.
      */
     data?: XOR<favouritesCreateInput, favouritesUncheckedCreateInput>
@@ -8355,10 +7704,6 @@ export namespace Prisma {
      * Omit specific fields from the favourites
      */
     omit?: favouritesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
     /**
      * The data needed to update a favourites.
      */
@@ -8400,10 +7745,6 @@ export namespace Prisma {
      */
     omit?: favouritesOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
-    /**
      * The filter to search for the favourites to update in case it exists.
      */
     where: favouritesWhereUniqueInput
@@ -8430,10 +7771,6 @@ export namespace Prisma {
      */
     omit?: favouritesOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
-    /**
      * Filter which favourites to delete.
      */
     where: favouritesWhereUniqueInput
@@ -8454,44 +7791,6 @@ export namespace Prisma {
   }
 
   /**
-   * favourites.article
-   */
-  export type favourites$articleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the article
-     */
-    select?: articleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the article
-     */
-    omit?: articleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: articleInclude<ExtArgs> | null
-    where?: articleWhereInput
-  }
-
-  /**
-   * favourites.user
-   */
-  export type favourites$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the user
-     */
-    select?: userSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the user
-     */
-    omit?: userOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: userInclude<ExtArgs> | null
-    where?: userWhereInput
-  }
-
-  /**
    * favourites without action
    */
   export type favouritesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8503,10 +7802,6 @@ export namespace Prisma {
      * Omit specific fields from the favourites
      */
     omit?: favouritesOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: favouritesInclude<ExtArgs> | null
   }
 
 
@@ -8700,7 +7995,6 @@ export namespace Prisma {
     name?: boolean
     active?: boolean
     user_id?: boolean
-    user?: boolean | userDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mediums"]>
 
 
@@ -8713,15 +8007,10 @@ export namespace Prisma {
   }
 
   export type mediumsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "active" | "user_id", ExtArgs["result"]["mediums"]>
-  export type mediumsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | userDefaultArgs<ExtArgs>
-  }
 
   export type $mediumsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "mediums"
-    objects: {
-      user: Prisma.$userPayload<ExtArgs>
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
@@ -9067,7 +8356,6 @@ export namespace Prisma {
    */
   export interface Prisma__mediumsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends userDefaultArgs<ExtArgs> = {}>(args?: Subset<T, userDefaultArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9118,10 +8406,6 @@ export namespace Prisma {
      */
     omit?: mediumsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
-    /**
      * Filter, which mediums to fetch.
      */
     where: mediumsWhereUniqueInput
@@ -9140,10 +8424,6 @@ export namespace Prisma {
      */
     omit?: mediumsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
-    /**
      * Filter, which mediums to fetch.
      */
     where: mediumsWhereUniqueInput
@@ -9161,10 +8441,6 @@ export namespace Prisma {
      * Omit specific fields from the mediums
      */
     omit?: mediumsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
     /**
      * Filter, which mediums to fetch.
      */
@@ -9214,10 +8490,6 @@ export namespace Prisma {
      */
     omit?: mediumsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
-    /**
      * Filter, which mediums to fetch.
      */
     where?: mediumsWhereInput
@@ -9266,10 +8538,6 @@ export namespace Prisma {
      */
     omit?: mediumsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
-    /**
      * Filter, which mediums to fetch.
      */
     where?: mediumsWhereInput
@@ -9313,10 +8581,6 @@ export namespace Prisma {
      */
     omit?: mediumsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
-    /**
      * The data needed to create a mediums.
      */
     data: XOR<mediumsCreateInput, mediumsUncheckedCreateInput>
@@ -9345,10 +8609,6 @@ export namespace Prisma {
      * Omit specific fields from the mediums
      */
     omit?: mediumsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
     /**
      * The data needed to update a mediums.
      */
@@ -9390,10 +8650,6 @@ export namespace Prisma {
      */
     omit?: mediumsOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
-    /**
      * The filter to search for the mediums to update in case it exists.
      */
     where: mediumsWhereUniqueInput
@@ -9419,10 +8675,6 @@ export namespace Prisma {
      * Omit specific fields from the mediums
      */
     omit?: mediumsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
     /**
      * Filter which mediums to delete.
      */
@@ -9455,10 +8707,6 @@ export namespace Prisma {
      * Omit specific fields from the mediums
      */
     omit?: mediumsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: mediumsInclude<ExtArgs> | null
   }
 
 
@@ -9581,20 +8829,20 @@ export namespace Prisma {
   export type interestOrderByRelevanceFieldEnum = (typeof interestOrderByRelevanceFieldEnum)[keyof typeof interestOrderByRelevanceFieldEnum]
 
 
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
   export const publicistOrderByRelevanceFieldEnum: {
     name: 'name',
     user_id: 'user_id'
   };
 
   export type publicistOrderByRelevanceFieldEnum = (typeof publicistOrderByRelevanceFieldEnum)[keyof typeof publicistOrderByRelevanceFieldEnum]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   export const userOrderByRelevanceFieldEnum: {
@@ -9664,15 +8912,11 @@ export namespace Prisma {
     NOT?: UserInterestWhereInput | UserInterestWhereInput[]
     userId?: StringFilter<"UserInterest"> | string
     interestId?: IntFilter<"UserInterest"> | number
-    interest?: XOR<InterestScalarRelationFilter, interestWhereInput>
-    user?: XOR<UserScalarRelationFilter, userWhereInput>
   }
 
   export type UserInterestOrderByWithRelationInput = {
     userId?: SortOrder
     interestId?: SortOrder
-    interest?: interestOrderByWithRelationInput
-    user?: userOrderByWithRelationInput
     _relevance?: UserInterestOrderByRelevanceInput
   }
 
@@ -9683,8 +8927,6 @@ export namespace Prisma {
     NOT?: UserInterestWhereInput | UserInterestWhereInput[]
     userId?: StringFilter<"UserInterest"> | string
     interestId?: IntFilter<"UserInterest"> | number
-    interest?: XOR<InterestScalarRelationFilter, interestWhereInput>
-    user?: XOR<UserScalarRelationFilter, userWhereInput>
   }, "userId_interestId">
 
   export type UserInterestOrderByWithAggregationInput = {
@@ -9711,15 +8953,11 @@ export namespace Prisma {
     NOT?: ArticleInterestWhereInput | ArticleInterestWhereInput[]
     articleId?: IntFilter<"ArticleInterest"> | number
     interestId?: IntFilter<"ArticleInterest"> | number
-    article?: XOR<ArticleScalarRelationFilter, articleWhereInput>
-    interest?: XOR<InterestScalarRelationFilter, interestWhereInput>
   }
 
   export type ArticleInterestOrderByWithRelationInput = {
     articleId?: SortOrder
     interestId?: SortOrder
-    article?: articleOrderByWithRelationInput
-    interest?: interestOrderByWithRelationInput
   }
 
   export type ArticleInterestWhereUniqueInput = Prisma.AtLeast<{
@@ -9729,8 +8967,6 @@ export namespace Prisma {
     NOT?: ArticleInterestWhereInput | ArticleInterestWhereInput[]
     articleId?: IntFilter<"ArticleInterest"> | number
     interestId?: IntFilter<"ArticleInterest"> | number
-    article?: XOR<ArticleScalarRelationFilter, articleWhereInput>
-    interest?: XOR<InterestScalarRelationFilter, interestWhereInput>
   }, "articleId_interestId">
 
   export type ArticleInterestOrderByWithAggregationInput = {
@@ -9759,9 +8995,6 @@ export namespace Prisma {
     title?: StringFilter<"article"> | string
     publicistId?: IntFilter<"article"> | number
     content?: StringFilter<"article"> | string
-    publicist?: XOR<PublicistScalarRelationFilter, publicistWhereInput>
-    interests?: ArticleInterestListRelationFilter
-    favourites?: FavouritesListRelationFilter
   }
 
   export type articleOrderByWithRelationInput = {
@@ -9769,9 +9002,6 @@ export namespace Prisma {
     title?: SortOrder
     publicistId?: SortOrder
     content?: SortOrder
-    publicist?: publicistOrderByWithRelationInput
-    interests?: ArticleInterestOrderByRelationAggregateInput
-    favourites?: favouritesOrderByRelationAggregateInput
     _relevance?: articleOrderByRelevanceInput
   }
 
@@ -9783,9 +9013,6 @@ export namespace Prisma {
     title?: StringFilter<"article"> | string
     publicistId?: IntFilter<"article"> | number
     content?: StringFilter<"article"> | string
-    publicist?: XOR<PublicistScalarRelationFilter, publicistWhereInput>
-    interests?: ArticleInterestListRelationFilter
-    favourites?: FavouritesListRelationFilter
   }, "id">
 
   export type articleOrderByWithAggregationInput = {
@@ -9816,15 +9043,11 @@ export namespace Prisma {
     NOT?: interestWhereInput | interestWhereInput[]
     id?: IntFilter<"interest"> | number
     name?: StringFilter<"interest"> | string
-    articles?: ArticleInterestListRelationFilter
-    users?: UserInterestListRelationFilter
   }
 
   export type interestOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    articles?: ArticleInterestOrderByRelationAggregateInput
-    users?: UserInterestOrderByRelationAggregateInput
     _relevance?: interestOrderByRelevanceInput
   }
 
@@ -9834,8 +9057,6 @@ export namespace Prisma {
     OR?: interestWhereInput[]
     NOT?: interestWhereInput | interestWhereInput[]
     name?: StringFilter<"interest"> | string
-    articles?: ArticleInterestListRelationFilter
-    users?: UserInterestListRelationFilter
   }, "id">
 
   export type interestOrderByWithAggregationInput = {
@@ -9862,38 +9083,35 @@ export namespace Prisma {
     NOT?: publicistWhereInput | publicistWhereInput[]
     id?: IntFilter<"publicist"> | number
     name?: StringFilter<"publicist"> | string
-    user_id?: StringNullableFilter<"publicist"> | string | null
+    user_id?: StringFilter<"publicist"> | string
     accepted?: BoolFilter<"publicist"> | boolean
-    article?: ArticleListRelationFilter
-    user?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, userWhereInput>
   }
 
   export type publicistOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    user_id?: SortOrderInput | SortOrder
+    user_id?: SortOrder
     accepted?: SortOrder
-    article?: articleOrderByRelationAggregateInput
     user?: userOrderByWithRelationInput
     _relevance?: publicistOrderByRelevanceInput
   }
 
   export type publicistWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    user_id?: string
     AND?: publicistWhereInput | publicistWhereInput[]
     OR?: publicistWhereInput[]
     NOT?: publicistWhereInput | publicistWhereInput[]
     name?: StringFilter<"publicist"> | string
-    user_id?: StringNullableFilter<"publicist"> | string | null
     accepted?: BoolFilter<"publicist"> | boolean
-    article?: ArticleListRelationFilter
-    user?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
-  }, "id">
+    user?: XOR<UserScalarRelationFilter, userWhereInput>
+  }, "id" | "user_id">
 
   export type publicistOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    user_id?: SortOrderInput | SortOrder
+    user_id?: SortOrder
     accepted?: SortOrder
     _count?: publicistCountOrderByAggregateInput
     _avg?: publicistAvgOrderByAggregateInput
@@ -9908,7 +9126,7 @@ export namespace Prisma {
     NOT?: publicistScalarWhereWithAggregatesInput | publicistScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"publicist"> | number
     name?: StringWithAggregatesFilter<"publicist"> | string
-    user_id?: StringNullableWithAggregatesFilter<"publicist"> | string | null
+    user_id?: StringWithAggregatesFilter<"publicist"> | string
     accepted?: BoolWithAggregatesFilter<"publicist"> | boolean
   }
 
@@ -9922,10 +9140,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"user"> | string | null
     isAdmin?: BoolFilter<"user"> | boolean
     deleted?: BoolFilter<"user"> | boolean
-    favourites?: FavouritesListRelationFilter
-    mediums?: MediumsListRelationFilter
-    publicist?: PublicistListRelationFilter
-    interests?: UserInterestListRelationFilter
+    publicist?: XOR<PublicistNullableScalarRelationFilter, publicistWhereInput> | null
   }
 
   export type userOrderByWithRelationInput = {
@@ -9935,10 +9150,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     isAdmin?: SortOrder
     deleted?: SortOrder
-    favourites?: favouritesOrderByRelationAggregateInput
-    mediums?: mediumsOrderByRelationAggregateInput
-    publicist?: publicistOrderByRelationAggregateInput
-    interests?: UserInterestOrderByRelationAggregateInput
+    publicist?: publicistOrderByWithRelationInput
     _relevance?: userOrderByRelevanceInput
   }
 
@@ -9952,10 +9164,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"user"> | string | null
     isAdmin?: BoolFilter<"user"> | boolean
     deleted?: BoolFilter<"user"> | boolean
-    favourites?: FavouritesListRelationFilter
-    mediums?: MediumsListRelationFilter
-    publicist?: PublicistListRelationFilter
-    interests?: UserInterestListRelationFilter
+    publicist?: XOR<PublicistNullableScalarRelationFilter, publicistWhereInput> | null
   }, "id" | "id" | "email">
 
   export type userOrderByWithAggregationInput = {
@@ -9989,16 +9198,12 @@ export namespace Prisma {
     id?: IntFilter<"favourites"> | number
     user_id?: StringNullableFilter<"favourites"> | string | null
     article_id?: IntNullableFilter<"favourites"> | number | null
-    article?: XOR<ArticleNullableScalarRelationFilter, articleWhereInput> | null
-    user?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
   }
 
   export type favouritesOrderByWithRelationInput = {
     id?: SortOrder
     user_id?: SortOrderInput | SortOrder
     article_id?: SortOrderInput | SortOrder
-    article?: articleOrderByWithRelationInput
-    user?: userOrderByWithRelationInput
     _relevance?: favouritesOrderByRelevanceInput
   }
 
@@ -10010,8 +9215,6 @@ export namespace Prisma {
     NOT?: favouritesWhereInput | favouritesWhereInput[]
     user_id?: StringNullableFilter<"favourites"> | string | null
     article_id?: IntNullableFilter<"favourites"> | number | null
-    article?: XOR<ArticleNullableScalarRelationFilter, articleWhereInput> | null
-    user?: XOR<UserNullableScalarRelationFilter, userWhereInput> | null
   }, "id" | "user_id_article_id">
 
   export type favouritesOrderByWithAggregationInput = {
@@ -10042,7 +9245,6 @@ export namespace Prisma {
     name?: StringFilter<"mediums"> | string
     active?: BoolFilter<"mediums"> | boolean
     user_id?: StringFilter<"mediums"> | string
-    user?: XOR<UserScalarRelationFilter, userWhereInput>
   }
 
   export type mediumsOrderByWithRelationInput = {
@@ -10050,7 +9252,6 @@ export namespace Prisma {
     name?: SortOrder
     active?: SortOrder
     user_id?: SortOrder
-    user?: userOrderByWithRelationInput
     _relevance?: mediumsOrderByRelevanceInput
   }
 
@@ -10062,7 +9263,6 @@ export namespace Prisma {
     name?: StringFilter<"mediums"> | string
     active?: BoolFilter<"mediums"> | boolean
     user_id?: StringFilter<"mediums"> | string
-    user?: XOR<UserScalarRelationFilter, userWhereInput>
   }, "id">
 
   export type mediumsOrderByWithAggregationInput = {
@@ -10088,8 +9288,8 @@ export namespace Prisma {
   }
 
   export type UserInterestCreateInput = {
-    interest: interestCreateNestedOneWithoutUsersInput
-    user: userCreateNestedOneWithoutInterestsInput
+    userId: string
+    interestId: number
   }
 
   export type UserInterestUncheckedCreateInput = {
@@ -10098,8 +9298,8 @@ export namespace Prisma {
   }
 
   export type UserInterestUpdateInput = {
-    interest?: interestUpdateOneRequiredWithoutUsersNestedInput
-    user?: userUpdateOneRequiredWithoutInterestsNestedInput
+    userId?: StringFieldUpdateOperationsInput | string
+    interestId?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserInterestUncheckedUpdateInput = {
@@ -10113,7 +9313,8 @@ export namespace Prisma {
   }
 
   export type UserInterestUpdateManyMutationInput = {
-
+    userId?: StringFieldUpdateOperationsInput | string
+    interestId?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserInterestUncheckedUpdateManyInput = {
@@ -10122,8 +9323,8 @@ export namespace Prisma {
   }
 
   export type ArticleInterestCreateInput = {
-    article: articleCreateNestedOneWithoutInterestsInput
-    interest: interestCreateNestedOneWithoutArticlesInput
+    articleId: number
+    interestId: number
   }
 
   export type ArticleInterestUncheckedCreateInput = {
@@ -10132,8 +9333,8 @@ export namespace Prisma {
   }
 
   export type ArticleInterestUpdateInput = {
-    article?: articleUpdateOneRequiredWithoutInterestsNestedInput
-    interest?: interestUpdateOneRequiredWithoutArticlesNestedInput
+    articleId?: IntFieldUpdateOperationsInput | number
+    interestId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ArticleInterestUncheckedUpdateInput = {
@@ -10147,7 +9348,8 @@ export namespace Prisma {
   }
 
   export type ArticleInterestUpdateManyMutationInput = {
-
+    articleId?: IntFieldUpdateOperationsInput | number
+    interestId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ArticleInterestUncheckedUpdateManyInput = {
@@ -10157,10 +9359,8 @@ export namespace Prisma {
 
   export type articleCreateInput = {
     title: string
+    publicistId: number
     content: string
-    publicist: publicistCreateNestedOneWithoutArticleInput
-    interests?: ArticleInterestCreateNestedManyWithoutArticleInput
-    favourites?: favouritesCreateNestedManyWithoutArticleInput
   }
 
   export type articleUncheckedCreateInput = {
@@ -10168,16 +9368,12 @@ export namespace Prisma {
     title: string
     publicistId: number
     content: string
-    interests?: ArticleInterestUncheckedCreateNestedManyWithoutArticleInput
-    favourites?: favouritesUncheckedCreateNestedManyWithoutArticleInput
   }
 
   export type articleUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
+    publicistId?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
-    publicist?: publicistUpdateOneRequiredWithoutArticleNestedInput
-    interests?: ArticleInterestUpdateManyWithoutArticleNestedInput
-    favourites?: favouritesUpdateManyWithoutArticleNestedInput
   }
 
   export type articleUncheckedUpdateInput = {
@@ -10185,8 +9381,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     publicistId?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
-    interests?: ArticleInterestUncheckedUpdateManyWithoutArticleNestedInput
-    favourites?: favouritesUncheckedUpdateManyWithoutArticleNestedInput
   }
 
   export type articleCreateManyInput = {
@@ -10198,6 +9392,7 @@ export namespace Prisma {
 
   export type articleUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
+    publicistId?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
   }
 
@@ -10210,28 +9405,20 @@ export namespace Prisma {
 
   export type interestCreateInput = {
     name: string
-    articles?: ArticleInterestCreateNestedManyWithoutInterestInput
-    users?: UserInterestCreateNestedManyWithoutInterestInput
   }
 
   export type interestUncheckedCreateInput = {
     id?: number
     name: string
-    articles?: ArticleInterestUncheckedCreateNestedManyWithoutInterestInput
-    users?: UserInterestUncheckedCreateNestedManyWithoutInterestInput
   }
 
   export type interestUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
-    articles?: ArticleInterestUpdateManyWithoutInterestNestedInput
-    users?: UserInterestUpdateManyWithoutInterestNestedInput
   }
 
   export type interestUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    articles?: ArticleInterestUncheckedUpdateManyWithoutInterestNestedInput
-    users?: UserInterestUncheckedUpdateManyWithoutInterestNestedInput
   }
 
   export type interestCreateManyInput = {
@@ -10251,37 +9438,33 @@ export namespace Prisma {
   export type publicistCreateInput = {
     name: string
     accepted?: boolean
-    article?: articleCreateNestedManyWithoutPublicistInput
-    user?: userCreateNestedOneWithoutPublicistInput
+    user: userCreateNestedOneWithoutPublicistInput
   }
 
   export type publicistUncheckedCreateInput = {
     id?: number
     name: string
-    user_id?: string | null
+    user_id: string
     accepted?: boolean
-    article?: articleUncheckedCreateNestedManyWithoutPublicistInput
   }
 
   export type publicistUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
-    article?: articleUpdateManyWithoutPublicistNestedInput
-    user?: userUpdateOneWithoutPublicistNestedInput
+    user?: userUpdateOneRequiredWithoutPublicistNestedInput
   }
 
   export type publicistUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
-    article?: articleUncheckedUpdateManyWithoutPublicistNestedInput
   }
 
   export type publicistCreateManyInput = {
     id?: number
     name: string
-    user_id?: string | null
+    user_id: string
     accepted?: boolean
   }
 
@@ -10293,7 +9476,7 @@ export namespace Prisma {
   export type publicistUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -10304,10 +9487,7 @@ export namespace Prisma {
     name?: string | null
     isAdmin?: boolean
     deleted?: boolean
-    favourites?: favouritesCreateNestedManyWithoutUserInput
-    mediums?: mediumsCreateNestedManyWithoutUserInput
-    publicist?: publicistCreateNestedManyWithoutUserInput
-    interests?: UserInterestCreateNestedManyWithoutUserInput
+    publicist?: publicistCreateNestedOneWithoutUserInput
   }
 
   export type userUncheckedCreateInput = {
@@ -10317,10 +9497,7 @@ export namespace Prisma {
     name?: string | null
     isAdmin?: boolean
     deleted?: boolean
-    favourites?: favouritesUncheckedCreateNestedManyWithoutUserInput
-    mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
-    publicist?: publicistUncheckedCreateNestedManyWithoutUserInput
-    interests?: UserInterestUncheckedCreateNestedManyWithoutUserInput
+    publicist?: publicistUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type userUpdateInput = {
@@ -10330,10 +9507,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     deleted?: BoolFieldUpdateOperationsInput | boolean
-    favourites?: favouritesUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUpdateManyWithoutUserNestedInput
-    publicist?: publicistUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUpdateManyWithoutUserNestedInput
+    publicist?: publicistUpdateOneWithoutUserNestedInput
   }
 
   export type userUncheckedUpdateInput = {
@@ -10343,10 +9517,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     deleted?: BoolFieldUpdateOperationsInput | boolean
-    favourites?: favouritesUncheckedUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
-    publicist?: publicistUncheckedUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUncheckedUpdateManyWithoutUserNestedInput
+    publicist?: publicistUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type userCreateManyInput = {
@@ -10377,8 +9548,8 @@ export namespace Prisma {
   }
 
   export type favouritesCreateInput = {
-    article?: articleCreateNestedOneWithoutFavouritesInput
-    user?: userCreateNestedOneWithoutFavouritesInput
+    user_id?: string | null
+    article_id?: number | null
   }
 
   export type favouritesUncheckedCreateInput = {
@@ -10388,8 +9559,8 @@ export namespace Prisma {
   }
 
   export type favouritesUpdateInput = {
-    article?: articleUpdateOneWithoutFavouritesNestedInput
-    user?: userUpdateOneWithoutFavouritesNestedInput
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    article_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type favouritesUncheckedUpdateInput = {
@@ -10405,7 +9576,8 @@ export namespace Prisma {
   }
 
   export type favouritesUpdateManyMutationInput = {
-
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    article_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type favouritesUncheckedUpdateManyInput = {
@@ -10417,7 +9589,7 @@ export namespace Prisma {
   export type mediumsCreateInput = {
     name: string
     active: boolean
-    user: userCreateNestedOneWithoutMediumsInput
+    user_id: string
   }
 
   export type mediumsUncheckedCreateInput = {
@@ -10430,7 +9602,7 @@ export namespace Prisma {
   export type mediumsUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
-    user?: userUpdateOneRequiredWithoutMediumsNestedInput
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type mediumsUncheckedUpdateInput = {
@@ -10450,6 +9622,7 @@ export namespace Prisma {
   export type mediumsUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     active?: BoolFieldUpdateOperationsInput | boolean
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type mediumsUncheckedUpdateManyInput = {
@@ -10483,16 +9656,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type InterestScalarRelationFilter = {
-    is?: interestWhereInput
-    isNot?: interestWhereInput
-  }
-
-  export type UserScalarRelationFilter = {
-    is?: userWhereInput
-    isNot?: userWhereInput
   }
 
   export type UserInterestOrderByRelevanceInput = {
@@ -10563,11 +9726,6 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type ArticleScalarRelationFilter = {
-    is?: articleWhereInput
-    isNot?: articleWhereInput
-  }
-
   export type ArticleInterestArticleIdInterestIdCompoundUniqueInput = {
     articleId: number
     interestId: number
@@ -10596,31 +9754,6 @@ export namespace Prisma {
   export type ArticleInterestSumOrderByAggregateInput = {
     articleId?: SortOrder
     interestId?: SortOrder
-  }
-
-  export type PublicistScalarRelationFilter = {
-    is?: publicistWhereInput
-    isNot?: publicistWhereInput
-  }
-
-  export type ArticleInterestListRelationFilter = {
-    every?: ArticleInterestWhereInput
-    some?: ArticleInterestWhereInput
-    none?: ArticleInterestWhereInput
-  }
-
-  export type FavouritesListRelationFilter = {
-    every?: favouritesWhereInput
-    some?: favouritesWhereInput
-    none?: favouritesWhereInput
-  }
-
-  export type ArticleInterestOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type favouritesOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type articleOrderByRelevanceInput = {
@@ -10660,16 +9793,6 @@ export namespace Prisma {
     publicistId?: SortOrder
   }
 
-  export type UserInterestListRelationFilter = {
-    every?: UserInterestWhereInput
-    some?: UserInterestWhereInput
-    none?: UserInterestWhereInput
-  }
-
-  export type UserInterestOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type interestOrderByRelevanceInput = {
     fields: interestOrderByRelevanceFieldEnum | interestOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -10699,44 +9822,14 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    search?: string
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type ArticleListRelationFilter = {
-    every?: articleWhereInput
-    some?: articleWhereInput
-    none?: articleWhereInput
-  }
-
-  export type UserNullableScalarRelationFilter = {
-    is?: userWhereInput | null
-    isNot?: userWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type articleOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type UserScalarRelationFilter = {
+    is?: userWhereInput
+    isNot?: userWhereInput
   }
 
   export type publicistOrderByRelevanceInput = {
@@ -10774,7 +9867,15 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
     notIn?: string[] | null
@@ -10786,38 +9887,17 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     search?: string
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+  export type PublicistNullableScalarRelationFilter = {
+    is?: publicistWhereInput | null
+    isNot?: publicistWhereInput | null
   }
 
-  export type MediumsListRelationFilter = {
-    every?: mediumsWhereInput
-    some?: mediumsWhereInput
-    none?: mediumsWhereInput
-  }
-
-  export type PublicistListRelationFilter = {
-    every?: publicistWhereInput
-    some?: publicistWhereInput
-    none?: publicistWhereInput
-  }
-
-  export type mediumsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type publicistOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type userOrderByRelevanceInput = {
@@ -10853,6 +9933,24 @@ export namespace Prisma {
     deleted?: SortOrder
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -10862,11 +9960,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type ArticleNullableScalarRelationFilter = {
-    is?: articleWhereInput | null
-    isNot?: articleWhereInput | null
   }
 
   export type favouritesOrderByRelevanceInput = {
@@ -10959,34 +10052,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type interestCreateNestedOneWithoutUsersInput = {
-    create?: XOR<interestCreateWithoutUsersInput, interestUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: interestCreateOrConnectWithoutUsersInput
-    connect?: interestWhereUniqueInput
-  }
-
-  export type userCreateNestedOneWithoutInterestsInput = {
-    create?: XOR<userCreateWithoutInterestsInput, userUncheckedCreateWithoutInterestsInput>
-    connectOrCreate?: userCreateOrConnectWithoutInterestsInput
-    connect?: userWhereUniqueInput
-  }
-
-  export type interestUpdateOneRequiredWithoutUsersNestedInput = {
-    create?: XOR<interestCreateWithoutUsersInput, interestUncheckedCreateWithoutUsersInput>
-    connectOrCreate?: interestCreateOrConnectWithoutUsersInput
-    upsert?: interestUpsertWithoutUsersInput
-    connect?: interestWhereUniqueInput
-    update?: XOR<XOR<interestUpdateToOneWithWhereWithoutUsersInput, interestUpdateWithoutUsersInput>, interestUncheckedUpdateWithoutUsersInput>
-  }
-
-  export type userUpdateOneRequiredWithoutInterestsNestedInput = {
-    create?: XOR<userCreateWithoutInterestsInput, userUncheckedCreateWithoutInterestsInput>
-    connectOrCreate?: userCreateOrConnectWithoutInterestsInput
-    upsert?: userUpsertWithoutInterestsInput
-    connect?: userWhereUniqueInput
-    update?: XOR<XOR<userUpdateToOneWithWhereWithoutInterestsInput, userUpdateWithoutInterestsInput>, userUncheckedUpdateWithoutInterestsInput>
-  }
-
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -10999,480 +10064,58 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type articleCreateNestedOneWithoutInterestsInput = {
-    create?: XOR<articleCreateWithoutInterestsInput, articleUncheckedCreateWithoutInterestsInput>
-    connectOrCreate?: articleCreateOrConnectWithoutInterestsInput
-    connect?: articleWhereUniqueInput
-  }
-
-  export type interestCreateNestedOneWithoutArticlesInput = {
-    create?: XOR<interestCreateWithoutArticlesInput, interestUncheckedCreateWithoutArticlesInput>
-    connectOrCreate?: interestCreateOrConnectWithoutArticlesInput
-    connect?: interestWhereUniqueInput
-  }
-
-  export type articleUpdateOneRequiredWithoutInterestsNestedInput = {
-    create?: XOR<articleCreateWithoutInterestsInput, articleUncheckedCreateWithoutInterestsInput>
-    connectOrCreate?: articleCreateOrConnectWithoutInterestsInput
-    upsert?: articleUpsertWithoutInterestsInput
-    connect?: articleWhereUniqueInput
-    update?: XOR<XOR<articleUpdateToOneWithWhereWithoutInterestsInput, articleUpdateWithoutInterestsInput>, articleUncheckedUpdateWithoutInterestsInput>
-  }
-
-  export type interestUpdateOneRequiredWithoutArticlesNestedInput = {
-    create?: XOR<interestCreateWithoutArticlesInput, interestUncheckedCreateWithoutArticlesInput>
-    connectOrCreate?: interestCreateOrConnectWithoutArticlesInput
-    upsert?: interestUpsertWithoutArticlesInput
-    connect?: interestWhereUniqueInput
-    update?: XOR<XOR<interestUpdateToOneWithWhereWithoutArticlesInput, interestUpdateWithoutArticlesInput>, interestUncheckedUpdateWithoutArticlesInput>
-  }
-
-  export type publicistCreateNestedOneWithoutArticleInput = {
-    create?: XOR<publicistCreateWithoutArticleInput, publicistUncheckedCreateWithoutArticleInput>
-    connectOrCreate?: publicistCreateOrConnectWithoutArticleInput
-    connect?: publicistWhereUniqueInput
-  }
-
-  export type ArticleInterestCreateNestedManyWithoutArticleInput = {
-    create?: XOR<ArticleInterestCreateWithoutArticleInput, ArticleInterestUncheckedCreateWithoutArticleInput> | ArticleInterestCreateWithoutArticleInput[] | ArticleInterestUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleInterestCreateOrConnectWithoutArticleInput | ArticleInterestCreateOrConnectWithoutArticleInput[]
-    createMany?: ArticleInterestCreateManyArticleInputEnvelope
-    connect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-  }
-
-  export type favouritesCreateNestedManyWithoutArticleInput = {
-    create?: XOR<favouritesCreateWithoutArticleInput, favouritesUncheckedCreateWithoutArticleInput> | favouritesCreateWithoutArticleInput[] | favouritesUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: favouritesCreateOrConnectWithoutArticleInput | favouritesCreateOrConnectWithoutArticleInput[]
-    createMany?: favouritesCreateManyArticleInputEnvelope
-    connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-  }
-
-  export type ArticleInterestUncheckedCreateNestedManyWithoutArticleInput = {
-    create?: XOR<ArticleInterestCreateWithoutArticleInput, ArticleInterestUncheckedCreateWithoutArticleInput> | ArticleInterestCreateWithoutArticleInput[] | ArticleInterestUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleInterestCreateOrConnectWithoutArticleInput | ArticleInterestCreateOrConnectWithoutArticleInput[]
-    createMany?: ArticleInterestCreateManyArticleInputEnvelope
-    connect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-  }
-
-  export type favouritesUncheckedCreateNestedManyWithoutArticleInput = {
-    create?: XOR<favouritesCreateWithoutArticleInput, favouritesUncheckedCreateWithoutArticleInput> | favouritesCreateWithoutArticleInput[] | favouritesUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: favouritesCreateOrConnectWithoutArticleInput | favouritesCreateOrConnectWithoutArticleInput[]
-    createMany?: favouritesCreateManyArticleInputEnvelope
-    connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-  }
-
-  export type publicistUpdateOneRequiredWithoutArticleNestedInput = {
-    create?: XOR<publicistCreateWithoutArticleInput, publicistUncheckedCreateWithoutArticleInput>
-    connectOrCreate?: publicistCreateOrConnectWithoutArticleInput
-    upsert?: publicistUpsertWithoutArticleInput
-    connect?: publicistWhereUniqueInput
-    update?: XOR<XOR<publicistUpdateToOneWithWhereWithoutArticleInput, publicistUpdateWithoutArticleInput>, publicistUncheckedUpdateWithoutArticleInput>
-  }
-
-  export type ArticleInterestUpdateManyWithoutArticleNestedInput = {
-    create?: XOR<ArticleInterestCreateWithoutArticleInput, ArticleInterestUncheckedCreateWithoutArticleInput> | ArticleInterestCreateWithoutArticleInput[] | ArticleInterestUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleInterestCreateOrConnectWithoutArticleInput | ArticleInterestCreateOrConnectWithoutArticleInput[]
-    upsert?: ArticleInterestUpsertWithWhereUniqueWithoutArticleInput | ArticleInterestUpsertWithWhereUniqueWithoutArticleInput[]
-    createMany?: ArticleInterestCreateManyArticleInputEnvelope
-    set?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    disconnect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    delete?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    connect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    update?: ArticleInterestUpdateWithWhereUniqueWithoutArticleInput | ArticleInterestUpdateWithWhereUniqueWithoutArticleInput[]
-    updateMany?: ArticleInterestUpdateManyWithWhereWithoutArticleInput | ArticleInterestUpdateManyWithWhereWithoutArticleInput[]
-    deleteMany?: ArticleInterestScalarWhereInput | ArticleInterestScalarWhereInput[]
-  }
-
-  export type favouritesUpdateManyWithoutArticleNestedInput = {
-    create?: XOR<favouritesCreateWithoutArticleInput, favouritesUncheckedCreateWithoutArticleInput> | favouritesCreateWithoutArticleInput[] | favouritesUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: favouritesCreateOrConnectWithoutArticleInput | favouritesCreateOrConnectWithoutArticleInput[]
-    upsert?: favouritesUpsertWithWhereUniqueWithoutArticleInput | favouritesUpsertWithWhereUniqueWithoutArticleInput[]
-    createMany?: favouritesCreateManyArticleInputEnvelope
-    set?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    disconnect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    delete?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    update?: favouritesUpdateWithWhereUniqueWithoutArticleInput | favouritesUpdateWithWhereUniqueWithoutArticleInput[]
-    updateMany?: favouritesUpdateManyWithWhereWithoutArticleInput | favouritesUpdateManyWithWhereWithoutArticleInput[]
-    deleteMany?: favouritesScalarWhereInput | favouritesScalarWhereInput[]
-  }
-
-  export type ArticleInterestUncheckedUpdateManyWithoutArticleNestedInput = {
-    create?: XOR<ArticleInterestCreateWithoutArticleInput, ArticleInterestUncheckedCreateWithoutArticleInput> | ArticleInterestCreateWithoutArticleInput[] | ArticleInterestUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: ArticleInterestCreateOrConnectWithoutArticleInput | ArticleInterestCreateOrConnectWithoutArticleInput[]
-    upsert?: ArticleInterestUpsertWithWhereUniqueWithoutArticleInput | ArticleInterestUpsertWithWhereUniqueWithoutArticleInput[]
-    createMany?: ArticleInterestCreateManyArticleInputEnvelope
-    set?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    disconnect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    delete?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    connect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    update?: ArticleInterestUpdateWithWhereUniqueWithoutArticleInput | ArticleInterestUpdateWithWhereUniqueWithoutArticleInput[]
-    updateMany?: ArticleInterestUpdateManyWithWhereWithoutArticleInput | ArticleInterestUpdateManyWithWhereWithoutArticleInput[]
-    deleteMany?: ArticleInterestScalarWhereInput | ArticleInterestScalarWhereInput[]
-  }
-
-  export type favouritesUncheckedUpdateManyWithoutArticleNestedInput = {
-    create?: XOR<favouritesCreateWithoutArticleInput, favouritesUncheckedCreateWithoutArticleInput> | favouritesCreateWithoutArticleInput[] | favouritesUncheckedCreateWithoutArticleInput[]
-    connectOrCreate?: favouritesCreateOrConnectWithoutArticleInput | favouritesCreateOrConnectWithoutArticleInput[]
-    upsert?: favouritesUpsertWithWhereUniqueWithoutArticleInput | favouritesUpsertWithWhereUniqueWithoutArticleInput[]
-    createMany?: favouritesCreateManyArticleInputEnvelope
-    set?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    disconnect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    delete?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    update?: favouritesUpdateWithWhereUniqueWithoutArticleInput | favouritesUpdateWithWhereUniqueWithoutArticleInput[]
-    updateMany?: favouritesUpdateManyWithWhereWithoutArticleInput | favouritesUpdateManyWithWhereWithoutArticleInput[]
-    deleteMany?: favouritesScalarWhereInput | favouritesScalarWhereInput[]
-  }
-
-  export type ArticleInterestCreateNestedManyWithoutInterestInput = {
-    create?: XOR<ArticleInterestCreateWithoutInterestInput, ArticleInterestUncheckedCreateWithoutInterestInput> | ArticleInterestCreateWithoutInterestInput[] | ArticleInterestUncheckedCreateWithoutInterestInput[]
-    connectOrCreate?: ArticleInterestCreateOrConnectWithoutInterestInput | ArticleInterestCreateOrConnectWithoutInterestInput[]
-    createMany?: ArticleInterestCreateManyInterestInputEnvelope
-    connect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-  }
-
-  export type UserInterestCreateNestedManyWithoutInterestInput = {
-    create?: XOR<UserInterestCreateWithoutInterestInput, UserInterestUncheckedCreateWithoutInterestInput> | UserInterestCreateWithoutInterestInput[] | UserInterestUncheckedCreateWithoutInterestInput[]
-    connectOrCreate?: UserInterestCreateOrConnectWithoutInterestInput | UserInterestCreateOrConnectWithoutInterestInput[]
-    createMany?: UserInterestCreateManyInterestInputEnvelope
-    connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-  }
-
-  export type ArticleInterestUncheckedCreateNestedManyWithoutInterestInput = {
-    create?: XOR<ArticleInterestCreateWithoutInterestInput, ArticleInterestUncheckedCreateWithoutInterestInput> | ArticleInterestCreateWithoutInterestInput[] | ArticleInterestUncheckedCreateWithoutInterestInput[]
-    connectOrCreate?: ArticleInterestCreateOrConnectWithoutInterestInput | ArticleInterestCreateOrConnectWithoutInterestInput[]
-    createMany?: ArticleInterestCreateManyInterestInputEnvelope
-    connect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-  }
-
-  export type UserInterestUncheckedCreateNestedManyWithoutInterestInput = {
-    create?: XOR<UserInterestCreateWithoutInterestInput, UserInterestUncheckedCreateWithoutInterestInput> | UserInterestCreateWithoutInterestInput[] | UserInterestUncheckedCreateWithoutInterestInput[]
-    connectOrCreate?: UserInterestCreateOrConnectWithoutInterestInput | UserInterestCreateOrConnectWithoutInterestInput[]
-    createMany?: UserInterestCreateManyInterestInputEnvelope
-    connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-  }
-
-  export type ArticleInterestUpdateManyWithoutInterestNestedInput = {
-    create?: XOR<ArticleInterestCreateWithoutInterestInput, ArticleInterestUncheckedCreateWithoutInterestInput> | ArticleInterestCreateWithoutInterestInput[] | ArticleInterestUncheckedCreateWithoutInterestInput[]
-    connectOrCreate?: ArticleInterestCreateOrConnectWithoutInterestInput | ArticleInterestCreateOrConnectWithoutInterestInput[]
-    upsert?: ArticleInterestUpsertWithWhereUniqueWithoutInterestInput | ArticleInterestUpsertWithWhereUniqueWithoutInterestInput[]
-    createMany?: ArticleInterestCreateManyInterestInputEnvelope
-    set?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    disconnect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    delete?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    connect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    update?: ArticleInterestUpdateWithWhereUniqueWithoutInterestInput | ArticleInterestUpdateWithWhereUniqueWithoutInterestInput[]
-    updateMany?: ArticleInterestUpdateManyWithWhereWithoutInterestInput | ArticleInterestUpdateManyWithWhereWithoutInterestInput[]
-    deleteMany?: ArticleInterestScalarWhereInput | ArticleInterestScalarWhereInput[]
-  }
-
-  export type UserInterestUpdateManyWithoutInterestNestedInput = {
-    create?: XOR<UserInterestCreateWithoutInterestInput, UserInterestUncheckedCreateWithoutInterestInput> | UserInterestCreateWithoutInterestInput[] | UserInterestUncheckedCreateWithoutInterestInput[]
-    connectOrCreate?: UserInterestCreateOrConnectWithoutInterestInput | UserInterestCreateOrConnectWithoutInterestInput[]
-    upsert?: UserInterestUpsertWithWhereUniqueWithoutInterestInput | UserInterestUpsertWithWhereUniqueWithoutInterestInput[]
-    createMany?: UserInterestCreateManyInterestInputEnvelope
-    set?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    disconnect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    delete?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    update?: UserInterestUpdateWithWhereUniqueWithoutInterestInput | UserInterestUpdateWithWhereUniqueWithoutInterestInput[]
-    updateMany?: UserInterestUpdateManyWithWhereWithoutInterestInput | UserInterestUpdateManyWithWhereWithoutInterestInput[]
-    deleteMany?: UserInterestScalarWhereInput | UserInterestScalarWhereInput[]
-  }
-
-  export type ArticleInterestUncheckedUpdateManyWithoutInterestNestedInput = {
-    create?: XOR<ArticleInterestCreateWithoutInterestInput, ArticleInterestUncheckedCreateWithoutInterestInput> | ArticleInterestCreateWithoutInterestInput[] | ArticleInterestUncheckedCreateWithoutInterestInput[]
-    connectOrCreate?: ArticleInterestCreateOrConnectWithoutInterestInput | ArticleInterestCreateOrConnectWithoutInterestInput[]
-    upsert?: ArticleInterestUpsertWithWhereUniqueWithoutInterestInput | ArticleInterestUpsertWithWhereUniqueWithoutInterestInput[]
-    createMany?: ArticleInterestCreateManyInterestInputEnvelope
-    set?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    disconnect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    delete?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    connect?: ArticleInterestWhereUniqueInput | ArticleInterestWhereUniqueInput[]
-    update?: ArticleInterestUpdateWithWhereUniqueWithoutInterestInput | ArticleInterestUpdateWithWhereUniqueWithoutInterestInput[]
-    updateMany?: ArticleInterestUpdateManyWithWhereWithoutInterestInput | ArticleInterestUpdateManyWithWhereWithoutInterestInput[]
-    deleteMany?: ArticleInterestScalarWhereInput | ArticleInterestScalarWhereInput[]
-  }
-
-  export type UserInterestUncheckedUpdateManyWithoutInterestNestedInput = {
-    create?: XOR<UserInterestCreateWithoutInterestInput, UserInterestUncheckedCreateWithoutInterestInput> | UserInterestCreateWithoutInterestInput[] | UserInterestUncheckedCreateWithoutInterestInput[]
-    connectOrCreate?: UserInterestCreateOrConnectWithoutInterestInput | UserInterestCreateOrConnectWithoutInterestInput[]
-    upsert?: UserInterestUpsertWithWhereUniqueWithoutInterestInput | UserInterestUpsertWithWhereUniqueWithoutInterestInput[]
-    createMany?: UserInterestCreateManyInterestInputEnvelope
-    set?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    disconnect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    delete?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    update?: UserInterestUpdateWithWhereUniqueWithoutInterestInput | UserInterestUpdateWithWhereUniqueWithoutInterestInput[]
-    updateMany?: UserInterestUpdateManyWithWhereWithoutInterestInput | UserInterestUpdateManyWithWhereWithoutInterestInput[]
-    deleteMany?: UserInterestScalarWhereInput | UserInterestScalarWhereInput[]
-  }
-
-  export type articleCreateNestedManyWithoutPublicistInput = {
-    create?: XOR<articleCreateWithoutPublicistInput, articleUncheckedCreateWithoutPublicistInput> | articleCreateWithoutPublicistInput[] | articleUncheckedCreateWithoutPublicistInput[]
-    connectOrCreate?: articleCreateOrConnectWithoutPublicistInput | articleCreateOrConnectWithoutPublicistInput[]
-    createMany?: articleCreateManyPublicistInputEnvelope
-    connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
-  }
-
   export type userCreateNestedOneWithoutPublicistInput = {
     create?: XOR<userCreateWithoutPublicistInput, userUncheckedCreateWithoutPublicistInput>
     connectOrCreate?: userCreateOrConnectWithoutPublicistInput
     connect?: userWhereUniqueInput
   }
 
-  export type articleUncheckedCreateNestedManyWithoutPublicistInput = {
-    create?: XOR<articleCreateWithoutPublicistInput, articleUncheckedCreateWithoutPublicistInput> | articleCreateWithoutPublicistInput[] | articleUncheckedCreateWithoutPublicistInput[]
-    connectOrCreate?: articleCreateOrConnectWithoutPublicistInput | articleCreateOrConnectWithoutPublicistInput[]
-    createMany?: articleCreateManyPublicistInputEnvelope
-    connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
-  }
-
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
 
-  export type articleUpdateManyWithoutPublicistNestedInput = {
-    create?: XOR<articleCreateWithoutPublicistInput, articleUncheckedCreateWithoutPublicistInput> | articleCreateWithoutPublicistInput[] | articleUncheckedCreateWithoutPublicistInput[]
-    connectOrCreate?: articleCreateOrConnectWithoutPublicistInput | articleCreateOrConnectWithoutPublicistInput[]
-    upsert?: articleUpsertWithWhereUniqueWithoutPublicistInput | articleUpsertWithWhereUniqueWithoutPublicistInput[]
-    createMany?: articleCreateManyPublicistInputEnvelope
-    set?: articleWhereUniqueInput | articleWhereUniqueInput[]
-    disconnect?: articleWhereUniqueInput | articleWhereUniqueInput[]
-    delete?: articleWhereUniqueInput | articleWhereUniqueInput[]
-    connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
-    update?: articleUpdateWithWhereUniqueWithoutPublicistInput | articleUpdateWithWhereUniqueWithoutPublicistInput[]
-    updateMany?: articleUpdateManyWithWhereWithoutPublicistInput | articleUpdateManyWithWhereWithoutPublicistInput[]
-    deleteMany?: articleScalarWhereInput | articleScalarWhereInput[]
-  }
-
-  export type userUpdateOneWithoutPublicistNestedInput = {
+  export type userUpdateOneRequiredWithoutPublicistNestedInput = {
     create?: XOR<userCreateWithoutPublicistInput, userUncheckedCreateWithoutPublicistInput>
     connectOrCreate?: userCreateOrConnectWithoutPublicistInput
     upsert?: userUpsertWithoutPublicistInput
-    disconnect?: userWhereInput | boolean
-    delete?: userWhereInput | boolean
     connect?: userWhereUniqueInput
     update?: XOR<XOR<userUpdateToOneWithWhereWithoutPublicistInput, userUpdateWithoutPublicistInput>, userUncheckedUpdateWithoutPublicistInput>
+  }
+
+  export type publicistCreateNestedOneWithoutUserInput = {
+    create?: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput>
+    connectOrCreate?: publicistCreateOrConnectWithoutUserInput
+    connect?: publicistWhereUniqueInput
+  }
+
+  export type publicistUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput>
+    connectOrCreate?: publicistCreateOrConnectWithoutUserInput
+    connect?: publicistWhereUniqueInput
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
 
-  export type articleUncheckedUpdateManyWithoutPublicistNestedInput = {
-    create?: XOR<articleCreateWithoutPublicistInput, articleUncheckedCreateWithoutPublicistInput> | articleCreateWithoutPublicistInput[] | articleUncheckedCreateWithoutPublicistInput[]
-    connectOrCreate?: articleCreateOrConnectWithoutPublicistInput | articleCreateOrConnectWithoutPublicistInput[]
-    upsert?: articleUpsertWithWhereUniqueWithoutPublicistInput | articleUpsertWithWhereUniqueWithoutPublicistInput[]
-    createMany?: articleCreateManyPublicistInputEnvelope
-    set?: articleWhereUniqueInput | articleWhereUniqueInput[]
-    disconnect?: articleWhereUniqueInput | articleWhereUniqueInput[]
-    delete?: articleWhereUniqueInput | articleWhereUniqueInput[]
-    connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
-    update?: articleUpdateWithWhereUniqueWithoutPublicistInput | articleUpdateWithWhereUniqueWithoutPublicistInput[]
-    updateMany?: articleUpdateManyWithWhereWithoutPublicistInput | articleUpdateManyWithWhereWithoutPublicistInput[]
-    deleteMany?: articleScalarWhereInput | articleScalarWhereInput[]
+  export type publicistUpdateOneWithoutUserNestedInput = {
+    create?: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput>
+    connectOrCreate?: publicistCreateOrConnectWithoutUserInput
+    upsert?: publicistUpsertWithoutUserInput
+    disconnect?: publicistWhereInput | boolean
+    delete?: publicistWhereInput | boolean
+    connect?: publicistWhereUniqueInput
+    update?: XOR<XOR<publicistUpdateToOneWithWhereWithoutUserInput, publicistUpdateWithoutUserInput>, publicistUncheckedUpdateWithoutUserInput>
   }
 
-  export type favouritesCreateNestedManyWithoutUserInput = {
-    create?: XOR<favouritesCreateWithoutUserInput, favouritesUncheckedCreateWithoutUserInput> | favouritesCreateWithoutUserInput[] | favouritesUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: favouritesCreateOrConnectWithoutUserInput | favouritesCreateOrConnectWithoutUserInput[]
-    createMany?: favouritesCreateManyUserInputEnvelope
-    connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-  }
-
-  export type mediumsCreateNestedManyWithoutUserInput = {
-    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
-    createMany?: mediumsCreateManyUserInputEnvelope
-    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-  }
-
-  export type publicistCreateNestedManyWithoutUserInput = {
-    create?: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput> | publicistCreateWithoutUserInput[] | publicistUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: publicistCreateOrConnectWithoutUserInput | publicistCreateOrConnectWithoutUserInput[]
-    createMany?: publicistCreateManyUserInputEnvelope
-    connect?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-  }
-
-  export type UserInterestCreateNestedManyWithoutUserInput = {
-    create?: XOR<UserInterestCreateWithoutUserInput, UserInterestUncheckedCreateWithoutUserInput> | UserInterestCreateWithoutUserInput[] | UserInterestUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserInterestCreateOrConnectWithoutUserInput | UserInterestCreateOrConnectWithoutUserInput[]
-    createMany?: UserInterestCreateManyUserInputEnvelope
-    connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-  }
-
-  export type favouritesUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<favouritesCreateWithoutUserInput, favouritesUncheckedCreateWithoutUserInput> | favouritesCreateWithoutUserInput[] | favouritesUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: favouritesCreateOrConnectWithoutUserInput | favouritesCreateOrConnectWithoutUserInput[]
-    createMany?: favouritesCreateManyUserInputEnvelope
-    connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-  }
-
-  export type mediumsUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
-    createMany?: mediumsCreateManyUserInputEnvelope
-    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-  }
-
-  export type publicistUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput> | publicistCreateWithoutUserInput[] | publicistUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: publicistCreateOrConnectWithoutUserInput | publicistCreateOrConnectWithoutUserInput[]
-    createMany?: publicistCreateManyUserInputEnvelope
-    connect?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-  }
-
-  export type UserInterestUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<UserInterestCreateWithoutUserInput, UserInterestUncheckedCreateWithoutUserInput> | UserInterestCreateWithoutUserInput[] | UserInterestUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserInterestCreateOrConnectWithoutUserInput | UserInterestCreateOrConnectWithoutUserInput[]
-    createMany?: UserInterestCreateManyUserInputEnvelope
-    connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-  }
-
-  export type favouritesUpdateManyWithoutUserNestedInput = {
-    create?: XOR<favouritesCreateWithoutUserInput, favouritesUncheckedCreateWithoutUserInput> | favouritesCreateWithoutUserInput[] | favouritesUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: favouritesCreateOrConnectWithoutUserInput | favouritesCreateOrConnectWithoutUserInput[]
-    upsert?: favouritesUpsertWithWhereUniqueWithoutUserInput | favouritesUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: favouritesCreateManyUserInputEnvelope
-    set?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    disconnect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    delete?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    update?: favouritesUpdateWithWhereUniqueWithoutUserInput | favouritesUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: favouritesUpdateManyWithWhereWithoutUserInput | favouritesUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: favouritesScalarWhereInput | favouritesScalarWhereInput[]
-  }
-
-  export type mediumsUpdateManyWithoutUserNestedInput = {
-    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
-    upsert?: mediumsUpsertWithWhereUniqueWithoutUserInput | mediumsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: mediumsCreateManyUserInputEnvelope
-    set?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    disconnect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    delete?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    update?: mediumsUpdateWithWhereUniqueWithoutUserInput | mediumsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: mediumsUpdateManyWithWhereWithoutUserInput | mediumsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
-  }
-
-  export type publicistUpdateManyWithoutUserNestedInput = {
-    create?: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput> | publicistCreateWithoutUserInput[] | publicistUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: publicistCreateOrConnectWithoutUserInput | publicistCreateOrConnectWithoutUserInput[]
-    upsert?: publicistUpsertWithWhereUniqueWithoutUserInput | publicistUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: publicistCreateManyUserInputEnvelope
-    set?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-    disconnect?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-    delete?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-    connect?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-    update?: publicistUpdateWithWhereUniqueWithoutUserInput | publicistUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: publicistUpdateManyWithWhereWithoutUserInput | publicistUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: publicistScalarWhereInput | publicistScalarWhereInput[]
-  }
-
-  export type UserInterestUpdateManyWithoutUserNestedInput = {
-    create?: XOR<UserInterestCreateWithoutUserInput, UserInterestUncheckedCreateWithoutUserInput> | UserInterestCreateWithoutUserInput[] | UserInterestUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserInterestCreateOrConnectWithoutUserInput | UserInterestCreateOrConnectWithoutUserInput[]
-    upsert?: UserInterestUpsertWithWhereUniqueWithoutUserInput | UserInterestUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: UserInterestCreateManyUserInputEnvelope
-    set?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    disconnect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    delete?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    update?: UserInterestUpdateWithWhereUniqueWithoutUserInput | UserInterestUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: UserInterestUpdateManyWithWhereWithoutUserInput | UserInterestUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: UserInterestScalarWhereInput | UserInterestScalarWhereInput[]
-  }
-
-  export type favouritesUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<favouritesCreateWithoutUserInput, favouritesUncheckedCreateWithoutUserInput> | favouritesCreateWithoutUserInput[] | favouritesUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: favouritesCreateOrConnectWithoutUserInput | favouritesCreateOrConnectWithoutUserInput[]
-    upsert?: favouritesUpsertWithWhereUniqueWithoutUserInput | favouritesUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: favouritesCreateManyUserInputEnvelope
-    set?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    disconnect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    delete?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    connect?: favouritesWhereUniqueInput | favouritesWhereUniqueInput[]
-    update?: favouritesUpdateWithWhereUniqueWithoutUserInput | favouritesUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: favouritesUpdateManyWithWhereWithoutUserInput | favouritesUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: favouritesScalarWhereInput | favouritesScalarWhereInput[]
-  }
-
-  export type mediumsUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput> | mediumsCreateWithoutUserInput[] | mediumsUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: mediumsCreateOrConnectWithoutUserInput | mediumsCreateOrConnectWithoutUserInput[]
-    upsert?: mediumsUpsertWithWhereUniqueWithoutUserInput | mediumsUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: mediumsCreateManyUserInputEnvelope
-    set?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    disconnect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    delete?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    connect?: mediumsWhereUniqueInput | mediumsWhereUniqueInput[]
-    update?: mediumsUpdateWithWhereUniqueWithoutUserInput | mediumsUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: mediumsUpdateManyWithWhereWithoutUserInput | mediumsUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
-  }
-
-  export type publicistUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput> | publicistCreateWithoutUserInput[] | publicistUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: publicistCreateOrConnectWithoutUserInput | publicistCreateOrConnectWithoutUserInput[]
-    upsert?: publicistUpsertWithWhereUniqueWithoutUserInput | publicistUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: publicistCreateManyUserInputEnvelope
-    set?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-    disconnect?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-    delete?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-    connect?: publicistWhereUniqueInput | publicistWhereUniqueInput[]
-    update?: publicistUpdateWithWhereUniqueWithoutUserInput | publicistUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: publicistUpdateManyWithWhereWithoutUserInput | publicistUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: publicistScalarWhereInput | publicistScalarWhereInput[]
-  }
-
-  export type UserInterestUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<UserInterestCreateWithoutUserInput, UserInterestUncheckedCreateWithoutUserInput> | UserInterestCreateWithoutUserInput[] | UserInterestUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: UserInterestCreateOrConnectWithoutUserInput | UserInterestCreateOrConnectWithoutUserInput[]
-    upsert?: UserInterestUpsertWithWhereUniqueWithoutUserInput | UserInterestUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: UserInterestCreateManyUserInputEnvelope
-    set?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    disconnect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    delete?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    connect?: UserInterestWhereUniqueInput | UserInterestWhereUniqueInput[]
-    update?: UserInterestUpdateWithWhereUniqueWithoutUserInput | UserInterestUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: UserInterestUpdateManyWithWhereWithoutUserInput | UserInterestUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: UserInterestScalarWhereInput | UserInterestScalarWhereInput[]
-  }
-
-  export type articleCreateNestedOneWithoutFavouritesInput = {
-    create?: XOR<articleCreateWithoutFavouritesInput, articleUncheckedCreateWithoutFavouritesInput>
-    connectOrCreate?: articleCreateOrConnectWithoutFavouritesInput
-    connect?: articleWhereUniqueInput
-  }
-
-  export type userCreateNestedOneWithoutFavouritesInput = {
-    create?: XOR<userCreateWithoutFavouritesInput, userUncheckedCreateWithoutFavouritesInput>
-    connectOrCreate?: userCreateOrConnectWithoutFavouritesInput
-    connect?: userWhereUniqueInput
-  }
-
-  export type articleUpdateOneWithoutFavouritesNestedInput = {
-    create?: XOR<articleCreateWithoutFavouritesInput, articleUncheckedCreateWithoutFavouritesInput>
-    connectOrCreate?: articleCreateOrConnectWithoutFavouritesInput
-    upsert?: articleUpsertWithoutFavouritesInput
-    disconnect?: articleWhereInput | boolean
-    delete?: articleWhereInput | boolean
-    connect?: articleWhereUniqueInput
-    update?: XOR<XOR<articleUpdateToOneWithWhereWithoutFavouritesInput, articleUpdateWithoutFavouritesInput>, articleUncheckedUpdateWithoutFavouritesInput>
-  }
-
-  export type userUpdateOneWithoutFavouritesNestedInput = {
-    create?: XOR<userCreateWithoutFavouritesInput, userUncheckedCreateWithoutFavouritesInput>
-    connectOrCreate?: userCreateOrConnectWithoutFavouritesInput
-    upsert?: userUpsertWithoutFavouritesInput
-    disconnect?: userWhereInput | boolean
-    delete?: userWhereInput | boolean
-    connect?: userWhereUniqueInput
-    update?: XOR<XOR<userUpdateToOneWithWhereWithoutFavouritesInput, userUpdateWithoutFavouritesInput>, userUncheckedUpdateWithoutFavouritesInput>
+  export type publicistUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput>
+    connectOrCreate?: publicistCreateOrConnectWithoutUserInput
+    upsert?: publicistUpsertWithoutUserInput
+    disconnect?: publicistWhereInput | boolean
+    delete?: publicistWhereInput | boolean
+    connect?: publicistWhereUniqueInput
+    update?: XOR<XOR<publicistUpdateToOneWithWhereWithoutUserInput, publicistUpdateWithoutUserInput>, publicistUncheckedUpdateWithoutUserInput>
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -11481,20 +10124,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type userCreateNestedOneWithoutMediumsInput = {
-    create?: XOR<userCreateWithoutMediumsInput, userUncheckedCreateWithoutMediumsInput>
-    connectOrCreate?: userCreateOrConnectWithoutMediumsInput
-    connect?: userWhereUniqueInput
-  }
-
-  export type userUpdateOneRequiredWithoutMediumsNestedInput = {
-    create?: XOR<userCreateWithoutMediumsInput, userUncheckedCreateWithoutMediumsInput>
-    connectOrCreate?: userCreateOrConnectWithoutMediumsInput
-    upsert?: userUpsertWithoutMediumsInput
-    connect?: userWhereUniqueInput
-    update?: XOR<XOR<userUpdateToOneWithWhereWithoutMediumsInput, userUpdateWithoutMediumsInput>, userUncheckedUpdateWithoutMediumsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11568,6 +10197,19 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
@@ -11581,11 +10223,6 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     search?: string
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -11617,14 +10254,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | null
@@ -11652,421 +10281,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type interestCreateWithoutUsersInput = {
-    name: string
-    articles?: ArticleInterestCreateNestedManyWithoutInterestInput
-  }
-
-  export type interestUncheckedCreateWithoutUsersInput = {
-    id?: number
-    name: string
-    articles?: ArticleInterestUncheckedCreateNestedManyWithoutInterestInput
-  }
-
-  export type interestCreateOrConnectWithoutUsersInput = {
-    where: interestWhereUniqueInput
-    create: XOR<interestCreateWithoutUsersInput, interestUncheckedCreateWithoutUsersInput>
-  }
-
-  export type userCreateWithoutInterestsInput = {
-    id?: string
-    email: string
-    password: string
-    name?: string | null
-    isAdmin?: boolean
-    deleted?: boolean
-    favourites?: favouritesCreateNestedManyWithoutUserInput
-    mediums?: mediumsCreateNestedManyWithoutUserInput
-    publicist?: publicistCreateNestedManyWithoutUserInput
-  }
-
-  export type userUncheckedCreateWithoutInterestsInput = {
-    id?: string
-    email: string
-    password: string
-    name?: string | null
-    isAdmin?: boolean
-    deleted?: boolean
-    favourites?: favouritesUncheckedCreateNestedManyWithoutUserInput
-    mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
-    publicist?: publicistUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type userCreateOrConnectWithoutInterestsInput = {
-    where: userWhereUniqueInput
-    create: XOR<userCreateWithoutInterestsInput, userUncheckedCreateWithoutInterestsInput>
-  }
-
-  export type interestUpsertWithoutUsersInput = {
-    update: XOR<interestUpdateWithoutUsersInput, interestUncheckedUpdateWithoutUsersInput>
-    create: XOR<interestCreateWithoutUsersInput, interestUncheckedCreateWithoutUsersInput>
-    where?: interestWhereInput
-  }
-
-  export type interestUpdateToOneWithWhereWithoutUsersInput = {
-    where?: interestWhereInput
-    data: XOR<interestUpdateWithoutUsersInput, interestUncheckedUpdateWithoutUsersInput>
-  }
-
-  export type interestUpdateWithoutUsersInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    articles?: ArticleInterestUpdateManyWithoutInterestNestedInput
-  }
-
-  export type interestUncheckedUpdateWithoutUsersInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    articles?: ArticleInterestUncheckedUpdateManyWithoutInterestNestedInput
-  }
-
-  export type userUpsertWithoutInterestsInput = {
-    update: XOR<userUpdateWithoutInterestsInput, userUncheckedUpdateWithoutInterestsInput>
-    create: XOR<userCreateWithoutInterestsInput, userUncheckedCreateWithoutInterestsInput>
-    where?: userWhereInput
-  }
-
-  export type userUpdateToOneWithWhereWithoutInterestsInput = {
-    where?: userWhereInput
-    data: XOR<userUpdateWithoutInterestsInput, userUncheckedUpdateWithoutInterestsInput>
-  }
-
-  export type userUpdateWithoutInterestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    favourites?: favouritesUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUpdateManyWithoutUserNestedInput
-    publicist?: publicistUpdateManyWithoutUserNestedInput
-  }
-
-  export type userUncheckedUpdateWithoutInterestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    favourites?: favouritesUncheckedUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
-    publicist?: publicistUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type articleCreateWithoutInterestsInput = {
-    title: string
-    content: string
-    publicist: publicistCreateNestedOneWithoutArticleInput
-    favourites?: favouritesCreateNestedManyWithoutArticleInput
-  }
-
-  export type articleUncheckedCreateWithoutInterestsInput = {
-    id?: number
-    title: string
-    publicistId: number
-    content: string
-    favourites?: favouritesUncheckedCreateNestedManyWithoutArticleInput
-  }
-
-  export type articleCreateOrConnectWithoutInterestsInput = {
-    where: articleWhereUniqueInput
-    create: XOR<articleCreateWithoutInterestsInput, articleUncheckedCreateWithoutInterestsInput>
-  }
-
-  export type interestCreateWithoutArticlesInput = {
-    name: string
-    users?: UserInterestCreateNestedManyWithoutInterestInput
-  }
-
-  export type interestUncheckedCreateWithoutArticlesInput = {
-    id?: number
-    name: string
-    users?: UserInterestUncheckedCreateNestedManyWithoutInterestInput
-  }
-
-  export type interestCreateOrConnectWithoutArticlesInput = {
-    where: interestWhereUniqueInput
-    create: XOR<interestCreateWithoutArticlesInput, interestUncheckedCreateWithoutArticlesInput>
-  }
-
-  export type articleUpsertWithoutInterestsInput = {
-    update: XOR<articleUpdateWithoutInterestsInput, articleUncheckedUpdateWithoutInterestsInput>
-    create: XOR<articleCreateWithoutInterestsInput, articleUncheckedCreateWithoutInterestsInput>
-    where?: articleWhereInput
-  }
-
-  export type articleUpdateToOneWithWhereWithoutInterestsInput = {
-    where?: articleWhereInput
-    data: XOR<articleUpdateWithoutInterestsInput, articleUncheckedUpdateWithoutInterestsInput>
-  }
-
-  export type articleUpdateWithoutInterestsInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    publicist?: publicistUpdateOneRequiredWithoutArticleNestedInput
-    favourites?: favouritesUpdateManyWithoutArticleNestedInput
-  }
-
-  export type articleUncheckedUpdateWithoutInterestsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    publicistId?: IntFieldUpdateOperationsInput | number
-    content?: StringFieldUpdateOperationsInput | string
-    favourites?: favouritesUncheckedUpdateManyWithoutArticleNestedInput
-  }
-
-  export type interestUpsertWithoutArticlesInput = {
-    update: XOR<interestUpdateWithoutArticlesInput, interestUncheckedUpdateWithoutArticlesInput>
-    create: XOR<interestCreateWithoutArticlesInput, interestUncheckedCreateWithoutArticlesInput>
-    where?: interestWhereInput
-  }
-
-  export type interestUpdateToOneWithWhereWithoutArticlesInput = {
-    where?: interestWhereInput
-    data: XOR<interestUpdateWithoutArticlesInput, interestUncheckedUpdateWithoutArticlesInput>
-  }
-
-  export type interestUpdateWithoutArticlesInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    users?: UserInterestUpdateManyWithoutInterestNestedInput
-  }
-
-  export type interestUncheckedUpdateWithoutArticlesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    users?: UserInterestUncheckedUpdateManyWithoutInterestNestedInput
-  }
-
-  export type publicistCreateWithoutArticleInput = {
-    name: string
-    accepted?: boolean
-    user?: userCreateNestedOneWithoutPublicistInput
-  }
-
-  export type publicistUncheckedCreateWithoutArticleInput = {
-    id?: number
-    name: string
-    user_id?: string | null
-    accepted?: boolean
-  }
-
-  export type publicistCreateOrConnectWithoutArticleInput = {
-    where: publicistWhereUniqueInput
-    create: XOR<publicistCreateWithoutArticleInput, publicistUncheckedCreateWithoutArticleInput>
-  }
-
-  export type ArticleInterestCreateWithoutArticleInput = {
-    interest: interestCreateNestedOneWithoutArticlesInput
-  }
-
-  export type ArticleInterestUncheckedCreateWithoutArticleInput = {
-    interestId: number
-  }
-
-  export type ArticleInterestCreateOrConnectWithoutArticleInput = {
-    where: ArticleInterestWhereUniqueInput
-    create: XOR<ArticleInterestCreateWithoutArticleInput, ArticleInterestUncheckedCreateWithoutArticleInput>
-  }
-
-  export type ArticleInterestCreateManyArticleInputEnvelope = {
-    data: ArticleInterestCreateManyArticleInput | ArticleInterestCreateManyArticleInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type favouritesCreateWithoutArticleInput = {
-    user?: userCreateNestedOneWithoutFavouritesInput
-  }
-
-  export type favouritesUncheckedCreateWithoutArticleInput = {
-    id?: number
-    user_id?: string | null
-  }
-
-  export type favouritesCreateOrConnectWithoutArticleInput = {
-    where: favouritesWhereUniqueInput
-    create: XOR<favouritesCreateWithoutArticleInput, favouritesUncheckedCreateWithoutArticleInput>
-  }
-
-  export type favouritesCreateManyArticleInputEnvelope = {
-    data: favouritesCreateManyArticleInput | favouritesCreateManyArticleInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type publicistUpsertWithoutArticleInput = {
-    update: XOR<publicistUpdateWithoutArticleInput, publicistUncheckedUpdateWithoutArticleInput>
-    create: XOR<publicistCreateWithoutArticleInput, publicistUncheckedCreateWithoutArticleInput>
-    where?: publicistWhereInput
-  }
-
-  export type publicistUpdateToOneWithWhereWithoutArticleInput = {
-    where?: publicistWhereInput
-    data: XOR<publicistUpdateWithoutArticleInput, publicistUncheckedUpdateWithoutArticleInput>
-  }
-
-  export type publicistUpdateWithoutArticleInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    accepted?: BoolFieldUpdateOperationsInput | boolean
-    user?: userUpdateOneWithoutPublicistNestedInput
-  }
-
-  export type publicistUncheckedUpdateWithoutArticleInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    user_id?: NullableStringFieldUpdateOperationsInput | string | null
-    accepted?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type ArticleInterestUpsertWithWhereUniqueWithoutArticleInput = {
-    where: ArticleInterestWhereUniqueInput
-    update: XOR<ArticleInterestUpdateWithoutArticleInput, ArticleInterestUncheckedUpdateWithoutArticleInput>
-    create: XOR<ArticleInterestCreateWithoutArticleInput, ArticleInterestUncheckedCreateWithoutArticleInput>
-  }
-
-  export type ArticleInterestUpdateWithWhereUniqueWithoutArticleInput = {
-    where: ArticleInterestWhereUniqueInput
-    data: XOR<ArticleInterestUpdateWithoutArticleInput, ArticleInterestUncheckedUpdateWithoutArticleInput>
-  }
-
-  export type ArticleInterestUpdateManyWithWhereWithoutArticleInput = {
-    where: ArticleInterestScalarWhereInput
-    data: XOR<ArticleInterestUpdateManyMutationInput, ArticleInterestUncheckedUpdateManyWithoutArticleInput>
-  }
-
-  export type ArticleInterestScalarWhereInput = {
-    AND?: ArticleInterestScalarWhereInput | ArticleInterestScalarWhereInput[]
-    OR?: ArticleInterestScalarWhereInput[]
-    NOT?: ArticleInterestScalarWhereInput | ArticleInterestScalarWhereInput[]
-    articleId?: IntFilter<"ArticleInterest"> | number
-    interestId?: IntFilter<"ArticleInterest"> | number
-  }
-
-  export type favouritesUpsertWithWhereUniqueWithoutArticleInput = {
-    where: favouritesWhereUniqueInput
-    update: XOR<favouritesUpdateWithoutArticleInput, favouritesUncheckedUpdateWithoutArticleInput>
-    create: XOR<favouritesCreateWithoutArticleInput, favouritesUncheckedCreateWithoutArticleInput>
-  }
-
-  export type favouritesUpdateWithWhereUniqueWithoutArticleInput = {
-    where: favouritesWhereUniqueInput
-    data: XOR<favouritesUpdateWithoutArticleInput, favouritesUncheckedUpdateWithoutArticleInput>
-  }
-
-  export type favouritesUpdateManyWithWhereWithoutArticleInput = {
-    where: favouritesScalarWhereInput
-    data: XOR<favouritesUpdateManyMutationInput, favouritesUncheckedUpdateManyWithoutArticleInput>
-  }
-
-  export type favouritesScalarWhereInput = {
-    AND?: favouritesScalarWhereInput | favouritesScalarWhereInput[]
-    OR?: favouritesScalarWhereInput[]
-    NOT?: favouritesScalarWhereInput | favouritesScalarWhereInput[]
-    id?: IntFilter<"favourites"> | number
-    user_id?: StringNullableFilter<"favourites"> | string | null
-    article_id?: IntNullableFilter<"favourites"> | number | null
-  }
-
-  export type ArticleInterestCreateWithoutInterestInput = {
-    article: articleCreateNestedOneWithoutInterestsInput
-  }
-
-  export type ArticleInterestUncheckedCreateWithoutInterestInput = {
-    articleId: number
-  }
-
-  export type ArticleInterestCreateOrConnectWithoutInterestInput = {
-    where: ArticleInterestWhereUniqueInput
-    create: XOR<ArticleInterestCreateWithoutInterestInput, ArticleInterestUncheckedCreateWithoutInterestInput>
-  }
-
-  export type ArticleInterestCreateManyInterestInputEnvelope = {
-    data: ArticleInterestCreateManyInterestInput | ArticleInterestCreateManyInterestInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserInterestCreateWithoutInterestInput = {
-    user: userCreateNestedOneWithoutInterestsInput
-  }
-
-  export type UserInterestUncheckedCreateWithoutInterestInput = {
-    userId: string
-  }
-
-  export type UserInterestCreateOrConnectWithoutInterestInput = {
-    where: UserInterestWhereUniqueInput
-    create: XOR<UserInterestCreateWithoutInterestInput, UserInterestUncheckedCreateWithoutInterestInput>
-  }
-
-  export type UserInterestCreateManyInterestInputEnvelope = {
-    data: UserInterestCreateManyInterestInput | UserInterestCreateManyInterestInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ArticleInterestUpsertWithWhereUniqueWithoutInterestInput = {
-    where: ArticleInterestWhereUniqueInput
-    update: XOR<ArticleInterestUpdateWithoutInterestInput, ArticleInterestUncheckedUpdateWithoutInterestInput>
-    create: XOR<ArticleInterestCreateWithoutInterestInput, ArticleInterestUncheckedCreateWithoutInterestInput>
-  }
-
-  export type ArticleInterestUpdateWithWhereUniqueWithoutInterestInput = {
-    where: ArticleInterestWhereUniqueInput
-    data: XOR<ArticleInterestUpdateWithoutInterestInput, ArticleInterestUncheckedUpdateWithoutInterestInput>
-  }
-
-  export type ArticleInterestUpdateManyWithWhereWithoutInterestInput = {
-    where: ArticleInterestScalarWhereInput
-    data: XOR<ArticleInterestUpdateManyMutationInput, ArticleInterestUncheckedUpdateManyWithoutInterestInput>
-  }
-
-  export type UserInterestUpsertWithWhereUniqueWithoutInterestInput = {
-    where: UserInterestWhereUniqueInput
-    update: XOR<UserInterestUpdateWithoutInterestInput, UserInterestUncheckedUpdateWithoutInterestInput>
-    create: XOR<UserInterestCreateWithoutInterestInput, UserInterestUncheckedCreateWithoutInterestInput>
-  }
-
-  export type UserInterestUpdateWithWhereUniqueWithoutInterestInput = {
-    where: UserInterestWhereUniqueInput
-    data: XOR<UserInterestUpdateWithoutInterestInput, UserInterestUncheckedUpdateWithoutInterestInput>
-  }
-
-  export type UserInterestUpdateManyWithWhereWithoutInterestInput = {
-    where: UserInterestScalarWhereInput
-    data: XOR<UserInterestUpdateManyMutationInput, UserInterestUncheckedUpdateManyWithoutInterestInput>
-  }
-
-  export type UserInterestScalarWhereInput = {
-    AND?: UserInterestScalarWhereInput | UserInterestScalarWhereInput[]
-    OR?: UserInterestScalarWhereInput[]
-    NOT?: UserInterestScalarWhereInput | UserInterestScalarWhereInput[]
-    userId?: StringFilter<"UserInterest"> | string
-    interestId?: IntFilter<"UserInterest"> | number
-  }
-
-  export type articleCreateWithoutPublicistInput = {
-    title: string
-    content: string
-    interests?: ArticleInterestCreateNestedManyWithoutArticleInput
-    favourites?: favouritesCreateNestedManyWithoutArticleInput
-  }
-
-  export type articleUncheckedCreateWithoutPublicistInput = {
-    id?: number
-    title: string
-    content: string
-    interests?: ArticleInterestUncheckedCreateNestedManyWithoutArticleInput
-    favourites?: favouritesUncheckedCreateNestedManyWithoutArticleInput
-  }
-
-  export type articleCreateOrConnectWithoutPublicistInput = {
-    where: articleWhereUniqueInput
-    create: XOR<articleCreateWithoutPublicistInput, articleUncheckedCreateWithoutPublicistInput>
-  }
-
-  export type articleCreateManyPublicistInputEnvelope = {
-    data: articleCreateManyPublicistInput | articleCreateManyPublicistInput[]
-    skipDuplicates?: boolean
-  }
-
   export type userCreateWithoutPublicistInput = {
     id?: string
     email: string
@@ -12074,9 +10288,6 @@ export namespace Prisma {
     name?: string | null
     isAdmin?: boolean
     deleted?: boolean
-    favourites?: favouritesCreateNestedManyWithoutUserInput
-    mediums?: mediumsCreateNestedManyWithoutUserInput
-    interests?: UserInterestCreateNestedManyWithoutUserInput
   }
 
   export type userUncheckedCreateWithoutPublicistInput = {
@@ -12086,40 +10297,11 @@ export namespace Prisma {
     name?: string | null
     isAdmin?: boolean
     deleted?: boolean
-    favourites?: favouritesUncheckedCreateNestedManyWithoutUserInput
-    mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
-    interests?: UserInterestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type userCreateOrConnectWithoutPublicistInput = {
     where: userWhereUniqueInput
     create: XOR<userCreateWithoutPublicistInput, userUncheckedCreateWithoutPublicistInput>
-  }
-
-  export type articleUpsertWithWhereUniqueWithoutPublicistInput = {
-    where: articleWhereUniqueInput
-    update: XOR<articleUpdateWithoutPublicistInput, articleUncheckedUpdateWithoutPublicistInput>
-    create: XOR<articleCreateWithoutPublicistInput, articleUncheckedCreateWithoutPublicistInput>
-  }
-
-  export type articleUpdateWithWhereUniqueWithoutPublicistInput = {
-    where: articleWhereUniqueInput
-    data: XOR<articleUpdateWithoutPublicistInput, articleUncheckedUpdateWithoutPublicistInput>
-  }
-
-  export type articleUpdateManyWithWhereWithoutPublicistInput = {
-    where: articleScalarWhereInput
-    data: XOR<articleUpdateManyMutationInput, articleUncheckedUpdateManyWithoutPublicistInput>
-  }
-
-  export type articleScalarWhereInput = {
-    AND?: articleScalarWhereInput | articleScalarWhereInput[]
-    OR?: articleScalarWhereInput[]
-    NOT?: articleScalarWhereInput | articleScalarWhereInput[]
-    id?: IntFilter<"article"> | number
-    title?: StringFilter<"article"> | string
-    publicistId?: IntFilter<"article"> | number
-    content?: StringFilter<"article"> | string
   }
 
   export type userUpsertWithoutPublicistInput = {
@@ -12140,9 +10322,6 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     deleted?: BoolFieldUpdateOperationsInput | boolean
-    favourites?: favouritesUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUpdateManyWithoutUserNestedInput
   }
 
   export type userUncheckedUpdateWithoutPublicistInput = {
@@ -12152,62 +10331,17 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     deleted?: BoolFieldUpdateOperationsInput | boolean
-    favourites?: favouritesUncheckedUpdateManyWithoutUserNestedInput
-    mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type favouritesCreateWithoutUserInput = {
-    article?: articleCreateNestedOneWithoutFavouritesInput
-  }
-
-  export type favouritesUncheckedCreateWithoutUserInput = {
-    id?: number
-    article_id?: number | null
-  }
-
-  export type favouritesCreateOrConnectWithoutUserInput = {
-    where: favouritesWhereUniqueInput
-    create: XOR<favouritesCreateWithoutUserInput, favouritesUncheckedCreateWithoutUserInput>
-  }
-
-  export type favouritesCreateManyUserInputEnvelope = {
-    data: favouritesCreateManyUserInput | favouritesCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type mediumsCreateWithoutUserInput = {
-    name: string
-    active: boolean
-  }
-
-  export type mediumsUncheckedCreateWithoutUserInput = {
-    id?: number
-    name: string
-    active: boolean
-  }
-
-  export type mediumsCreateOrConnectWithoutUserInput = {
-    where: mediumsWhereUniqueInput
-    create: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput>
-  }
-
-  export type mediumsCreateManyUserInputEnvelope = {
-    data: mediumsCreateManyUserInput | mediumsCreateManyUserInput[]
-    skipDuplicates?: boolean
   }
 
   export type publicistCreateWithoutUserInput = {
     name: string
     accepted?: boolean
-    article?: articleCreateNestedManyWithoutPublicistInput
   }
 
   export type publicistUncheckedCreateWithoutUserInput = {
     id?: number
     name: string
     accepted?: boolean
-    article?: articleUncheckedCreateNestedManyWithoutPublicistInput
   }
 
   export type publicistCreateOrConnectWithoutUserInput = {
@@ -12215,462 +10349,26 @@ export namespace Prisma {
     create: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput>
   }
 
-  export type publicistCreateManyUserInputEnvelope = {
-    data: publicistCreateManyUserInput | publicistCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserInterestCreateWithoutUserInput = {
-    interest: interestCreateNestedOneWithoutUsersInput
-  }
-
-  export type UserInterestUncheckedCreateWithoutUserInput = {
-    interestId: number
-  }
-
-  export type UserInterestCreateOrConnectWithoutUserInput = {
-    where: UserInterestWhereUniqueInput
-    create: XOR<UserInterestCreateWithoutUserInput, UserInterestUncheckedCreateWithoutUserInput>
-  }
-
-  export type UserInterestCreateManyUserInputEnvelope = {
-    data: UserInterestCreateManyUserInput | UserInterestCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type favouritesUpsertWithWhereUniqueWithoutUserInput = {
-    where: favouritesWhereUniqueInput
-    update: XOR<favouritesUpdateWithoutUserInput, favouritesUncheckedUpdateWithoutUserInput>
-    create: XOR<favouritesCreateWithoutUserInput, favouritesUncheckedCreateWithoutUserInput>
-  }
-
-  export type favouritesUpdateWithWhereUniqueWithoutUserInput = {
-    where: favouritesWhereUniqueInput
-    data: XOR<favouritesUpdateWithoutUserInput, favouritesUncheckedUpdateWithoutUserInput>
-  }
-
-  export type favouritesUpdateManyWithWhereWithoutUserInput = {
-    where: favouritesScalarWhereInput
-    data: XOR<favouritesUpdateManyMutationInput, favouritesUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type mediumsUpsertWithWhereUniqueWithoutUserInput = {
-    where: mediumsWhereUniqueInput
-    update: XOR<mediumsUpdateWithoutUserInput, mediumsUncheckedUpdateWithoutUserInput>
-    create: XOR<mediumsCreateWithoutUserInput, mediumsUncheckedCreateWithoutUserInput>
-  }
-
-  export type mediumsUpdateWithWhereUniqueWithoutUserInput = {
-    where: mediumsWhereUniqueInput
-    data: XOR<mediumsUpdateWithoutUserInput, mediumsUncheckedUpdateWithoutUserInput>
-  }
-
-  export type mediumsUpdateManyWithWhereWithoutUserInput = {
-    where: mediumsScalarWhereInput
-    data: XOR<mediumsUpdateManyMutationInput, mediumsUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type mediumsScalarWhereInput = {
-    AND?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
-    OR?: mediumsScalarWhereInput[]
-    NOT?: mediumsScalarWhereInput | mediumsScalarWhereInput[]
-    id?: IntFilter<"mediums"> | number
-    name?: StringFilter<"mediums"> | string
-    active?: BoolFilter<"mediums"> | boolean
-    user_id?: StringFilter<"mediums"> | string
-  }
-
-  export type publicistUpsertWithWhereUniqueWithoutUserInput = {
-    where: publicistWhereUniqueInput
+  export type publicistUpsertWithoutUserInput = {
     update: XOR<publicistUpdateWithoutUserInput, publicistUncheckedUpdateWithoutUserInput>
     create: XOR<publicistCreateWithoutUserInput, publicistUncheckedCreateWithoutUserInput>
+    where?: publicistWhereInput
   }
 
-  export type publicistUpdateWithWhereUniqueWithoutUserInput = {
-    where: publicistWhereUniqueInput
+  export type publicistUpdateToOneWithWhereWithoutUserInput = {
+    where?: publicistWhereInput
     data: XOR<publicistUpdateWithoutUserInput, publicistUncheckedUpdateWithoutUserInput>
-  }
-
-  export type publicistUpdateManyWithWhereWithoutUserInput = {
-    where: publicistScalarWhereInput
-    data: XOR<publicistUpdateManyMutationInput, publicistUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type publicistScalarWhereInput = {
-    AND?: publicistScalarWhereInput | publicistScalarWhereInput[]
-    OR?: publicistScalarWhereInput[]
-    NOT?: publicistScalarWhereInput | publicistScalarWhereInput[]
-    id?: IntFilter<"publicist"> | number
-    name?: StringFilter<"publicist"> | string
-    user_id?: StringNullableFilter<"publicist"> | string | null
-    accepted?: BoolFilter<"publicist"> | boolean
-  }
-
-  export type UserInterestUpsertWithWhereUniqueWithoutUserInput = {
-    where: UserInterestWhereUniqueInput
-    update: XOR<UserInterestUpdateWithoutUserInput, UserInterestUncheckedUpdateWithoutUserInput>
-    create: XOR<UserInterestCreateWithoutUserInput, UserInterestUncheckedCreateWithoutUserInput>
-  }
-
-  export type UserInterestUpdateWithWhereUniqueWithoutUserInput = {
-    where: UserInterestWhereUniqueInput
-    data: XOR<UserInterestUpdateWithoutUserInput, UserInterestUncheckedUpdateWithoutUserInput>
-  }
-
-  export type UserInterestUpdateManyWithWhereWithoutUserInput = {
-    where: UserInterestScalarWhereInput
-    data: XOR<UserInterestUpdateManyMutationInput, UserInterestUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type articleCreateWithoutFavouritesInput = {
-    title: string
-    content: string
-    publicist: publicistCreateNestedOneWithoutArticleInput
-    interests?: ArticleInterestCreateNestedManyWithoutArticleInput
-  }
-
-  export type articleUncheckedCreateWithoutFavouritesInput = {
-    id?: number
-    title: string
-    publicistId: number
-    content: string
-    interests?: ArticleInterestUncheckedCreateNestedManyWithoutArticleInput
-  }
-
-  export type articleCreateOrConnectWithoutFavouritesInput = {
-    where: articleWhereUniqueInput
-    create: XOR<articleCreateWithoutFavouritesInput, articleUncheckedCreateWithoutFavouritesInput>
-  }
-
-  export type userCreateWithoutFavouritesInput = {
-    id?: string
-    email: string
-    password: string
-    name?: string | null
-    isAdmin?: boolean
-    deleted?: boolean
-    mediums?: mediumsCreateNestedManyWithoutUserInput
-    publicist?: publicistCreateNestedManyWithoutUserInput
-    interests?: UserInterestCreateNestedManyWithoutUserInput
-  }
-
-  export type userUncheckedCreateWithoutFavouritesInput = {
-    id?: string
-    email: string
-    password: string
-    name?: string | null
-    isAdmin?: boolean
-    deleted?: boolean
-    mediums?: mediumsUncheckedCreateNestedManyWithoutUserInput
-    publicist?: publicistUncheckedCreateNestedManyWithoutUserInput
-    interests?: UserInterestUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type userCreateOrConnectWithoutFavouritesInput = {
-    where: userWhereUniqueInput
-    create: XOR<userCreateWithoutFavouritesInput, userUncheckedCreateWithoutFavouritesInput>
-  }
-
-  export type articleUpsertWithoutFavouritesInput = {
-    update: XOR<articleUpdateWithoutFavouritesInput, articleUncheckedUpdateWithoutFavouritesInput>
-    create: XOR<articleCreateWithoutFavouritesInput, articleUncheckedCreateWithoutFavouritesInput>
-    where?: articleWhereInput
-  }
-
-  export type articleUpdateToOneWithWhereWithoutFavouritesInput = {
-    where?: articleWhereInput
-    data: XOR<articleUpdateWithoutFavouritesInput, articleUncheckedUpdateWithoutFavouritesInput>
-  }
-
-  export type articleUpdateWithoutFavouritesInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    publicist?: publicistUpdateOneRequiredWithoutArticleNestedInput
-    interests?: ArticleInterestUpdateManyWithoutArticleNestedInput
-  }
-
-  export type articleUncheckedUpdateWithoutFavouritesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    publicistId?: IntFieldUpdateOperationsInput | number
-    content?: StringFieldUpdateOperationsInput | string
-    interests?: ArticleInterestUncheckedUpdateManyWithoutArticleNestedInput
-  }
-
-  export type userUpsertWithoutFavouritesInput = {
-    update: XOR<userUpdateWithoutFavouritesInput, userUncheckedUpdateWithoutFavouritesInput>
-    create: XOR<userCreateWithoutFavouritesInput, userUncheckedCreateWithoutFavouritesInput>
-    where?: userWhereInput
-  }
-
-  export type userUpdateToOneWithWhereWithoutFavouritesInput = {
-    where?: userWhereInput
-    data: XOR<userUpdateWithoutFavouritesInput, userUncheckedUpdateWithoutFavouritesInput>
-  }
-
-  export type userUpdateWithoutFavouritesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    mediums?: mediumsUpdateManyWithoutUserNestedInput
-    publicist?: publicistUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUpdateManyWithoutUserNestedInput
-  }
-
-  export type userUncheckedUpdateWithoutFavouritesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    mediums?: mediumsUncheckedUpdateManyWithoutUserNestedInput
-    publicist?: publicistUncheckedUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type userCreateWithoutMediumsInput = {
-    id?: string
-    email: string
-    password: string
-    name?: string | null
-    isAdmin?: boolean
-    deleted?: boolean
-    favourites?: favouritesCreateNestedManyWithoutUserInput
-    publicist?: publicistCreateNestedManyWithoutUserInput
-    interests?: UserInterestCreateNestedManyWithoutUserInput
-  }
-
-  export type userUncheckedCreateWithoutMediumsInput = {
-    id?: string
-    email: string
-    password: string
-    name?: string | null
-    isAdmin?: boolean
-    deleted?: boolean
-    favourites?: favouritesUncheckedCreateNestedManyWithoutUserInput
-    publicist?: publicistUncheckedCreateNestedManyWithoutUserInput
-    interests?: UserInterestUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type userCreateOrConnectWithoutMediumsInput = {
-    where: userWhereUniqueInput
-    create: XOR<userCreateWithoutMediumsInput, userUncheckedCreateWithoutMediumsInput>
-  }
-
-  export type userUpsertWithoutMediumsInput = {
-    update: XOR<userUpdateWithoutMediumsInput, userUncheckedUpdateWithoutMediumsInput>
-    create: XOR<userCreateWithoutMediumsInput, userUncheckedCreateWithoutMediumsInput>
-    where?: userWhereInput
-  }
-
-  export type userUpdateToOneWithWhereWithoutMediumsInput = {
-    where?: userWhereInput
-    data: XOR<userUpdateWithoutMediumsInput, userUncheckedUpdateWithoutMediumsInput>
-  }
-
-  export type userUpdateWithoutMediumsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    favourites?: favouritesUpdateManyWithoutUserNestedInput
-    publicist?: publicistUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUpdateManyWithoutUserNestedInput
-  }
-
-  export type userUncheckedUpdateWithoutMediumsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    deleted?: BoolFieldUpdateOperationsInput | boolean
-    favourites?: favouritesUncheckedUpdateManyWithoutUserNestedInput
-    publicist?: publicistUncheckedUpdateManyWithoutUserNestedInput
-    interests?: UserInterestUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type ArticleInterestCreateManyArticleInput = {
-    interestId: number
-  }
-
-  export type favouritesCreateManyArticleInput = {
-    id?: number
-    user_id?: string | null
-  }
-
-  export type ArticleInterestUpdateWithoutArticleInput = {
-    interest?: interestUpdateOneRequiredWithoutArticlesNestedInput
-  }
-
-  export type ArticleInterestUncheckedUpdateWithoutArticleInput = {
-    interestId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type ArticleInterestUncheckedUpdateManyWithoutArticleInput = {
-    interestId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type favouritesUpdateWithoutArticleInput = {
-    user?: userUpdateOneWithoutFavouritesNestedInput
-  }
-
-  export type favouritesUncheckedUpdateWithoutArticleInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type favouritesUncheckedUpdateManyWithoutArticleInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    user_id?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type ArticleInterestCreateManyInterestInput = {
-    articleId: number
-  }
-
-  export type UserInterestCreateManyInterestInput = {
-    userId: string
-  }
-
-  export type ArticleInterestUpdateWithoutInterestInput = {
-    article?: articleUpdateOneRequiredWithoutInterestsNestedInput
-  }
-
-  export type ArticleInterestUncheckedUpdateWithoutInterestInput = {
-    articleId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type ArticleInterestUncheckedUpdateManyWithoutInterestInput = {
-    articleId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type UserInterestUpdateWithoutInterestInput = {
-    user?: userUpdateOneRequiredWithoutInterestsNestedInput
-  }
-
-  export type UserInterestUncheckedUpdateWithoutInterestInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UserInterestUncheckedUpdateManyWithoutInterestInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type articleCreateManyPublicistInput = {
-    id?: number
-    title: string
-    content: string
-  }
-
-  export type articleUpdateWithoutPublicistInput = {
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    interests?: ArticleInterestUpdateManyWithoutArticleNestedInput
-    favourites?: favouritesUpdateManyWithoutArticleNestedInput
-  }
-
-  export type articleUncheckedUpdateWithoutPublicistInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    interests?: ArticleInterestUncheckedUpdateManyWithoutArticleNestedInput
-    favourites?: favouritesUncheckedUpdateManyWithoutArticleNestedInput
-  }
-
-  export type articleUncheckedUpdateManyWithoutPublicistInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type favouritesCreateManyUserInput = {
-    id?: number
-    article_id?: number | null
-  }
-
-  export type mediumsCreateManyUserInput = {
-    id?: number
-    name: string
-    active: boolean
-  }
-
-  export type publicistCreateManyUserInput = {
-    id?: number
-    name: string
-    accepted?: boolean
-  }
-
-  export type UserInterestCreateManyUserInput = {
-    interestId: number
-  }
-
-  export type favouritesUpdateWithoutUserInput = {
-    article?: articleUpdateOneWithoutFavouritesNestedInput
-  }
-
-  export type favouritesUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    article_id?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type favouritesUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    article_id?: NullableIntFieldUpdateOperationsInput | number | null
-  }
-
-  export type mediumsUpdateWithoutUserInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type mediumsUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type mediumsUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    active?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type publicistUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
-    article?: articleUpdateManyWithoutPublicistNestedInput
   }
 
   export type publicistUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
-    article?: articleUncheckedUpdateManyWithoutPublicistNestedInput
-  }
-
-  export type publicistUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    accepted?: BoolFieldUpdateOperationsInput | boolean
-  }
-
-  export type UserInterestUpdateWithoutUserInput = {
-    interest?: interestUpdateOneRequiredWithoutUsersNestedInput
-  }
-
-  export type UserInterestUncheckedUpdateWithoutUserInput = {
-    interestId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type UserInterestUncheckedUpdateManyWithoutUserInput = {
-    interestId?: IntFieldUpdateOperationsInput | number
   }
 
 

@@ -23,6 +23,11 @@ export async function authMiddleware(req, res, next) {
       email: decodedToken.email,
     };
 
+    req.user = {
+      id: decodedToken.sub,
+      email: decodedToken.email,
+    };
+
     return next();
   } catch (error) {
     console.log(error);

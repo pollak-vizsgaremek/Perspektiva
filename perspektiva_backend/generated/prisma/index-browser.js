@@ -189,14 +189,14 @@ exports.Prisma.interestOrderByRelevanceFieldEnum = {
   name: 'name'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.publicistOrderByRelevanceFieldEnum = {
   name: 'name',
   user_id: 'user_id'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 exports.Prisma.userOrderByRelevanceFieldEnum = {

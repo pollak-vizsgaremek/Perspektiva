@@ -32,6 +32,9 @@ app.get("/api/user/me", authMiddleware, async (req, res) => {
         },
       },
     },
+    include: {
+      publicist: true,
+    },
   });
 
   res.status(200).json(favourites);
@@ -41,7 +44,10 @@ app.get("/api/priorities", async (req, res) => {
   try {
     const priorities = req.body.priorities;
     if (!priorities || !Array.isArray(priorities) || priorities.length === 0) {
-      return res.status(404).json({ message: "Prioritások szükségesek!", error: "No priorities provided" });
+      return res.status(404).json({
+        message: "Prioritások szükségesek!",
+        error: "No priorities provided",
+      });
     }
     const articles = await prisma.article.findMany({
       where: {
@@ -122,25 +128,41 @@ app.delete("/api/articles", async (req, res) => {
   }
 });
 
-app.post("/api/articles", async (req, res) => {
+app.post("/api/articles", authMiddleware, async (req, res) => {
   try {
-    const { publicistId, title, content } = req.body;
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.user.id,
+      },
+      include: {
+        publicist: true,
+      },
+    });
+
+    if (!user.publicist.accepted)
+      return res
+        .status(403)
+        .json({ message: "Nem vagy jogosult cikk létrehozására!" });
+
+    const { title, content } = req.body;
     const newArticle = await prisma.article.create({
       data: {
-        publicistId,
+        publicistId: user.publicist.id,
         title,
-        content: content || '',
+        content: content || "",
       },
     });
     res.status(201).json(newArticle);
   } catch (error) {
+    console.log(error);
+
     res
       .status(404)
       .json({ message: "Sikertelen létrehozás!", error: error.message });
   }
 });
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== "test") {
   app.listen(3300, () => {
     console.log("Backend fut port: 3300");
   });

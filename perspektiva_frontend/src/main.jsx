@@ -11,6 +11,10 @@ const PortalsFilterPage = lazy(() => import("./components/PortalsFilter.jsx"));
 const FilteredNewsPage = lazy(() => import("./components/FilteredNews.jsx"));
 const ProfilePage = lazy(() => import("./components/Profile.jsx"));
 const AdminPage = lazy(() => import("./components/Admin.jsx"));
+const NewsPage = lazy(() => import("./components/News.jsx"));
+const ArticleCreationPage = lazy(
+  () => import("./components/ArticleCreation.jsx"),
+);
 
 function LoadingFallback() {
   return (
@@ -27,6 +31,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/Register" element={<RegisterPage />} />
           <Route path="/Home" element={<HomePage />} />
           <Route path="/Portals" element={<PortalsFilterPage />} />
+          <Route path="/Articlecreation" element={<ArticleCreationPage />} />
           <Route path="/FilteredNews" element={<FilteredNewsPage />} />
           <Route path="/Profile" element={<ProfilePage />} />
           <Route element={<ProtectedRoute />}>
