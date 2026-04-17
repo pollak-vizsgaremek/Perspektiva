@@ -10,7 +10,8 @@ export default function ProtectedRoute() {
   const decoded = JSON.parse(window.atob(base64));
 
   if (!decoded) return <Navigate to="/" replace />;
-  if (!decoded.admin || decoded.admin === 0) return <Navigate to="/" replace />;
+  if (!decoded.admin || decoded.admin === 0)
+    return <Navigate to="/Home" replace />;
 
   return <Outlet />;
 }

@@ -52,8 +52,13 @@ app.get("/api/priorities", async (req, res) => {
     const articles = await prisma.article.findMany({
       where: {
         publicist: {
-          name: {
-            in: priorities,
+          mediums: {
+            name: {
+              in: priorities,
+            },
+          },
+          NOT: {
+            accepted: false,
           },
         },
       },
@@ -64,11 +69,22 @@ app.get("/api/priorities", async (req, res) => {
 
     res.status(200).json(articles);
   } catch (error) {
+    console.log(error);
     res
       .status(404)
       .json({ message: "Sikertelen szűrés!", error: error.message });
   }
 });
+
+// user: {
+//             mediums: {
+//               some: {
+//                 name: {
+//                   in: priorities,
+//                 },
+//               },
+//             },
+//           },
 
 app.get("/api/articles", async (req, res) => {
   try {

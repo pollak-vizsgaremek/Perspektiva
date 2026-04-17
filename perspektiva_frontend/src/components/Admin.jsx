@@ -10,7 +10,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState("overview");
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3300";
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
 
   const [users, setUsers] = useState([]);
 

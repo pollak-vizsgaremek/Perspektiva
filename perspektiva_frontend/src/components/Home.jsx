@@ -24,7 +24,7 @@ export default function Home() {
   const [isNewsOpen, setIsNewsOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [userData, setUserData] = useState(null);
-  const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3300";
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
 
   // --- WORDLE STATE-EK ---
@@ -36,7 +36,7 @@ export default function Home() {
 
   // --- HÍREK LEKÉRÉSE (Eredeti kódodból) ---
   function getarticle() {
-    fetch("http://localhost:3300/api/articles").then(async (res) => {
+    fetch(`${API_URL}/api/articles`).then(async (res) => {
       const data = await res.json();
       setArticle(data);
     });
@@ -68,7 +68,7 @@ export default function Home() {
       }
     } catch (error) {
       console.error("Gemini hiba részletesen:", error);
-      setSolution("NAPIL");
+      setSolution("FAASZ");
     }
   }, []);
 
@@ -143,6 +143,8 @@ export default function Home() {
         });
         if (!res.ok) return;
         const data = await res.json();
+        console.log(data);
+
         setUserData(data);
       } catch (_) {
         // ignore

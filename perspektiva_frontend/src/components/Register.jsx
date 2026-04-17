@@ -140,7 +140,10 @@ export default function Register({ closeRegister = () => void 0 }) {
               disabled={loading}
               className="w-4 h-4 cursor-pointer accent-red-600"
             />
-            <label htmlFor="Publicist" className="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">
+            <label
+              htmlFor="Publicist"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer"
+            >
               Újságíró vagyok
             </label>
           </div>
@@ -166,7 +169,7 @@ export default function Register({ closeRegister = () => void 0 }) {
             </a>
           </p>
         </div>
-        </div>
+      </div>
     </div>
   );
 }

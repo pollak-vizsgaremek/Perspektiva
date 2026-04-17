@@ -14,6 +14,7 @@ export default function Profile({ closeProfile = () => void 0 }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     fetchUserData();
@@ -28,7 +29,7 @@ export default function Profile({ closeProfile = () => void 0 }) {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch("http://localhost:3300/api/user/me", {
+      const response = await fetch(`${API_URL}/api/user/me`, {
         headers: {
           authorization: "Bearer " + localStorage.getItem("accessToken"),
         },

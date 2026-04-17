@@ -10,6 +10,20 @@ export default function FilteredNews() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
+  const fetch = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/user/me`, {
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+      });
+      const data = await response.json();
+      setUserData(data);
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
+  };
+
   const allNews = [
     {
       id: 1,

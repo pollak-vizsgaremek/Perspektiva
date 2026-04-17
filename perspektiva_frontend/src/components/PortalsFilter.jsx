@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { useNavigate } from "react-router";
 import {} from "react";
 
@@ -9,12 +9,26 @@ export default function PortalsFilter() {
   const navigate = useNavigate();
 
   // Az adatok listája (Majd leszívjuk valahonnan, adatb vagy idk)
-  const [sources, setSources] = useState([
-    { id: 1, name: "Index", active: true },
-    { id: 2, name: "HVG", active: false },
-    { id: 3, name: "Mandiner", active: false },
-    { id: 4, name: "444!", active: true },
-  ]);
+  const [sources, setSources] = useState(
+    localStorage.getItem("sources")
+      ? JSON.parse(localStorage.getItem("sources"))
+      : [
+          { id: 1, name: "Index", active: false },
+          { id: 2, name: "HVG", active: false },
+          { id: 3, name: "Mandiner", active: false },
+          { id: 4, name: "444!", active: false },
+        ],
+  );
+
+  // useEffect(() => {
+  //   const storedSources = localStorage.getItem("sources");
+  //   if (storedSources) {
+  //     setSources(JSON.parse(storedSources));
+  //   }
+  // }, []);
+  useEffect(() => {
+    localStorage.setItem("sources", JSON.stringify(sources));
+  }, [sources]);
 
   // Keresési kifejezés állapota
   const [searchTerm, setSearchTerm] = useState("");
