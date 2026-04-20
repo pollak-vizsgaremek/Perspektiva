@@ -88,8 +88,27 @@ app.get("/api/priorities", async (req, res) => {
 
 app.get("/api/articles", async (req, res) => {
   try {
-    const articles = await prisma.article.findMany();
+    const articles = await prisma.article.findMany({
+      include: {
+        publicist: {
+          include: {
+            mediums: true,
+          },
+        },
+      },
+    });
     res.status(200).json(articles);
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: "Sikertelen lekérdezés!", error: error.message });
+  }
+});
+
+app.get("/api/mediums", async (req, res) => {
+  try {
+    const mediums = await prisma.mediums.findMany();
+    res.status(200).json(mediums);
   } catch (error) {
     res
       .status(404)
@@ -108,19 +127,40 @@ app.get("/api/user", async (req, res) => {
   }
 });
 
-app.put("/api/articles", async (req, res) => {
+app.put("/api/articles", authMiddleware, async (req, res) => {
   try {
-    const { Article_id, publicistId, title } = req.body;
-    const updatearticle = await prisma.article.update({
-      where: {
-        id: Article_id,
-      },
-      data: {
-        publicistId,
-        title,
-      },
+    const { Article_id, title, content } = req.body;
+    if (!Article_id) {
+      return res.status(400).json({ message: "Article_id is required" });
+    }
+
+    const existingArticle = await prisma.article.findUnique({
+      where: { id: Article_id },
+      include: { publicist: true },
     });
-    res.status(201).json(updatearticle);
+
+    if (!existingArticle) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+
+    if (!existingArticle.publicist || existingArticle.publicist.user_id !== req.user.id) {
+      return res.status(403).json({ message: "Nem te hoztad létre ezt a cikket" });
+    }
+
+    const updateData = {};
+    if (title !== undefined) updateData.title = title;
+    if (content !== undefined) updateData.content = content;
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ message: "At least one field to update is required" });
+    }
+
+    const updatearticle = await prisma.article.update({
+      where: { id: Article_id },
+      data: updateData,
+    });
+
+    res.status(200).json(updatearticle);
   } catch (error) {
     res
       .status(404)
@@ -128,13 +168,28 @@ app.put("/api/articles", async (req, res) => {
   }
 });
 
-app.delete("/api/articles", async (req, res) => {
+app.delete("/api/articles", authMiddleware, async (req, res) => {
   try {
     const { Article_id } = req.body;
-    const deletearticle = await prisma.article.delete({
-      where: {
-        id: Article_id,
-      },
+    if (!Article_id) {
+      return res.status(400).json({ message: "Article_id is required" });
+    }
+
+    const existingArticle = await prisma.article.findUnique({
+      where: { id: Article_id },
+      include: { publicist: true },
+    });
+
+    if (!existingArticle) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+
+    if (!existingArticle.publicist || existingArticle.publicist.user_id !== req.user.id) {
+      return res.status(403).json({ message: "Nem te hoztad létre ezt a cikket" });
+    }
+
+    await prisma.article.delete({
+      where: { id: Article_id },
     });
     res.status(204).send();
   } catch (error) {

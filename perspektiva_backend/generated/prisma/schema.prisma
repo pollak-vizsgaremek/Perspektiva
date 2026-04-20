@@ -24,6 +24,7 @@ model article {
   title       String
   publicistId Int
   content     String            @db.LongText
+  createdAt   Int               @default(dbgenerated("(unix_timestamp())")) @map("created_At")
   publicist   publicist         @relation(fields: [publicistId], references: [id], map: "Article_publicistId_fkey")
   interests   ArticleInterest[]
   favourites  favourites[]
@@ -42,10 +43,10 @@ model publicist {
   name      String
   user_id   String    @unique
   accepted  Boolean   @default(false)
-  medium_id Int
+  medium_id Int?
   article   article[]
+  mediums   mediums?  @relation(fields: [medium_id], references: [id], onUpdate: Restrict, map: "publicist_ibfk_2")
   user      user      @relation(fields: [user_id], references: [id])
-  mediums   mediums   @relation(fields: [medium_id], references: [id], onUpdate: Restrict, map: "publicist_ibfk_2")
 
   @@index([user_id], map: "user_id")
   @@index([medium_id], map: "medium_id")
@@ -76,7 +77,7 @@ model favourites {
 model mediums {
   id        Int         @id @default(autoincrement())
   name      String
-  url       String      @db.VarChar(1000)
   rss_url   String      @db.VarChar(1000)
+  url       String      @db.VarChar(1000)
   publicist publicist[]
 }

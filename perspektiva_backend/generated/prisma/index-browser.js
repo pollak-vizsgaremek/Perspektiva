@@ -130,7 +130,8 @@ exports.Prisma.ArticleScalarFieldEnum = {
   id: 'id',
   title: 'title',
   publicistId: 'publicistId',
-  content: 'content'
+  content: 'content',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.InterestScalarFieldEnum = {
@@ -164,8 +165,8 @@ exports.Prisma.FavouritesScalarFieldEnum = {
 exports.Prisma.MediumsScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  url: 'url',
-  rss_url: 'rss_url'
+  rss_url: 'rss_url',
+  url: 'url'
 };
 
 exports.Prisma.SortOrder = {
@@ -182,14 +183,14 @@ exports.Prisma.interestOrderByRelevanceFieldEnum = {
   name: 'name'
 };
 
-exports.Prisma.publicistOrderByRelevanceFieldEnum = {
-  name: 'name',
-  user_id: 'user_id'
-};
-
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.publicistOrderByRelevanceFieldEnum = {
+  name: 'name',
+  user_id: 'user_id'
 };
 
 exports.Prisma.userOrderByRelevanceFieldEnum = {
@@ -205,8 +206,8 @@ exports.Prisma.favouritesOrderByRelevanceFieldEnum = {
 
 exports.Prisma.mediumsOrderByRelevanceFieldEnum = {
   name: 'name',
-  url: 'url',
-  rss_url: 'rss_url'
+  rss_url: 'rss_url',
+  url: 'url'
 };
 
 

@@ -7,72 +7,73 @@ export default function FilteredNews() {
     document.title = `Perspektíva — Saját Hírfolyam`;
   }, []);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeSources, setActiveSources] = useState([]);
+  const [allNews, setAllNews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const fetch = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/user/me`, {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("accessToken"),
-        },
-      });
-      const data = await response.json();
-      setUserData(data);
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
+  useEffect(() => {
+    const storedSources = localStorage.getItem("sources");
+    if (storedSources) {
+      const sources = JSON.parse(storedSources);
+      const active = sources
+        .filter((source) => source.active)
+        .map((source) => source.name);
+      setActiveSources(active);
     }
-  };
+  }, []);
 
-  const allNews = [
-    {
-      id: 1,
-      source: "Index",
-      title: "Rendkívüli hőség várható a hétvégén",
-      excerpt:
-        "Akár 40 fok is lehet az árnyékban, mutatjuk a legforróbb területeket és a vízparti lehetőségeket.",
-      date: "2024.05.20",
-      category: "Belföld",
-    },
-    {
-      id: 2,
-      source: "444!",
-      title: "Új parkot adtak át a belvárosban",
-      excerpt:
-        "Több mint kétszáz fát ültették el, és egy modern játszótér is helyet kapott a lakók örömére.",
-      date: "2024.05.19",
-      category: "Budapest",
-    },
-    {
-      id: 3,
-      source: "Index",
-      title: "Megnyertük a vízilabda döntőt!",
-      excerpt:
-        "Hatalmas küzdelemben, az utolsó percben dőlt el a bajnoki cím sorsa a nemzeti uszodában.",
-      date: "2024.05.18",
-      category: "Sport",
-    },
-    {
-      id: 4,
-      source: "444!",
-      title: "A technológia jövője: MI a konyhában",
-      excerpt:
-        "Kipróbáltuk a legújabb okoseszközöket, amik helyettünk főzik meg a vasárnapi ebédet.",
-      date: "2024.05.17",
-      category: "Tech",
-    },
-    {
-      id: 5,
-      source: "Mandiner",
-      title: "Még a Holdról is látni Mohácsot",
-      excerpt: "Rákos 2/3-ad",
-      date: "2024.05.17",
-      category: "Közélet",
-    },
-  ];
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/articles`);
+        const articles = await response.json();
 
-  // Aktív források, ezt is megoldjuk majd máshogy idk
-  const activeSources = ["Index", "444!"];
+        // Map articles to include medium info
+        const mappedArticles = articles.map((article) => {
+          const createdAtValue = article.createdAt ?? article.created_At;
+          const dateValue = createdAtValue
+            ? (() => {
+                try {
+                  let date;
+                  if (typeof createdAtValue === "string") {
+                    date = new Date(createdAtValue);
+                  } else if (typeof createdAtValue === "number") {
+                    date = new Date(createdAtValue * 1000);
+                  } else if (createdAtValue instanceof Date) {
+                    date = createdAtValue;
+                  } else {
+                    return "N/A";
+                  }
+                  return Number.isNaN(date.getTime()) ? "N/A" : date.toLocaleString("hu-HU");
+                } catch {
+                  return "N/A";
+                }
+              })()
+            : "N/A";
+
+          return {
+            id: article.id,
+            source: article.publicist?.mediums?.name || "Unknown",
+            title: article.title,
+            excerpt: article.content.substring(0, 150) + "...",
+            date: dateValue,
+            category: "Cikk",
+          };
+        });
+
+        setAllNews(mappedArticles);
+      } catch (error) {
+        console.error("Failed to fetch articles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, [API_URL]);
 
   const searchLower = searchTerm.toLowerCase();
   const filteredNews = allNews.filter(
@@ -125,7 +126,11 @@ export default function FilteredNews() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-24">
         {/*mobilom 1, közepes mérettől (md) 2 oszlop */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredNews.length > 0 ? (
+          {loading ? (
+            <div className="col-span-full text-center py-20">
+              <p className="text-gray-500 text-xl">Cikkek betöltése...</p>
+            </div>
+          ) : filteredNews.length > 0 ? (
             filteredNews.map((news) => (
               <article
                 key={news.id}

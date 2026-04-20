@@ -2467,11 +2467,13 @@ export namespace Prisma {
   export type ArticleAvgAggregateOutputType = {
     id: number | null
     publicistId: number | null
+    createdAt: number | null
   }
 
   export type ArticleSumAggregateOutputType = {
     id: number | null
     publicistId: number | null
+    createdAt: number | null
   }
 
   export type ArticleMinAggregateOutputType = {
@@ -2479,6 +2481,7 @@ export namespace Prisma {
     title: string | null
     publicistId: number | null
     content: string | null
+    createdAt: number | null
   }
 
   export type ArticleMaxAggregateOutputType = {
@@ -2486,6 +2489,7 @@ export namespace Prisma {
     title: string | null
     publicistId: number | null
     content: string | null
+    createdAt: number | null
   }
 
   export type ArticleCountAggregateOutputType = {
@@ -2493,6 +2497,7 @@ export namespace Prisma {
     title: number
     publicistId: number
     content: number
+    createdAt: number
     _all: number
   }
 
@@ -2500,11 +2505,13 @@ export namespace Prisma {
   export type ArticleAvgAggregateInputType = {
     id?: true
     publicistId?: true
+    createdAt?: true
   }
 
   export type ArticleSumAggregateInputType = {
     id?: true
     publicistId?: true
+    createdAt?: true
   }
 
   export type ArticleMinAggregateInputType = {
@@ -2512,6 +2519,7 @@ export namespace Prisma {
     title?: true
     publicistId?: true
     content?: true
+    createdAt?: true
   }
 
   export type ArticleMaxAggregateInputType = {
@@ -2519,6 +2527,7 @@ export namespace Prisma {
     title?: true
     publicistId?: true
     content?: true
+    createdAt?: true
   }
 
   export type ArticleCountAggregateInputType = {
@@ -2526,6 +2535,7 @@ export namespace Prisma {
     title?: true
     publicistId?: true
     content?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -2620,6 +2630,7 @@ export namespace Prisma {
     title: string
     publicistId: number
     content: string
+    createdAt: number
     _count: ArticleCountAggregateOutputType | null
     _avg: ArticleAvgAggregateOutputType | null
     _sum: ArticleSumAggregateOutputType | null
@@ -2646,6 +2657,7 @@ export namespace Prisma {
     title?: boolean
     publicistId?: boolean
     content?: boolean
+    createdAt?: boolean
     publicist?: boolean | publicistDefaultArgs<ExtArgs>
     interests?: boolean | article$interestsArgs<ExtArgs>
     favourites?: boolean | article$favouritesArgs<ExtArgs>
@@ -2659,9 +2671,10 @@ export namespace Prisma {
     title?: boolean
     publicistId?: boolean
     content?: boolean
+    createdAt?: boolean
   }
 
-  export type articleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "publicistId" | "content", ExtArgs["result"]["article"]>
+  export type articleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "publicistId" | "content" | "createdAt", ExtArgs["result"]["article"]>
   export type articleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     publicist?: boolean | publicistDefaultArgs<ExtArgs>
     interests?: boolean | article$interestsArgs<ExtArgs>
@@ -2681,6 +2694,7 @@ export namespace Prisma {
       title: string
       publicistId: number
       content: string
+      createdAt: number
     }, ExtArgs["result"]["article"]>
     composites: {}
   }
@@ -3057,6 +3071,7 @@ export namespace Prisma {
     readonly title: FieldRef<"article", 'String'>
     readonly publicistId: FieldRef<"article", 'Int'>
     readonly content: FieldRef<"article", 'String'>
+    readonly createdAt: FieldRef<"article", 'Int'>
   }
     
 
@@ -4596,7 +4611,7 @@ export namespace Prisma {
     name: string
     user_id: string
     accepted: boolean
-    medium_id: number
+    medium_id: number | null
     _count: PublicistCountAggregateOutputType | null
     _avg: PublicistAvgAggregateOutputType | null
     _sum: PublicistSumAggregateOutputType | null
@@ -4625,8 +4640,8 @@ export namespace Prisma {
     accepted?: boolean
     medium_id?: boolean
     article?: boolean | publicist$articleArgs<ExtArgs>
+    mediums?: boolean | publicist$mediumsArgs<ExtArgs>
     user?: boolean | userDefaultArgs<ExtArgs>
-    mediums?: boolean | mediumsDefaultArgs<ExtArgs>
     _count?: boolean | PublicistCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["publicist"]>
 
@@ -4643,8 +4658,8 @@ export namespace Prisma {
   export type publicistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "user_id" | "accepted" | "medium_id", ExtArgs["result"]["publicist"]>
   export type publicistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     article?: boolean | publicist$articleArgs<ExtArgs>
+    mediums?: boolean | publicist$mediumsArgs<ExtArgs>
     user?: boolean | userDefaultArgs<ExtArgs>
-    mediums?: boolean | mediumsDefaultArgs<ExtArgs>
     _count?: boolean | PublicistCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4652,15 +4667,15 @@ export namespace Prisma {
     name: "publicist"
     objects: {
       article: Prisma.$articlePayload<ExtArgs>[]
+      mediums: Prisma.$mediumsPayload<ExtArgs> | null
       user: Prisma.$userPayload<ExtArgs>
-      mediums: Prisma.$mediumsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
       user_id: string
       accepted: boolean
-      medium_id: number
+      medium_id: number | null
     }, ExtArgs["result"]["publicist"]>
     composites: {}
   }
@@ -5002,8 +5017,8 @@ export namespace Prisma {
   export interface Prisma__publicistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     article<T extends publicist$articleArgs<ExtArgs> = {}>(args?: Subset<T, publicist$articleArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mediums<T extends publicist$mediumsArgs<ExtArgs> = {}>(args?: Subset<T, publicist$mediumsArgs<ExtArgs>>): Prisma__mediumsClient<$Result.GetResult<Prisma.$mediumsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends userDefaultArgs<ExtArgs> = {}>(args?: Subset<T, userDefaultArgs<ExtArgs>>): Prisma__userClient<$Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    mediums<T extends mediumsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, mediumsDefaultArgs<ExtArgs>>): Prisma__mediumsClient<$Result.GetResult<Prisma.$mediumsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5402,6 +5417,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+  /**
+   * publicist.mediums
+   */
+  export type publicist$mediumsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the mediums
+     */
+    select?: mediumsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the mediums
+     */
+    omit?: mediumsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: mediumsInclude<ExtArgs> | null
+    where?: mediumsWhereInput
   }
 
   /**
@@ -7422,22 +7456,22 @@ export namespace Prisma {
   export type MediumsMinAggregateOutputType = {
     id: number | null
     name: string | null
-    url: string | null
     rss_url: string | null
+    url: string | null
   }
 
   export type MediumsMaxAggregateOutputType = {
     id: number | null
     name: string | null
-    url: string | null
     rss_url: string | null
+    url: string | null
   }
 
   export type MediumsCountAggregateOutputType = {
     id: number
     name: number
-    url: number
     rss_url: number
+    url: number
     _all: number
   }
 
@@ -7453,22 +7487,22 @@ export namespace Prisma {
   export type MediumsMinAggregateInputType = {
     id?: true
     name?: true
-    url?: true
     rss_url?: true
+    url?: true
   }
 
   export type MediumsMaxAggregateInputType = {
     id?: true
     name?: true
-    url?: true
     rss_url?: true
+    url?: true
   }
 
   export type MediumsCountAggregateInputType = {
     id?: true
     name?: true
-    url?: true
     rss_url?: true
+    url?: true
     _all?: true
   }
 
@@ -7561,8 +7595,8 @@ export namespace Prisma {
   export type MediumsGroupByOutputType = {
     id: number
     name: string
-    url: string
     rss_url: string
+    url: string
     _count: MediumsCountAggregateOutputType | null
     _avg: MediumsAvgAggregateOutputType | null
     _sum: MediumsSumAggregateOutputType | null
@@ -7587,8 +7621,8 @@ export namespace Prisma {
   export type mediumsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    url?: boolean
     rss_url?: boolean
+    url?: boolean
     publicist?: boolean | mediums$publicistArgs<ExtArgs>
     _count?: boolean | MediumsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mediums"]>
@@ -7598,11 +7632,11 @@ export namespace Prisma {
   export type mediumsSelectScalar = {
     id?: boolean
     name?: boolean
-    url?: boolean
     rss_url?: boolean
+    url?: boolean
   }
 
-  export type mediumsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "url" | "rss_url", ExtArgs["result"]["mediums"]>
+  export type mediumsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "rss_url" | "url", ExtArgs["result"]["mediums"]>
   export type mediumsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     publicist?: boolean | mediums$publicistArgs<ExtArgs>
     _count?: boolean | MediumsCountOutputTypeDefaultArgs<ExtArgs>
@@ -7616,8 +7650,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
-      url: string
       rss_url: string
+      url: string
     }, ExtArgs["result"]["mediums"]>
     composites: {}
   }
@@ -7990,8 +8024,8 @@ export namespace Prisma {
   interface mediumsFieldRefs {
     readonly id: FieldRef<"mediums", 'Int'>
     readonly name: FieldRef<"mediums", 'String'>
-    readonly url: FieldRef<"mediums", 'String'>
     readonly rss_url: FieldRef<"mediums", 'String'>
+    readonly url: FieldRef<"mediums", 'String'>
   }
     
 
@@ -8403,7 +8437,8 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     publicistId: 'publicistId',
-    content: 'content'
+    content: 'content',
+    createdAt: 'createdAt'
   };
 
   export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
@@ -8452,8 +8487,8 @@ export namespace Prisma {
   export const MediumsScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    url: 'url',
-    rss_url: 'rss_url'
+    rss_url: 'rss_url',
+    url: 'url'
   };
 
   export type MediumsScalarFieldEnum = (typeof MediumsScalarFieldEnum)[keyof typeof MediumsScalarFieldEnum]
@@ -8482,20 +8517,20 @@ export namespace Prisma {
   export type interestOrderByRelevanceFieldEnum = (typeof interestOrderByRelevanceFieldEnum)[keyof typeof interestOrderByRelevanceFieldEnum]
 
 
-  export const publicistOrderByRelevanceFieldEnum: {
-    name: 'name',
-    user_id: 'user_id'
-  };
-
-  export type publicistOrderByRelevanceFieldEnum = (typeof publicistOrderByRelevanceFieldEnum)[keyof typeof publicistOrderByRelevanceFieldEnum]
-
-
   export const NullsOrder: {
     first: 'first',
     last: 'last'
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const publicistOrderByRelevanceFieldEnum: {
+    name: 'name',
+    user_id: 'user_id'
+  };
+
+  export type publicistOrderByRelevanceFieldEnum = (typeof publicistOrderByRelevanceFieldEnum)[keyof typeof publicistOrderByRelevanceFieldEnum]
 
 
   export const userOrderByRelevanceFieldEnum: {
@@ -8517,8 +8552,8 @@ export namespace Prisma {
 
   export const mediumsOrderByRelevanceFieldEnum: {
     name: 'name',
-    url: 'url',
-    rss_url: 'rss_url'
+    rss_url: 'rss_url',
+    url: 'url'
   };
 
   export type mediumsOrderByRelevanceFieldEnum = (typeof mediumsOrderByRelevanceFieldEnum)[keyof typeof mediumsOrderByRelevanceFieldEnum]
@@ -8614,6 +8649,7 @@ export namespace Prisma {
     title?: StringFilter<"article"> | string
     publicistId?: IntFilter<"article"> | number
     content?: StringFilter<"article"> | string
+    createdAt?: IntFilter<"article"> | number
     publicist?: XOR<PublicistScalarRelationFilter, publicistWhereInput>
     interests?: ArticleInterestListRelationFilter
     favourites?: FavouritesListRelationFilter
@@ -8624,6 +8660,7 @@ export namespace Prisma {
     title?: SortOrder
     publicistId?: SortOrder
     content?: SortOrder
+    createdAt?: SortOrder
     publicist?: publicistOrderByWithRelationInput
     interests?: ArticleInterestOrderByRelationAggregateInput
     favourites?: favouritesOrderByRelationAggregateInput
@@ -8638,6 +8675,7 @@ export namespace Prisma {
     title?: StringFilter<"article"> | string
     publicistId?: IntFilter<"article"> | number
     content?: StringFilter<"article"> | string
+    createdAt?: IntFilter<"article"> | number
     publicist?: XOR<PublicistScalarRelationFilter, publicistWhereInput>
     interests?: ArticleInterestListRelationFilter
     favourites?: FavouritesListRelationFilter
@@ -8648,6 +8686,7 @@ export namespace Prisma {
     title?: SortOrder
     publicistId?: SortOrder
     content?: SortOrder
+    createdAt?: SortOrder
     _count?: articleCountOrderByAggregateInput
     _avg?: articleAvgOrderByAggregateInput
     _max?: articleMaxOrderByAggregateInput
@@ -8663,6 +8702,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"article"> | string
     publicistId?: IntWithAggregatesFilter<"article"> | number
     content?: StringWithAggregatesFilter<"article"> | string
+    createdAt?: IntWithAggregatesFilter<"article"> | number
   }
 
   export type interestWhereInput = {
@@ -8716,10 +8756,10 @@ export namespace Prisma {
     name?: StringFilter<"publicist"> | string
     user_id?: StringFilter<"publicist"> | string
     accepted?: BoolFilter<"publicist"> | boolean
-    medium_id?: IntFilter<"publicist"> | number
+    medium_id?: IntNullableFilter<"publicist"> | number | null
     article?: ArticleListRelationFilter
+    mediums?: XOR<MediumsNullableScalarRelationFilter, mediumsWhereInput> | null
     user?: XOR<UserScalarRelationFilter, userWhereInput>
-    mediums?: XOR<MediumsScalarRelationFilter, mediumsWhereInput>
   }
 
   export type publicistOrderByWithRelationInput = {
@@ -8727,10 +8767,10 @@ export namespace Prisma {
     name?: SortOrder
     user_id?: SortOrder
     accepted?: SortOrder
-    medium_id?: SortOrder
+    medium_id?: SortOrderInput | SortOrder
     article?: articleOrderByRelationAggregateInput
-    user?: userOrderByWithRelationInput
     mediums?: mediumsOrderByWithRelationInput
+    user?: userOrderByWithRelationInput
     _relevance?: publicistOrderByRelevanceInput
   }
 
@@ -8742,10 +8782,10 @@ export namespace Prisma {
     NOT?: publicistWhereInput | publicistWhereInput[]
     name?: StringFilter<"publicist"> | string
     accepted?: BoolFilter<"publicist"> | boolean
-    medium_id?: IntFilter<"publicist"> | number
+    medium_id?: IntNullableFilter<"publicist"> | number | null
     article?: ArticleListRelationFilter
+    mediums?: XOR<MediumsNullableScalarRelationFilter, mediumsWhereInput> | null
     user?: XOR<UserScalarRelationFilter, userWhereInput>
-    mediums?: XOR<MediumsScalarRelationFilter, mediumsWhereInput>
   }, "id" | "user_id">
 
   export type publicistOrderByWithAggregationInput = {
@@ -8753,7 +8793,7 @@ export namespace Prisma {
     name?: SortOrder
     user_id?: SortOrder
     accepted?: SortOrder
-    medium_id?: SortOrder
+    medium_id?: SortOrderInput | SortOrder
     _count?: publicistCountOrderByAggregateInput
     _avg?: publicistAvgOrderByAggregateInput
     _max?: publicistMaxOrderByAggregateInput
@@ -8769,7 +8809,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"publicist"> | string
     user_id?: StringWithAggregatesFilter<"publicist"> | string
     accepted?: BoolWithAggregatesFilter<"publicist"> | boolean
-    medium_id?: IntWithAggregatesFilter<"publicist"> | number
+    medium_id?: IntNullableWithAggregatesFilter<"publicist"> | number | null
   }
 
   export type userWhereInput = {
@@ -8894,16 +8934,16 @@ export namespace Prisma {
     NOT?: mediumsWhereInput | mediumsWhereInput[]
     id?: IntFilter<"mediums"> | number
     name?: StringFilter<"mediums"> | string
-    url?: StringFilter<"mediums"> | string
     rss_url?: StringFilter<"mediums"> | string
+    url?: StringFilter<"mediums"> | string
     publicist?: PublicistListRelationFilter
   }
 
   export type mediumsOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    url?: SortOrder
     rss_url?: SortOrder
+    url?: SortOrder
     publicist?: publicistOrderByRelationAggregateInput
     _relevance?: mediumsOrderByRelevanceInput
   }
@@ -8914,16 +8954,16 @@ export namespace Prisma {
     OR?: mediumsWhereInput[]
     NOT?: mediumsWhereInput | mediumsWhereInput[]
     name?: StringFilter<"mediums"> | string
-    url?: StringFilter<"mediums"> | string
     rss_url?: StringFilter<"mediums"> | string
+    url?: StringFilter<"mediums"> | string
     publicist?: PublicistListRelationFilter
   }, "id">
 
   export type mediumsOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    url?: SortOrder
     rss_url?: SortOrder
+    url?: SortOrder
     _count?: mediumsCountOrderByAggregateInput
     _avg?: mediumsAvgOrderByAggregateInput
     _max?: mediumsMaxOrderByAggregateInput
@@ -8937,8 +8977,8 @@ export namespace Prisma {
     NOT?: mediumsScalarWhereWithAggregatesInput | mediumsScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"mediums"> | number
     name?: StringWithAggregatesFilter<"mediums"> | string
-    url?: StringWithAggregatesFilter<"mediums"> | string
     rss_url?: StringWithAggregatesFilter<"mediums"> | string
+    url?: StringWithAggregatesFilter<"mediums"> | string
   }
 
   export type ArticleInterestCreateInput = {
@@ -8978,6 +9018,7 @@ export namespace Prisma {
   export type articleCreateInput = {
     title: string
     content: string
+    createdAt?: number
     publicist: publicistCreateNestedOneWithoutArticleInput
     interests?: ArticleInterestCreateNestedManyWithoutArticleInput
     favourites?: favouritesCreateNestedManyWithoutArticleInput
@@ -8988,6 +9029,7 @@ export namespace Prisma {
     title: string
     publicistId: number
     content: string
+    createdAt?: number
     interests?: ArticleInterestUncheckedCreateNestedManyWithoutArticleInput
     favourites?: favouritesUncheckedCreateNestedManyWithoutArticleInput
   }
@@ -8995,6 +9037,7 @@ export namespace Prisma {
   export type articleUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
     publicist?: publicistUpdateOneRequiredWithoutArticleNestedInput
     interests?: ArticleInterestUpdateManyWithoutArticleNestedInput
     favourites?: favouritesUpdateManyWithoutArticleNestedInput
@@ -9005,6 +9048,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     publicistId?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
     interests?: ArticleInterestUncheckedUpdateManyWithoutArticleNestedInput
     favourites?: favouritesUncheckedUpdateManyWithoutArticleNestedInput
   }
@@ -9014,11 +9058,13 @@ export namespace Prisma {
     title: string
     publicistId: number
     content: string
+    createdAt?: number
   }
 
   export type articleUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
   }
 
   export type articleUncheckedUpdateManyInput = {
@@ -9026,6 +9072,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     publicistId?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
   }
 
   export type interestCreateInput = {
@@ -9068,8 +9115,8 @@ export namespace Prisma {
     name: string
     accepted?: boolean
     article?: articleCreateNestedManyWithoutPublicistInput
+    mediums?: mediumsCreateNestedOneWithoutPublicistInput
     user: userCreateNestedOneWithoutPublicistInput
-    mediums: mediumsCreateNestedOneWithoutPublicistInput
   }
 
   export type publicistUncheckedCreateInput = {
@@ -9077,7 +9124,7 @@ export namespace Prisma {
     name: string
     user_id: string
     accepted?: boolean
-    medium_id: number
+    medium_id?: number | null
     article?: articleUncheckedCreateNestedManyWithoutPublicistInput
   }
 
@@ -9085,8 +9132,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
     article?: articleUpdateManyWithoutPublicistNestedInput
+    mediums?: mediumsUpdateOneWithoutPublicistNestedInput
     user?: userUpdateOneRequiredWithoutPublicistNestedInput
-    mediums?: mediumsUpdateOneRequiredWithoutPublicistNestedInput
   }
 
   export type publicistUncheckedUpdateInput = {
@@ -9094,7 +9141,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
-    medium_id?: IntFieldUpdateOperationsInput | number
+    medium_id?: NullableIntFieldUpdateOperationsInput | number | null
     article?: articleUncheckedUpdateManyWithoutPublicistNestedInput
   }
 
@@ -9103,7 +9150,7 @@ export namespace Prisma {
     name: string
     user_id: string
     accepted?: boolean
-    medium_id: number
+    medium_id?: number | null
   }
 
   export type publicistUpdateManyMutationInput = {
@@ -9116,7 +9163,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
-    medium_id?: IntFieldUpdateOperationsInput | number
+    medium_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type userCreateInput = {
@@ -9230,52 +9277,52 @@ export namespace Prisma {
 
   export type mediumsCreateInput = {
     name: string
-    url: string
     rss_url: string
+    url: string
     publicist?: publicistCreateNestedManyWithoutMediumsInput
   }
 
   export type mediumsUncheckedCreateInput = {
     id?: number
     name: string
-    url: string
     rss_url: string
+    url: string
     publicist?: publicistUncheckedCreateNestedManyWithoutMediumsInput
   }
 
   export type mediumsUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
     rss_url?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
     publicist?: publicistUpdateManyWithoutMediumsNestedInput
   }
 
   export type mediumsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
     rss_url?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
     publicist?: publicistUncheckedUpdateManyWithoutMediumsNestedInput
   }
 
   export type mediumsCreateManyInput = {
     id?: number
     name: string
-    url: string
     rss_url: string
+    url: string
   }
 
   export type mediumsUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
     rss_url?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
   }
 
   export type mediumsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
     rss_url?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -9396,11 +9443,13 @@ export namespace Prisma {
     title?: SortOrder
     publicistId?: SortOrder
     content?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type articleAvgOrderByAggregateInput = {
     id?: SortOrder
     publicistId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type articleMaxOrderByAggregateInput = {
@@ -9408,6 +9457,7 @@ export namespace Prisma {
     title?: SortOrder
     publicistId?: SortOrder
     content?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type articleMinOrderByAggregateInput = {
@@ -9415,11 +9465,13 @@ export namespace Prisma {
     title?: SortOrder
     publicistId?: SortOrder
     content?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type articleSumOrderByAggregateInput = {
     id?: SortOrder
     publicistId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -9474,10 +9526,26 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ArticleListRelationFilter = {
     every?: articleWhereInput
     some?: articleWhereInput
     none?: articleWhereInput
+  }
+
+  export type MediumsNullableScalarRelationFilter = {
+    is?: mediumsWhereInput | null
+    isNot?: mediumsWhereInput | null
   }
 
   export type UserScalarRelationFilter = {
@@ -9485,9 +9553,9 @@ export namespace Prisma {
     isNot?: userWhereInput
   }
 
-  export type MediumsScalarRelationFilter = {
-    is?: mediumsWhereInput
-    isNot?: mediumsWhereInput
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type articleOrderByRelationAggregateInput = {
@@ -9542,6 +9610,22 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | null
@@ -9560,11 +9644,6 @@ export namespace Prisma {
   export type PublicistNullableScalarRelationFilter = {
     is?: publicistWhereInput | null
     isNot?: publicistWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type userOrderByRelevanceInput = {
@@ -9618,17 +9697,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type ArticleNullableScalarRelationFilter = {
     is?: articleWhereInput | null
     isNot?: articleWhereInput | null
@@ -9678,22 +9746,6 @@ export namespace Prisma {
     article_id?: SortOrder
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
   export type PublicistListRelationFilter = {
     every?: publicistWhereInput
     some?: publicistWhereInput
@@ -9713,8 +9765,8 @@ export namespace Prisma {
   export type mediumsCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    url?: SortOrder
     rss_url?: SortOrder
+    url?: SortOrder
   }
 
   export type mediumsAvgOrderByAggregateInput = {
@@ -9724,15 +9776,15 @@ export namespace Prisma {
   export type mediumsMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    url?: SortOrder
     rss_url?: SortOrder
+    url?: SortOrder
   }
 
   export type mediumsMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    url?: SortOrder
     rss_url?: SortOrder
+    url?: SortOrder
   }
 
   export type mediumsSumOrderByAggregateInput = {
@@ -9926,16 +9978,16 @@ export namespace Prisma {
     connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
   }
 
-  export type userCreateNestedOneWithoutPublicistInput = {
-    create?: XOR<userCreateWithoutPublicistInput, userUncheckedCreateWithoutPublicistInput>
-    connectOrCreate?: userCreateOrConnectWithoutPublicistInput
-    connect?: userWhereUniqueInput
-  }
-
   export type mediumsCreateNestedOneWithoutPublicistInput = {
     create?: XOR<mediumsCreateWithoutPublicistInput, mediumsUncheckedCreateWithoutPublicistInput>
     connectOrCreate?: mediumsCreateOrConnectWithoutPublicistInput
     connect?: mediumsWhereUniqueInput
+  }
+
+  export type userCreateNestedOneWithoutPublicistInput = {
+    create?: XOR<userCreateWithoutPublicistInput, userUncheckedCreateWithoutPublicistInput>
+    connectOrCreate?: userCreateOrConnectWithoutPublicistInput
+    connect?: userWhereUniqueInput
   }
 
   export type articleUncheckedCreateNestedManyWithoutPublicistInput = {
@@ -9963,6 +10015,16 @@ export namespace Prisma {
     deleteMany?: articleScalarWhereInput | articleScalarWhereInput[]
   }
 
+  export type mediumsUpdateOneWithoutPublicistNestedInput = {
+    create?: XOR<mediumsCreateWithoutPublicistInput, mediumsUncheckedCreateWithoutPublicistInput>
+    connectOrCreate?: mediumsCreateOrConnectWithoutPublicistInput
+    upsert?: mediumsUpsertWithoutPublicistInput
+    disconnect?: mediumsWhereInput | boolean
+    delete?: mediumsWhereInput | boolean
+    connect?: mediumsWhereUniqueInput
+    update?: XOR<XOR<mediumsUpdateToOneWithWhereWithoutPublicistInput, mediumsUpdateWithoutPublicistInput>, mediumsUncheckedUpdateWithoutPublicistInput>
+  }
+
   export type userUpdateOneRequiredWithoutPublicistNestedInput = {
     create?: XOR<userCreateWithoutPublicistInput, userUncheckedCreateWithoutPublicistInput>
     connectOrCreate?: userCreateOrConnectWithoutPublicistInput
@@ -9971,12 +10033,12 @@ export namespace Prisma {
     update?: XOR<XOR<userUpdateToOneWithWhereWithoutPublicistInput, userUpdateWithoutPublicistInput>, userUncheckedUpdateWithoutPublicistInput>
   }
 
-  export type mediumsUpdateOneRequiredWithoutPublicistNestedInput = {
-    create?: XOR<mediumsCreateWithoutPublicistInput, mediumsUncheckedCreateWithoutPublicistInput>
-    connectOrCreate?: mediumsCreateOrConnectWithoutPublicistInput
-    upsert?: mediumsUpsertWithoutPublicistInput
-    connect?: mediumsWhereUniqueInput
-    update?: XOR<XOR<mediumsUpdateToOneWithWhereWithoutPublicistInput, mediumsUpdateWithoutPublicistInput>, mediumsUncheckedUpdateWithoutPublicistInput>
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type articleUncheckedUpdateManyWithoutPublicistNestedInput = {
@@ -10103,14 +10165,6 @@ export namespace Prisma {
     update?: XOR<XOR<userUpdateToOneWithWhereWithoutFavouritesInput, userUpdateWithoutFavouritesInput>, userUncheckedUpdateWithoutFavouritesInput>
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type publicistCreateNestedManyWithoutMediumsInput = {
     create?: XOR<publicistCreateWithoutMediumsInput, publicistUncheckedCreateWithoutMediumsInput> | publicistCreateWithoutMediumsInput[] | publicistUncheckedCreateWithoutMediumsInput[]
     connectOrCreate?: publicistCreateOrConnectWithoutMediumsInput | publicistCreateOrConnectWithoutMediumsInput[]
@@ -10229,12 +10283,50 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -10270,47 +10362,10 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type articleCreateWithoutInterestsInput = {
     title: string
     content: string
+    createdAt?: number
     publicist: publicistCreateNestedOneWithoutArticleInput
     favourites?: favouritesCreateNestedManyWithoutArticleInput
   }
@@ -10320,6 +10375,7 @@ export namespace Prisma {
     title: string
     publicistId: number
     content: string
+    createdAt?: number
     favourites?: favouritesUncheckedCreateNestedManyWithoutArticleInput
   }
 
@@ -10356,6 +10412,7 @@ export namespace Prisma {
   export type articleUpdateWithoutInterestsInput = {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
     publicist?: publicistUpdateOneRequiredWithoutArticleNestedInput
     favourites?: favouritesUpdateManyWithoutArticleNestedInput
   }
@@ -10365,6 +10422,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     publicistId?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
     favourites?: favouritesUncheckedUpdateManyWithoutArticleNestedInput
   }
 
@@ -10391,8 +10449,8 @@ export namespace Prisma {
   export type publicistCreateWithoutArticleInput = {
     name: string
     accepted?: boolean
+    mediums?: mediumsCreateNestedOneWithoutPublicistInput
     user: userCreateNestedOneWithoutPublicistInput
-    mediums: mediumsCreateNestedOneWithoutPublicistInput
   }
 
   export type publicistUncheckedCreateWithoutArticleInput = {
@@ -10400,7 +10458,7 @@ export namespace Prisma {
     name: string
     user_id: string
     accepted?: boolean
-    medium_id: number
+    medium_id?: number | null
   }
 
   export type publicistCreateOrConnectWithoutArticleInput = {
@@ -10459,8 +10517,8 @@ export namespace Prisma {
   export type publicistUpdateWithoutArticleInput = {
     name?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
+    mediums?: mediumsUpdateOneWithoutPublicistNestedInput
     user?: userUpdateOneRequiredWithoutPublicistNestedInput
-    mediums?: mediumsUpdateOneRequiredWithoutPublicistNestedInput
   }
 
   export type publicistUncheckedUpdateWithoutArticleInput = {
@@ -10468,7 +10526,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
-    medium_id?: IntFieldUpdateOperationsInput | number
+    medium_id?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ArticleInterestUpsertWithWhereUniqueWithoutArticleInput = {
@@ -10557,6 +10615,7 @@ export namespace Prisma {
   export type articleCreateWithoutPublicistInput = {
     title: string
     content: string
+    createdAt?: number
     interests?: ArticleInterestCreateNestedManyWithoutArticleInput
     favourites?: favouritesCreateNestedManyWithoutArticleInput
   }
@@ -10565,6 +10624,7 @@ export namespace Prisma {
     id?: number
     title: string
     content: string
+    createdAt?: number
     interests?: ArticleInterestUncheckedCreateNestedManyWithoutArticleInput
     favourites?: favouritesUncheckedCreateNestedManyWithoutArticleInput
   }
@@ -10577,6 +10637,24 @@ export namespace Prisma {
   export type articleCreateManyPublicistInputEnvelope = {
     data: articleCreateManyPublicistInput | articleCreateManyPublicistInput[]
     skipDuplicates?: boolean
+  }
+
+  export type mediumsCreateWithoutPublicistInput = {
+    name: string
+    rss_url: string
+    url: string
+  }
+
+  export type mediumsUncheckedCreateWithoutPublicistInput = {
+    id?: number
+    name: string
+    rss_url: string
+    url: string
+  }
+
+  export type mediumsCreateOrConnectWithoutPublicistInput = {
+    where: mediumsWhereUniqueInput
+    create: XOR<mediumsCreateWithoutPublicistInput, mediumsUncheckedCreateWithoutPublicistInput>
   }
 
   export type userCreateWithoutPublicistInput = {
@@ -10604,24 +10682,6 @@ export namespace Prisma {
     create: XOR<userCreateWithoutPublicistInput, userUncheckedCreateWithoutPublicistInput>
   }
 
-  export type mediumsCreateWithoutPublicistInput = {
-    name: string
-    url: string
-    rss_url: string
-  }
-
-  export type mediumsUncheckedCreateWithoutPublicistInput = {
-    id?: number
-    name: string
-    url: string
-    rss_url: string
-  }
-
-  export type mediumsCreateOrConnectWithoutPublicistInput = {
-    where: mediumsWhereUniqueInput
-    create: XOR<mediumsCreateWithoutPublicistInput, mediumsUncheckedCreateWithoutPublicistInput>
-  }
-
   export type articleUpsertWithWhereUniqueWithoutPublicistInput = {
     where: articleWhereUniqueInput
     update: XOR<articleUpdateWithoutPublicistInput, articleUncheckedUpdateWithoutPublicistInput>
@@ -10646,6 +10706,31 @@ export namespace Prisma {
     title?: StringFilter<"article"> | string
     publicistId?: IntFilter<"article"> | number
     content?: StringFilter<"article"> | string
+    createdAt?: IntFilter<"article"> | number
+  }
+
+  export type mediumsUpsertWithoutPublicistInput = {
+    update: XOR<mediumsUpdateWithoutPublicistInput, mediumsUncheckedUpdateWithoutPublicistInput>
+    create: XOR<mediumsCreateWithoutPublicistInput, mediumsUncheckedCreateWithoutPublicistInput>
+    where?: mediumsWhereInput
+  }
+
+  export type mediumsUpdateToOneWithWhereWithoutPublicistInput = {
+    where?: mediumsWhereInput
+    data: XOR<mediumsUpdateWithoutPublicistInput, mediumsUncheckedUpdateWithoutPublicistInput>
+  }
+
+  export type mediumsUpdateWithoutPublicistInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    rss_url?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type mediumsUncheckedUpdateWithoutPublicistInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    rss_url?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
   }
 
   export type userUpsertWithoutPublicistInput = {
@@ -10679,30 +10764,6 @@ export namespace Prisma {
     favourites?: favouritesUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type mediumsUpsertWithoutPublicistInput = {
-    update: XOR<mediumsUpdateWithoutPublicistInput, mediumsUncheckedUpdateWithoutPublicistInput>
-    create: XOR<mediumsCreateWithoutPublicistInput, mediumsUncheckedCreateWithoutPublicistInput>
-    where?: mediumsWhereInput
-  }
-
-  export type mediumsUpdateToOneWithWhereWithoutPublicistInput = {
-    where?: mediumsWhereInput
-    data: XOR<mediumsUpdateWithoutPublicistInput, mediumsUncheckedUpdateWithoutPublicistInput>
-  }
-
-  export type mediumsUpdateWithoutPublicistInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    rss_url?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type mediumsUncheckedUpdateWithoutPublicistInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    rss_url?: StringFieldUpdateOperationsInput | string
-  }
-
   export type favouritesCreateWithoutUserInput = {
     article?: articleCreateNestedOneWithoutFavouritesInput
   }
@@ -10726,14 +10787,14 @@ export namespace Prisma {
     name: string
     accepted?: boolean
     article?: articleCreateNestedManyWithoutPublicistInput
-    mediums: mediumsCreateNestedOneWithoutPublicistInput
+    mediums?: mediumsCreateNestedOneWithoutPublicistInput
   }
 
   export type publicistUncheckedCreateWithoutUserInput = {
     id?: number
     name: string
     accepted?: boolean
-    medium_id: number
+    medium_id?: number | null
     article?: articleUncheckedCreateNestedManyWithoutPublicistInput
   }
 
@@ -10773,20 +10834,21 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
     article?: articleUpdateManyWithoutPublicistNestedInput
-    mediums?: mediumsUpdateOneRequiredWithoutPublicistNestedInput
+    mediums?: mediumsUpdateOneWithoutPublicistNestedInput
   }
 
   export type publicistUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     accepted?: BoolFieldUpdateOperationsInput | boolean
-    medium_id?: IntFieldUpdateOperationsInput | number
+    medium_id?: NullableIntFieldUpdateOperationsInput | number | null
     article?: articleUncheckedUpdateManyWithoutPublicistNestedInput
   }
 
   export type articleCreateWithoutFavouritesInput = {
     title: string
     content: string
+    createdAt?: number
     publicist: publicistCreateNestedOneWithoutArticleInput
     interests?: ArticleInterestCreateNestedManyWithoutArticleInput
   }
@@ -10796,6 +10858,7 @@ export namespace Prisma {
     title: string
     publicistId: number
     content: string
+    createdAt?: number
     interests?: ArticleInterestUncheckedCreateNestedManyWithoutArticleInput
   }
 
@@ -10843,6 +10906,7 @@ export namespace Prisma {
   export type articleUpdateWithoutFavouritesInput = {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
     publicist?: publicistUpdateOneRequiredWithoutArticleNestedInput
     interests?: ArticleInterestUpdateManyWithoutArticleNestedInput
   }
@@ -10852,6 +10916,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     publicistId?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
     interests?: ArticleInterestUncheckedUpdateManyWithoutArticleNestedInput
   }
 
@@ -10935,7 +11000,7 @@ export namespace Prisma {
     name?: StringFilter<"publicist"> | string
     user_id?: StringFilter<"publicist"> | string
     accepted?: BoolFilter<"publicist"> | boolean
-    medium_id?: IntFilter<"publicist"> | number
+    medium_id?: IntNullableFilter<"publicist"> | number | null
   }
 
   export type ArticleInterestCreateManyArticleInput = {
@@ -10993,11 +11058,13 @@ export namespace Prisma {
     id?: number
     title: string
     content: string
+    createdAt?: number
   }
 
   export type articleUpdateWithoutPublicistInput = {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
     interests?: ArticleInterestUpdateManyWithoutArticleNestedInput
     favourites?: favouritesUpdateManyWithoutArticleNestedInput
   }
@@ -11006,6 +11073,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
     interests?: ArticleInterestUncheckedUpdateManyWithoutArticleNestedInput
     favourites?: favouritesUncheckedUpdateManyWithoutArticleNestedInput
   }
@@ -11014,6 +11082,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: IntFieldUpdateOperationsInput | number
   }
 
   export type favouritesCreateManyUserInput = {

@@ -30,7 +30,8 @@ export default function Login({ closeLogin = () => void 0 }) {
         localStorage.setItem("accessToken", data.token);
         localStorage.setItem("isAdmin", parsedJwt.admin);
         if (res.status == 200) {
-          navigate("/Home");
+          closeLogin();
+          window.location.reload();
         }
       })
       .catch((err) => {
@@ -42,6 +43,14 @@ export default function Login({ closeLogin = () => void 0 }) {
   return (
     <div className="text-black w-full flex justify-center">
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full p-8 transition-all duration-300 animate-fade-in relative">
+        {/* Close Button */}
+        <button
+          className="absolute top-4 right-4 bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-700 transition duration-150 font-bold"
+          onClick={closeLogin}
+        >
+          ✕
+        </button>
+
         {/* Header */}
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center pt-2">
           Bejelentkezés

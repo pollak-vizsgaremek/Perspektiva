@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
-export default function Profile({ closeProfile = () => void 0 }) {
+export default function Profile({ closeProfile = () => void 0, onLogout = () => void 0 }) {
   const [userData, setUserData] = useState(null);
   const [activeTab, setActiveTab] = useState("articles");
   const [filterCategory, setFilterCategory] = useState("all");
@@ -15,6 +16,7 @@ export default function Profile({ closeProfile = () => void 0 }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const API_URL = import.meta.env.VITE_BACKEND_URL;
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserData();
@@ -283,9 +285,7 @@ export default function Profile({ closeProfile = () => void 0 }) {
           )}
           <button
             onClick={() => {
-              localStorage.removeItem("accessToken");
-              localStorage.removeItem("userId");
-              window.location.reload();
+              onLogout();
             }}
             className="flex-1 bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white px-6 py-3 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors duration-300 font-medium"
           >

@@ -68,7 +68,7 @@ export default function Home() {
       }
     } catch (error) {
       console.error("Gemini hiba részletesen:", error);
-      setSolution("FAASZ");
+      setSolution("ALMAA");
     }
   }, []);
 
@@ -157,6 +157,15 @@ export default function Home() {
   const closeProfile = () => setIsProfileOpen(false);
   const openLogin = () => setIsLoginOpen(true);
   const closeLogin = () => setIsLoginOpen(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("isAdmin");
+    setIsLoggedIn(false);
+    setIsProfileOpen(false);
+    setIsLoginOpen(true);
+  };
 
   function openArticle(item) {
     setSelectedArticle(item);
@@ -416,7 +425,7 @@ export default function Home() {
 
       {isLoggedIn && isProfileOpen && (
         <div className="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center backdrop-blur-sm">
-          <Profile closeProfile={closeProfile} />
+          <Profile closeProfile={closeProfile} onLogout={handleLogout} />
         </div>
       )}
 

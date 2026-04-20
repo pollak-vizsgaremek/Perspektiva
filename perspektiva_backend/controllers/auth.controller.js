@@ -60,6 +60,7 @@ router.post("/register", async (req, res) => {
         password: hashedPassword,
       },
     });
+
     if (ispublicist) {
       const Publicist = await prisma.publicist.create({
         data: {
@@ -68,6 +69,7 @@ router.post("/register", async (req, res) => {
         },
       });
     }
+
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     console.log(error);

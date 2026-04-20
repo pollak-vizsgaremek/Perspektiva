@@ -102,7 +102,8 @@ exports.Prisma.ArticleScalarFieldEnum = {
   id: 'id',
   title: 'title',
   publicistId: 'publicistId',
-  content: 'content'
+  content: 'content',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.InterestScalarFieldEnum = {
@@ -136,8 +137,8 @@ exports.Prisma.FavouritesScalarFieldEnum = {
 exports.Prisma.MediumsScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  url: 'url',
-  rss_url: 'rss_url'
+  rss_url: 'rss_url',
+  url: 'url'
 };
 
 exports.Prisma.SortOrder = {
@@ -154,14 +155,14 @@ exports.Prisma.interestOrderByRelevanceFieldEnum = {
   name: 'name'
 };
 
-exports.Prisma.publicistOrderByRelevanceFieldEnum = {
-  name: 'name',
-  user_id: 'user_id'
-};
-
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.publicistOrderByRelevanceFieldEnum = {
+  name: 'name',
+  user_id: 'user_id'
 };
 
 exports.Prisma.userOrderByRelevanceFieldEnum = {
@@ -177,8 +178,8 @@ exports.Prisma.favouritesOrderByRelevanceFieldEnum = {
 
 exports.Prisma.mediumsOrderByRelevanceFieldEnum = {
   name: 'name',
-  url: 'url',
-  rss_url: 'rss_url'
+  rss_url: 'rss_url',
+  url: 'url'
 };
 
 
@@ -202,7 +203,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\varjal\\Perspektiva\\perspektiva_backend\\generated\\prisma",
+      "value": "G:\\Perspektiva\\perspektiva_backend\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -216,7 +217,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\varjal\\Perspektiva\\perspektiva_backend\\prisma\\schema.prisma",
+    "sourceFilePath": "G:\\Perspektiva\\perspektiva_backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -238,13 +239,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel ArticleInterest {\n  articleId  Int\n  interestId Int\n  article    article  @relation(fields: [articleId], references: [id])\n  interest   interest @relation(fields: [interestId], references: [id])\n\n  @@id([articleId, interestId])\n  @@index([interestId], map: \"articles_interests_interestId_fkey\")\n  @@map(\"articles_interests\")\n}\n\nmodel article {\n  id          Int               @id @default(autoincrement())\n  title       String\n  publicistId Int\n  content     String            @db.LongText\n  publicist   publicist         @relation(fields: [publicistId], references: [id], map: \"Article_publicistId_fkey\")\n  interests   ArticleInterest[]\n  favourites  favourites[]\n\n  @@index([publicistId], map: \"Article_publicistId_fkey\")\n}\n\nmodel interest {\n  id       Int               @id @default(autoincrement())\n  name     String\n  articles ArticleInterest[]\n}\n\nmodel publicist {\n  id        Int       @id @default(autoincrement())\n  name      String\n  user_id   String    @unique\n  accepted  Boolean   @default(false)\n  medium_id Int\n  article   article[]\n  user      user      @relation(fields: [user_id], references: [id])\n  mediums   mediums   @relation(fields: [medium_id], references: [id], onUpdate: Restrict, map: \"publicist_ibfk_2\")\n\n  @@index([user_id], map: \"user_id\")\n  @@index([medium_id], map: \"medium_id\")\n}\n\nmodel user {\n  id         String       @id @unique @default(uuid())\n  email      String       @unique(map: \"User_email_key\")\n  password   String\n  name       String?\n  isAdmin    Boolean      @default(false)\n  deleted    Boolean      @default(false)\n  favourites favourites[]\n  publicist  publicist?\n}\n\nmodel favourites {\n  id         Int      @id @default(autoincrement())\n  user_id    String?\n  article_id Int?\n  article    article? @relation(fields: [article_id], references: [id], onUpdate: SetNull)\n  user       user?    @relation(fields: [user_id], references: [id], onUpdate: SetNull)\n\n  @@unique([user_id, article_id])\n  @@index([article_id], map: \"favourites_article_id_fkey\")\n}\n\nmodel mediums {\n  id        Int         @id @default(autoincrement())\n  name      String\n  url       String      @db.VarChar(1000)\n  rss_url   String      @db.VarChar(1000)\n  publicist publicist[]\n}\n",
-  "inlineSchemaHash": "dad8d0f32e44b541ad22ea7b6e6fef631d443e9d81fcf3b0a52dc9ac17273c0a",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel ArticleInterest {\n  articleId  Int\n  interestId Int\n  article    article  @relation(fields: [articleId], references: [id])\n  interest   interest @relation(fields: [interestId], references: [id])\n\n  @@id([articleId, interestId])\n  @@index([interestId], map: \"articles_interests_interestId_fkey\")\n  @@map(\"articles_interests\")\n}\n\nmodel article {\n  id          Int               @id @default(autoincrement())\n  title       String\n  publicistId Int\n  content     String            @db.LongText\n  createdAt   Int               @default(dbgenerated(\"(unix_timestamp())\")) @map(\"created_At\")\n  publicist   publicist         @relation(fields: [publicistId], references: [id], map: \"Article_publicistId_fkey\")\n  interests   ArticleInterest[]\n  favourites  favourites[]\n\n  @@index([publicistId], map: \"Article_publicistId_fkey\")\n}\n\nmodel interest {\n  id       Int               @id @default(autoincrement())\n  name     String\n  articles ArticleInterest[]\n}\n\nmodel publicist {\n  id        Int       @id @default(autoincrement())\n  name      String\n  user_id   String    @unique\n  accepted  Boolean   @default(false)\n  medium_id Int?\n  article   article[]\n  mediums   mediums?  @relation(fields: [medium_id], references: [id], onUpdate: Restrict, map: \"publicist_ibfk_2\")\n  user      user      @relation(fields: [user_id], references: [id])\n\n  @@index([user_id], map: \"user_id\")\n  @@index([medium_id], map: \"medium_id\")\n}\n\nmodel user {\n  id         String       @id @unique @default(uuid())\n  email      String       @unique(map: \"User_email_key\")\n  password   String\n  name       String?\n  isAdmin    Boolean      @default(false)\n  deleted    Boolean      @default(false)\n  favourites favourites[]\n  publicist  publicist?\n}\n\nmodel favourites {\n  id         Int      @id @default(autoincrement())\n  user_id    String?\n  article_id Int?\n  article    article? @relation(fields: [article_id], references: [id], onUpdate: SetNull)\n  user       user?    @relation(fields: [user_id], references: [id], onUpdate: SetNull)\n\n  @@unique([user_id, article_id])\n  @@index([article_id], map: \"favourites_article_id_fkey\")\n}\n\nmodel mediums {\n  id        Int         @id @default(autoincrement())\n  name      String\n  rss_url   String      @db.VarChar(1000)\n  url       String      @db.VarChar(1000)\n  publicist publicist[]\n}\n",
+  "inlineSchemaHash": "b29f7045a879ccefad979ec0644af68a1412629b1661065f7ce3c5d807b30c7e",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"ArticleInterest\":{\"fields\":[{\"name\":\"articleId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"interestId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"article\",\"relationName\":\"ArticleInterestToarticle\"},{\"name\":\"interest\",\"kind\":\"object\",\"type\":\"interest\",\"relationName\":\"ArticleInterestTointerest\"}],\"dbName\":\"articles_interests\"},\"article\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicistId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicist\",\"kind\":\"object\",\"type\":\"publicist\",\"relationName\":\"articleTopublicist\"},{\"name\":\"interests\",\"kind\":\"object\",\"type\":\"ArticleInterest\",\"relationName\":\"ArticleInterestToarticle\"},{\"name\":\"favourites\",\"kind\":\"object\",\"type\":\"favourites\",\"relationName\":\"articleTofavourites\"}],\"dbName\":null},\"interest\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"articles\",\"kind\":\"object\",\"type\":\"ArticleInterest\",\"relationName\":\"ArticleInterestTointerest\"}],\"dbName\":null},\"publicist\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accepted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"medium_id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"article\",\"relationName\":\"articleTopublicist\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"publicistTouser\"},{\"name\":\"mediums\",\"kind\":\"object\",\"type\":\"mediums\",\"relationName\":\"mediumsTopublicist\"}],\"dbName\":null},\"user\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isAdmin\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"deleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"favourites\",\"kind\":\"object\",\"type\":\"favourites\",\"relationName\":\"favouritesTouser\"},{\"name\":\"publicist\",\"kind\":\"object\",\"type\":\"publicist\",\"relationName\":\"publicistTouser\"}],\"dbName\":null},\"favourites\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"article_id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"article\",\"relationName\":\"articleTofavourites\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"favouritesTouser\"}],\"dbName\":null},\"mediums\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rss_url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicist\",\"kind\":\"object\",\"type\":\"publicist\",\"relationName\":\"mediumsTopublicist\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"ArticleInterest\":{\"fields\":[{\"name\":\"articleId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"interestId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"article\",\"relationName\":\"ArticleInterestToarticle\"},{\"name\":\"interest\",\"kind\":\"object\",\"type\":\"interest\",\"relationName\":\"ArticleInterestTointerest\"}],\"dbName\":\"articles_interests\"},\"article\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicistId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"created_At\"},{\"name\":\"publicist\",\"kind\":\"object\",\"type\":\"publicist\",\"relationName\":\"articleTopublicist\"},{\"name\":\"interests\",\"kind\":\"object\",\"type\":\"ArticleInterest\",\"relationName\":\"ArticleInterestToarticle\"},{\"name\":\"favourites\",\"kind\":\"object\",\"type\":\"favourites\",\"relationName\":\"articleTofavourites\"}],\"dbName\":null},\"interest\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"articles\",\"kind\":\"object\",\"type\":\"ArticleInterest\",\"relationName\":\"ArticleInterestTointerest\"}],\"dbName\":null},\"publicist\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accepted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"medium_id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"article\",\"relationName\":\"articleTopublicist\"},{\"name\":\"mediums\",\"kind\":\"object\",\"type\":\"mediums\",\"relationName\":\"mediumsTopublicist\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"publicistTouser\"}],\"dbName\":null},\"user\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isAdmin\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"deleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"favourites\",\"kind\":\"object\",\"type\":\"favourites\",\"relationName\":\"favouritesTouser\"},{\"name\":\"publicist\",\"kind\":\"object\",\"type\":\"publicist\",\"relationName\":\"publicistTouser\"}],\"dbName\":null},\"favourites\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"article_id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"article\",\"kind\":\"object\",\"type\":\"article\",\"relationName\":\"articleTofavourites\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"user\",\"relationName\":\"favouritesTouser\"}],\"dbName\":null},\"mediums\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"rss_url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicist\",\"kind\":\"object\",\"type\":\"publicist\",\"relationName\":\"mediumsTopublicist\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

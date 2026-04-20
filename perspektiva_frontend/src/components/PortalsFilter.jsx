@@ -1,31 +1,51 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import {} from "react";
 
 export default function PortalsFilter() {
   useEffect(() => {
     document.title = `Perspektíva — Források Kezelése`;
   }, []);
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-  // Az adatok listája (Majd leszívjuk valahonnan, adatb vagy idk)
+  // Az adatok listája
   const [sources, setSources] = useState(
     localStorage.getItem("sources")
       ? JSON.parse(localStorage.getItem("sources"))
-      : [
-          { id: 1, name: "Index", active: false },
-          { id: 2, name: "HVG", active: false },
-          { id: 3, name: "Mandiner", active: false },
-          { id: 4, name: "444!", active: false },
-        ],
+      : [],
   );
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const storedSources = localStorage.getItem("sources");
-  //   if (storedSources) {
-  //     setSources(JSON.parse(storedSources));
-  //   }
-  // }, []);
+  useEffect(() => {
+    const fetchMediums = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/mediums`);
+        const data = await response.json();
+
+        // Map mediums to sources format and preserve active state from localStorage
+        const storedSources = localStorage.getItem("sources")
+          ? JSON.parse(localStorage.getItem("sources"))
+          : [];
+
+        const fetchedSources = data.map((medium) => ({
+          id: medium.id,
+          name: medium.name,
+          active:
+            storedSources.find((s) => s.id === medium.id)?.active || false,
+        }));
+
+        setSources(fetchedSources);
+      } catch (error) {
+        console.error("Failed to fetch mediums:", error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMediums();
+  }, [API_URL]);
+
   useEffect(() => {
     localStorage.setItem("sources", JSON.stringify(sources));
   }, [sources]);
@@ -84,11 +104,17 @@ export default function PortalsFilter() {
           />
         </div>
 
-        <div
-          id="sourceContainer"
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-        >
-          {filteredSources.map((source) => (
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 dark:text-gray-400">Források betöltése...</p>
+          </div>
+        ) : (
+          <div
+            id="sourceContainer"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          >
+            {filteredSources.length > 0 ? (
+              filteredSources.map((source) => (
             <div
               key={source.id}
               className={`source-card p-6 rounded-xl shadow-lg border-2 cursor-pointer transition duration-300 ${
@@ -145,8 +171,14 @@ export default function PortalsFilter() {
                 </button>
               </div>
             </div>
-          ))}
-        </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-600 dark:text-gray-400">Nem találhatók források.</p>
+              </div>
+            )}
+          </div>
+        )}
       </main>
 
       <footer className="bg-gray-800 dark:bg-gray-950 mt-12 py-8">
