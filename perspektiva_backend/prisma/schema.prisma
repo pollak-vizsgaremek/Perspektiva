@@ -20,12 +20,12 @@ model ArticleInterest {
 }
 
 model article {
-  id          Int       @id @default(autoincrement())
+  id          Int               @id @default(autoincrement())
   title       String
   publicistId Int
-  content     String    @db.LongText
+  content     String            @db.LongText
   createdAt   Int               @default(dbgenerated("(unix_timestamp())")) @map("created_At")
-  publicist   publicist @relation(fields: [publicistId], references: [id], map: "Article_publicistId_fkey")
+  publicist   publicist         @relation(fields: [publicistId], references: [id], map: "Article_publicistId_fkey")
   interests   ArticleInterest[]
   favourites  favourites[]
 
@@ -39,14 +39,15 @@ model interest {
 }
 
 model publicist {
-  id        Int       @id @default(autoincrement())
-  name      String
-  user_id   String    @unique
-  accepted  Boolean   @default(false)
-  medium_id Int?
-  article   article[]
-  mediums   mediums?  @relation(fields: [medium_id], references: [id], onUpdate: Restrict, map: "publicist_ibfk_2")
-  user      user      @relation(fields: [user_id], references: [id])
+  id            Int       @id @default(autoincrement())
+  name          String
+  user_id       String    @unique
+  accepted      Boolean   @default(false)
+  medium_id     Int?
+  isChiefEditor Boolean   @default(false)
+  article       article[]
+  mediums       mediums?  @relation(fields: [medium_id], references: [id], onUpdate: Restrict, map: "publicist_ibfk_2")
+  user          user      @relation(fields: [user_id], references: [id])
 
   @@index([user_id], map: "user_id")
   @@index([medium_id], map: "medium_id")

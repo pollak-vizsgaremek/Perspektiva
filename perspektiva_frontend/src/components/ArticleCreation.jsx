@@ -110,7 +110,6 @@ export default function ArticleCreation() {
     }
   }
 
-
   return (
     <div>
       <header className="fixed top-0 left-0 right-0 z-40 bg-white shadow-md rounded-b-xl">
@@ -146,7 +145,7 @@ export default function ArticleCreation() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Írd ide a cikk címét..."
-                className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500"
+                className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900"
               />
             </div>
 
@@ -159,7 +158,7 @@ export default function ArticleCreation() {
                 onChange={(e) => setContent(e.target.value)}
                 rows={10}
                 placeholder="Írd ide a cikk teljes tartalmát..."
-                className="mt-2 w-full p-3 border border-gray-300 rounded-lg"
+                className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900"
               />
             </div>
 
@@ -205,13 +204,9 @@ export default function ArticleCreation() {
                       userData?.name ||
                       `Publicist: ${publicistId || "—"}`}
                   </span>
-                  <p className="text-sm text-gray-600 mt-2 whitespace-pre-line">
-                    {content
-                      ? content.length > 300
-                        ? content.slice(0, 300) + "…"
-                        : content
-                      : "Tartalom még nincs"}
-                  </p>
+                  <h2 className="text-lg font-bold text-gray-900 mt-3 mb-3 line-clamp-2">
+                    {title || "Cím még nincs"}
+                  </h2>
                 </div>
               </article>
             </div>

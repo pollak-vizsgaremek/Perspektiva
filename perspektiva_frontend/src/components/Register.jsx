@@ -8,8 +8,11 @@ export default function Register({ closeRegister = () => void 0 }) {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [ispublicist, setIsPublicist] = useState(false);
+  const [publicistType, setPublicistType] = useState("");
+  const [isChiefEditor, setIsChiefEditor] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mediums, setMediums] = useState([]);
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -18,16 +21,23 @@ export default function Register({ closeRegister = () => void 0 }) {
     setError("");
     setLoading(true);
 
+    const payload = {
+      email,
+      name,
+      password,
+      password2,
+      ispublicist,
+    };
+
+    // Add publicist-specific data if user is a publicist
+    if (ispublicist) {
+      payload.medium_id = publicistType;
+      payload.isChiefEditor = isChiefEditor ? 1 : 0;
+    }
+
     axios
-      .post(`${API_URL}/api/v1/auth/register`, {
-        email,
-        name,
-        password,
-        password2,
-        ispublicist,
-      })
+      .post(`${API_URL}/api/v1/auth/register`, payload)
       .then(async (res) => {
-        const data = await res.data;
         if (res.status == 201) {
           navigate("/");
         }
@@ -43,6 +53,20 @@ export default function Register({ closeRegister = () => void 0 }) {
       navigate("/Home");
     }
   }, []);
+
+  // Fetch mediums for the publicist type dropdown
+  useEffect(() => {
+    const fetchMediums = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/mediums`);
+        setMediums(res.data || []);
+      } catch (err) {
+        console.error("Failed to fetch mediums:", err);
+      }
+    };
+
+    fetchMediums();
+  }, [API_URL]);
 
   return (
     <div className="text-black w-full flex justify-center">
@@ -147,6 +171,50 @@ export default function Register({ closeRegister = () => void 0 }) {
               Újságíró vagyok
             </label>
           </div>
+
+          {/* Publicist Type Dropdown */}
+          {ispublicist && (
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Médium neve
+              </label>
+              <select
+                value={publicistType}
+                onChange={(e) => setPublicistType(e.target.value)}
+                disabled={loading}
+                className="w-full px-4 py-2 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:border-red-600 transition duration-150"
+                required
+              >
+                <option value="">Válassz médiumot</option>
+                {mediums.map((medium) => (
+                  <option key={medium.id} value={medium.id}>
+                    {medium.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Chief Editor Checkbox */}
+          {ispublicist && (
+            <div className="flex items-center gap-3 py-2">
+              <input
+                type="checkbox"
+                name="ChiefEditor"
+                id="ChiefEditor"
+                checked={isChiefEditor}
+                onChange={(e) => setIsChiefEditor(e.target.checked)}
+                disabled={loading}
+                className="w-4 h-4 cursor-pointer accent-red-600"
+              />
+              <label
+                htmlFor="ChiefEditor"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer"
+              >
+                Főszerkesztő vagyok
+              </label>
+            </div>
+          )}
 
           <button
             type="submit"

@@ -42,7 +42,15 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, password2, ispublicist } = req.body;
+    const {
+      name,
+      email,
+      password,
+      password2,
+      ispublicist,
+      medium_id,
+      isChiefEditor,
+    } = req.body;
 
     if (!name || !email || !password || !password2) {
       return res.status(400).json({ message: "All fields are required" });
@@ -50,6 +58,13 @@ router.post("/register", async (req, res) => {
 
     if (password !== password2) {
       return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+    // Validate publicist fields if registering as publicist
+    if (ispublicist && !medium_id) {
+      return res
+        .status(400)
+        .json({ message: "Medium selection is required for publicists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -66,6 +81,9 @@ router.post("/register", async (req, res) => {
         data: {
           name,
           user_id: user.id,
+          medium_id: parseInt(medium_id),
+          isChiefEditor:
+            isChiefEditor === 1 || isChiefEditor === true ? true : false,
         },
       });
     }
@@ -102,6 +120,9 @@ router.get("/admin", authMiddleware, async (req, res) => {
     const users = await prisma.user.findMany({
       omit: {
         password: true,
+      },
+      include: {
+        publicist: true,
       },
     });
 
@@ -211,21 +232,48 @@ router.delete("/applicantDelete", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    await prisma.publicist.delete({
+      where: {
+        id: publicist.id,
+      },
+    });
+
+    res.status(200).json({ message: "Applicant deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Failed to delete applicant", error: error.message });
+  }
+});
+
+router.post("/applicantApprove", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const publicist = await prisma.publicist.findFirst({
+      where: {
+        user_id: userId,
+      },
+    });
+    if (!publicist) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     await prisma.publicist.update({
       where: {
         id: publicist.id,
       },
       data: {
-        accepted: false,
+        accepted: true,
       },
     });
 
-    res.status(200).json({ message: "User deleted successfully" });
+    res.status(200).json({ message: "User approved successfully" });
   } catch (error) {
     console.log(error);
     res
       .status(500)
-      .json({ message: "Failed to delete user", error: error.message });
+      .json({ message: "Failed to approve user", error: error.message });
   }
 });
 

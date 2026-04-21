@@ -12,6 +12,7 @@ const FilteredNewsPage = lazy(() => import("./components/FilteredNews.jsx"));
 const ProfilePage = lazy(() => import("./components/Profile.jsx"));
 const AdminPage = lazy(() => import("./components/Admin.jsx"));
 const NewsPage = lazy(() => import("./components/News.jsx"));
+const AdminMediumsPage = lazy(() => import("./components/AdminMediums.jsx"));
 const ArticleCreationPage = lazy(
   () => import("./components/ArticleCreation.jsx"),
 );
@@ -34,6 +35,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/Articlecreation" element={<ArticleCreationPage />} />
           <Route path="/FilteredNews" element={<FilteredNewsPage />} />
           <Route path="/Profile" element={<ProfilePage />} />
+          <Route path="/AdminMediums" element={<AdminMediumsPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/Admin" element={<AdminPage />} />
           </Route>

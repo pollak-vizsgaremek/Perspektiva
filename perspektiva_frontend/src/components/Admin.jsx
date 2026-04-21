@@ -55,45 +55,82 @@ export default function AdminPage() {
 
   const handleDeleteUser = (id) => {
     console.log("Törölni kívánt user ID:", id);
-    axios.post(
-      `${API_URL}/api/v1/auth/userDelete`,
-      {
-        userId: id,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    axios
+      .post(
+        `${API_URL}/api/v1/auth/userDelete`,
+        {
+          userId: id,
         },
-      },
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        },
+      )
+      .then(() => {
+        setUsers(users.filter((user) => user.id !== id));
+      })
+      .catch((error) => {
+        console.error("Error deleting user:", error);
+        setError("Hiba történt a felhasználó törlése során");
+      });
   };
   const handleRejectPublisher = (id) => {
-    axios.delete(
-      `${API_URL}/api/v1/auth/applicantDelete`,
-      {
+    setLoading(true);
+    axios
+      .delete(`${API_URL}/api/v1/auth/applicantDelete`, {
         data: {
           userId: id,
         },
-      },
-      {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      },
-    );
+      })
+      .then(() => {
+        setUsers(
+          users.map((user) =>
+            user.id === id
+              ? { ...user, publicist: { ...user.publicist, accepted: false } }
+              : user,
+          ),
+        );
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error rejecting publisher:", error);
+        setError("Hiba történt a publisher elutasítása során");
+        setLoading(false);
+      });
   };
   const handleApprovePublisher = (id) => {
-    axios.post(
-      `${API_URL}/api/v1/auth/applicantApprove`,
-      {
-        userId: id,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    setLoading(true);
+    axios
+      .post(
+        `${API_URL}/api/v1/auth/applicantApprove`,
+        {
+          userId: id,
         },
-      },
-    );
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        },
+      )
+      .then(() => {
+        setUsers(
+          users.map((user) =>
+            user.id === id
+              ? { ...user, publicist: { ...user.publicist, accepted: true } }
+              : user,
+          ),
+        );
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error approving publisher:", error);
+        setError("Hiba történt a publisher jóváhagyása során");
+        setLoading(false);
+      });
   };
 
   const handleDeletePortal = (id) => {
@@ -383,7 +420,8 @@ export default function AdminPage() {
 
           {activeTab === "publisher-applications" && (
             <div className="space-y-6">
-              {publisherApplications.length === 0 ? (
+              {publisherApplications.filter((user) => user.publicist).length ===
+              0 ? (
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-lg border-2 border-green-300 text-center">
                   <h3 className="text-xl font-semibold text-green-700 mb-2">
                     ✓ Nincsenek függőben lévő jelentkezések
@@ -393,51 +431,92 @@ export default function AdminPage() {
                   </p>
                 </div>
               ) : (
-                users.map((user) => (
-                  <tr
-                    key={user.id}
-                    className="hover:bg-gray-50 transition duration-150"
-                  >
-                    <td className="px-6 py-4 text-sm text-gray-900">
-                      {user.name}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
-                      {user.email}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-900 font-medium">
-                      {user.role}
-                    </td>
-                    <td className="px-6 py-4 text-sm">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          user.status === "active"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
-                      >
-                        {user.accepted === true ? "Accepted" : "Pending"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm">
-                      <div className="flex gap-3">
-                        <button
-                          onClick={() => handleRejectPublisher(user.id)}
-                          disabled={loading}
-                          className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-150 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          Elutasítás
-                        </button>
-                        <button
-                          onClick={() => handleApprovePublisher(user.id)}
-                          disabled={loading}
-                          className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-150 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          Jóváhagyás
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-gradient-to-r from-red-600 to-red-700">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-white">
+                            Név
+                          </th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-white">
+                            Email
+                          </th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-white">
+                            Szerepkör
+                          </th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-white">
+                            Státusz
+                          </th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-white">
+                            Műveletek
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y">
+                        {users
+                          .filter((user) => user.publicist)
+                          .map((user) => (
+                            <tr
+                              key={user.id}
+                              className="hover:bg-gray-50 transition duration-150"
+                            >
+                              <td className="px-6 py-4 text-sm text-gray-900">
+                                {user.name}
+                              </td>
+                              <td className="px-6 py-4 text-sm text-gray-600">
+                                {user.email}
+                              </td>
+                              <td className="px-6 py-4 text-sm text-gray-900 font-medium">
+                                {user.publicist.isChiefEditor
+                                  ? "Főszerkesztő"
+                                  : "Újságíró"}
+                              </td>
+                              <td className="px-6 py-4 text-sm">
+                                <span
+                                  className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                    user.publicist.accepted
+                                      ? "bg-green-100 text-green-800"
+                                      : "bg-yellow-100 text-yellow-800"
+                                  }`}
+                                >
+                                  {user.publicist.accepted
+                                    ? "Jóváhagyva"
+                                    : "Függőben"}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 text-sm">
+                                <div className="flex gap-3">
+                                  {!user.publicist.accepted && (
+                                    <>
+                                      <button
+                                        onClick={() =>
+                                          handleRejectPublisher(user.id)
+                                        }
+                                        disabled={loading}
+                                        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-150 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                      >
+                                        Elutasítás
+                                      </button>
+                                      <button
+                                        onClick={() =>
+                                          handleApprovePublisher(user.id)
+                                        }
+                                        disabled={loading}
+                                        className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-150 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                      >
+                                        Jóváhagyás
+                                      </button>
+                                    </>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               )}
             </div>
           )}

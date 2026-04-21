@@ -223,6 +223,15 @@ export default function Home() {
             </nav>
             {isLoggedIn ? (
               <div className="flex items-center gap-2">
+                {userData?.publicist?.isChiefEditor === 1 ||
+                userData?.publicist?.isChiefEditor === true ? (
+                  <button
+                    onClick={() => navigate("/AdminMediums")}
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
+                  >
+                    Médium admin
+                  </button>
+                ) : null}
                 {userData?.publicist?.accepted === 1 ||
                 userData?.publicist?.accepted === true ? (
                   <button
