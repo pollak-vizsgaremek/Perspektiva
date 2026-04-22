@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
+import Editor from "./Editor";
+import Quill from "quill";
 
 export default function ArticleCreation() {
   useEffect(() => {
@@ -16,6 +18,9 @@ export default function ArticleCreation() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // Use a ref to access the quill instance directly
+  const quillRef = useRef();
 
   // Fetch current user (and set default publicistId) on mount
   useEffect(() => {
@@ -153,12 +158,17 @@ export default function ArticleCreation() {
               <label className="text-sm font-medium text-gray-700">
                 Tartalom
               </label>
-              <textarea
+              {/* <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 rows={10}
                 placeholder="Írd ide a cikk teljes tartalmát..."
                 className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900"
+              /> */}
+              <Editor
+                ref={quillRef}
+                readOnly={false}
+                onTextChange={setContent}
               />
             </div>
 

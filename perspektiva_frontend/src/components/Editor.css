@@ -1,0 +1,134 @@
+.ql-toolbar button,
+.ql-toolbar .ql-picker,
+.ql-toolbar .ql-picker-label,
+.ql-toolbar .ql-picker-options {
+  /* Reset global button styles that the project applies site-wide */
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.ql-toolbar {
+  display: flex;
+  flex-wrap: nowrap; /* prevent wrapping to multiple rows */
+  /* allow horizontal scroll if it overflows, but allow dropdowns to be visible */
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.25rem;
+  position: relative; /* anchors absolute-positioned dropdowns */
+}
+
+.ql-toolbar .ql-formats {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  flex: none; /* avoid flexing groups and causing wrap */
+}
+
+/* Make each picker a positioned container so its options can be absolute */
+.ql-toolbar .ql-picker {
+  position: relative;
+}
+
+/* Position the dropdown overlay absolutely so it doesn't push/resize the toolbar */
+.ql-picker .ql-picker-options {
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  left: 0 !important;
+  white-space: nowrap !important;
+  z-index: 1000 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12) !important;
+  background: #fff !important;
+}
+
+/* Ensure picker's label still shows caret but doesn't move toolbar */
+.ql-picker .ql-picker-label {
+  cursor: pointer;
+}
+
+.ql-toolbar button {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.ql-toolbar button:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.ql-toolbar button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Make the toolbar labels and picker text readable */
+.ql-toolbar,
+.ql-toolbar * {
+  font-size: 14px !important;
+}
+
+/* Increase editor body font-size for visible typing */
+.ql-container.ql-snow .ql-editor {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Make the editor area a reasonable height so it resembles the Quill playground */
+.ql-container.ql-snow {
+  min-height: 280px;
+  border-radius: 8px;
+}
+
+/* Ensure editor text is visible regardless of global color overrides */
+.ql-container.ql-snow .ql-editor {
+  min-height: 240px;
+  color: #111827; /* dark text for light backgrounds */
+  caret-color: #111827;
+  background-color: #ffffff; /* keep editor content area white in light mode */
+}
+
+/* Placeholder color when editor is empty */
+.ql-editor.ql-blank::before {
+  color: #6b7280; /* gray-500 */
+}
+
+/* Stronger rules to prevent inherited focus/active styles from altering font-size/color */
+.ql-container.ql-snow .ql-editor,
+.ql-container.ql-snow .ql-editor *,
+.ql-container.ql-snow .ql-editor:focus {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  color: #111827 !important;
+  caret-color: #111827 !important;
+  font-family: inherit !important;
+  -webkit-text-size-adjust: 100% !important;
+}
+
+.ql-container.ql-snow .ql-editor:focus {
+  outline: none !important;
+}
+
+/* In dark mode, use light text and transparent background so it blends with app */
+@media (prefers-color-scheme: dark) {
+  .ql-container.ql-snow .ql-editor {
+    color: rgba(255, 255, 255, 0.92);
+    caret-color: rgba(255, 255, 255, 0.92);
+    background-color: transparent;
+  }
+  .ql-editor.ql-blank::before {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* small tweak so inline pickers don't inherit site-wide button styles */
+.ql-picker-label,
+.ql-picker-item {
+  background: transparent !important;
+}
