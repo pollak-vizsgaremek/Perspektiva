@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 export default function Login({ closeLogin = () => void 0 }) {
   const [email, setEmail] = useState("");
@@ -8,6 +8,7 @@ export default function Login({ closeLogin = () => void 0 }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -31,7 +32,12 @@ export default function Login({ closeLogin = () => void 0 }) {
         localStorage.setItem("isAdmin", parsedJwt.admin);
         if (res.status == 200) {
           closeLogin();
-          window.location.reload();
+          const currentPath = location.pathname.toLowerCase();
+          if (currentPath === "/" || currentPath === "/register") {
+            navigate("/Home");
+          } else {
+            window.location.reload();
+          }
         }
       })
       .catch((err) => {

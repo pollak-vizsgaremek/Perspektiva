@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useIntersection } from "../hooks/useIntersection";
 import { useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Profile from "./Profile";
 import Login from "./Login";
 import News from "./News";
@@ -24,8 +26,18 @@ export default function Home() {
   const [isNewsOpen, setIsNewsOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [rssItems, setRssItems] = useState([]);
   const API_URL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
+
+  const formatSource = (item) => {
+    if (item.source) return item.source;
+    try {
+      return new URL(item.link).hostname.replace(/^www\./, "");
+    } catch {
+      return "Ismeretlen forrás";
+    }
+  };
 
   // --- WORDLE STATE-EK ---
   const [solution, setSolution] = useState("");
@@ -40,6 +52,22 @@ export default function Home() {
       const data = await res.json();
       setArticle(data);
     });
+  }
+
+  // --- RSS TARTALMAK LEKÉRÉSE ---
+  async function getRssItems() {
+    try {
+      const res = await fetch(`${API_URL}/api/mediums/rss`);
+      if (!res.ok) {
+        console.error("RSS fetch failed:", res.status, res.statusText);
+        return;
+      }
+      const data = await res.json();
+      console.log("RSS items loaded:", data.length);
+      setRssItems(data);
+    } catch (error) {
+      console.error("RSS fetch error:", error);
+    }
   }
 
   // --- GEMINI SZÓGENERÁLÁS ---
@@ -110,6 +138,7 @@ export default function Home() {
   // Effektusok
   useEffect(() => {
     getarticle();
+    getRssItems();
     fetchNewWord();
   }, [fetchNewWord]);
 
@@ -175,6 +204,23 @@ export default function Home() {
   const closeNews = () => {
     setIsNewsOpen(false);
     setSelectedArticle(null);
+  };
+
+  const handleLoadMore = () => {
+    const maxPage = Math.ceil(article.length / 4);
+    if (oldalSzam < maxPage) {
+      setOldalSzam((s) => s + 1);
+      return;
+    }
+    toast.info("Nincs több betölthető hír.", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
   };
 
   return (
@@ -317,11 +363,52 @@ export default function Home() {
                     </div>
                   </article>
                 ))}
+
+              {rssItems.map((item) => (
+                <article
+                  className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
+                  key={item.id}
+                >
+                  <div className="h-40 overflow-hidden bg-gray-100">
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-full bg-red-100 flex items-center justify-center text-red-600 text-4xl">
+                        📰
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <span className="text-xs font-semibold text-red-600 uppercase tracking-wider">
+                      {item.category || item.source}
+                    </span>
+                    <h3 className="mt-1">
+                      <button
+                        type="button"
+                        onClick={() => openArticle(item)}
+                        className="w-full text-left block text-lg font-semibold text-gray-900 hover:text-red-600 transition-colors duration-150 px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+                      >
+                        <span className="truncate block">{item.title}</span>
+                      </button>
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-2">
+                      {item.content}
+                    </p>
+                    <div className="mt-4 text-xs text-gray-500">
+                      <div>Forrás: {formatSource(item)}</div>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
 
             <div className="flex justify-center pt-4">
               <button
-                onClick={() => setOldalSzam((s) => s + 1)}
+                onClick={handleLoadMore}
                 ref={triggerRef}
                 className="bg-gray-200 text-gray-400 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition duration-150"
               >
@@ -431,6 +518,7 @@ export default function Home() {
           </div>
         </footer>
       </div>
+      <ToastContainer />
 
       {isLoggedIn && isProfileOpen && (
         <div className="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center backdrop-blur-sm">

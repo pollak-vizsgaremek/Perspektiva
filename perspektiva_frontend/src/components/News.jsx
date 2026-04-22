@@ -89,6 +89,11 @@ export default function News({ article, onClose }) {
           <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-4">
             {data.title}
           </h1>
+          {data.author && data.author !== "Ismeretlen szerző" && (
+            <div className="text-sm text-gray-500 mb-2">
+              Szerző: {data.author}
+            </div>
+          )}
           {data.excerpt && (
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               {data.excerpt}
@@ -99,10 +104,20 @@ export default function News({ article, onClose }) {
             {data.content || "Nincs tartalom."}
           </div>
 
-          <div className="mt-6 flex items-center justify-between border-t pt-4">
+          <div className="mt-6 flex flex-col gap-3 border-t pt-4 sm:flex-row sm:items-center sm:justify-between">
             <span className="text-sm text-gray-400 italic">
               #{data.category || "—"}
             </span>
+            {data.link && (
+              <a
+                href={data.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 transition"
+              >
+                Megnyitás a forrásnál
+              </a>
+            )}
           </div>
         </div>
       </article>

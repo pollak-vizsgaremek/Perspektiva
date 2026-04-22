@@ -116,6 +116,120 @@ app.get("/api/mediums", async (req, res) => {
   }
 });
 
+app.get("/api/mediums/rss", async (req, res) => {
+  try {
+    const mediums = await prisma.mediums.findMany();
+
+    const stripHtml = (text) =>
+      text
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    const extractTag = (xmlText, tag) => {
+      const regex = new RegExp(
+        `<${tag}[^>]*>(?:<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>|([\\s\\S]*?))<\\/${tag}>`,
+        "i",
+      );
+      const match = xmlText.match(regex);
+      return match ? (match[1] || match[2] || "").trim() : "";
+    };
+
+    const extractAttribute = (xmlText, tag, attribute) => {
+      const regex = new RegExp(`<${tag}[^>]*${attribute}=["']([^"']+)["'][^>]*>`, "i");
+      const match = xmlText.match(regex);
+      return match ? match[1].trim() : "";
+    };
+
+    const extractImage = (xmlText) => {
+      return (
+        extractAttribute(xmlText, "enclosure", "url") ||
+        extractAttribute(xmlText, "media:content", "url") ||
+        extractAttribute(xmlText, "img", "src") ||
+        (xmlText.match(/<img[^>]+src=["']([^"']+)["']/i)?.[1] || "")
+      );
+    };
+
+    const parseRssItems = (xml, medium) => {
+      const itemMatches = Array.from(xml.matchAll(/<item[^>]*>([\s\S]*?)<\/item>/gi));
+      if (itemMatches.length === 0) {
+        itemMatches.push(...Array.from(xml.matchAll(/<entry[^>]*>([\s\S]*?)<\/entry>/gi)));
+      }
+
+      return itemMatches.slice(0, 3).map((match, index) => {
+        const itemXml = match[1];
+        const title = extractTag(itemXml, "title") || medium.name;
+        const description =
+          extractTag(itemXml, "description") ||
+          extractTag(itemXml, "summary") ||
+          extractTag(itemXml, "content:encoded") ||
+          "";
+        const link =
+          extractTag(itemXml, "link") ||
+          extractAttribute(itemXml, "link", "href") ||
+          medium.url ||
+          medium.rss_url;
+        const author =
+          extractTag(itemXml, "author") ||
+          extractTag(itemXml, "dc:creator") ||
+          "Ismeretlen szerző";
+        const category = extractTag(itemXml, "category") || medium.name;
+        const image = extractImage(itemXml) || medium.url;
+
+        return {
+          id: `rss-${medium.id}-${index}`,
+          title,
+          content: stripHtml(description).slice(0, 220),
+          link,
+          source: medium.name,
+          category,
+          author,
+          image,
+          rss: true,
+        };
+      });
+    };
+
+    const rssItems = [];
+    await Promise.all(
+      mediums.map(async (medium) => {
+        const urlsToTry = [medium.url, medium.rss_url].filter(Boolean);
+        let fetched = false;
+
+        for (const url of urlsToTry) {
+          try {
+            const rssResponse = await fetch(url, {
+              headers: {
+                "User-Agent": "Perspektiva-RSS-Parser/1.0",
+              },
+            });
+            if (!rssResponse.ok) continue;
+            const xml = await rssResponse.text();
+            const parsed = parseRssItems(xml, medium);
+            if (parsed.length > 0) {
+              rssItems.push(...parsed);
+              fetched = true;
+              break;
+            }
+          } catch (err) {
+            console.error(`RSS fetch failed for ${url}:`, err.message);
+          }
+        }
+
+        if (!fetched) {
+          console.warn(`No RSS items parsed for medium ${medium.name} (${medium.id})`);
+        }
+      }),
+    );
+
+    res.status(200).json(rssItems);
+  } catch (error) {
+    res
+      .status(404)
+      .json({ message: "Sikertelen RSS lekérdezés!", error: error.message });
+  }
+});
+
 app.get("/api/user", async (req, res) => {
   try {
     const user = await prisma.user.findMany();
