@@ -12,7 +12,9 @@ export default function FilteredNews() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeSources, setActiveSources] = useState([]);
   const [allNews, setAllNews] = useState([]);
+  const [rssNews, setRssNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [rssLoading, setRssLoading] = useState(true);
 
   useEffect(() => {
     const storedSources = localStorage.getItem("sources");
@@ -75,8 +77,45 @@ export default function FilteredNews() {
     fetchArticles();
   }, [API_URL]);
 
+  useEffect(() => {
+    const fetchRssItems = async () => {
+      if (activeSources.length === 0) {
+        setRssNews([]);
+        setRssLoading(false);
+        return;
+      }
+
+      setRssLoading(true);
+      try {
+        const response = await fetch(`${API_URL}/api/mediums/rss`);
+        const items = await response.json();
+
+        const mappedRss = items
+          .filter((item) => activeSources.includes(item.source))
+          .map((item) => ({
+            id: item.id,
+            source: item.source,
+            title: item.title,
+            excerpt: (item.content || "").substring(0, 150) + "...",
+            date: item.pubDate || item.date || "N/A",
+            category: item.category || "RSS",
+          }));
+
+        setRssNews(mappedRss);
+      } catch (error) {
+        console.error("Failed to fetch RSS items:", error);
+        setRssNews([]);
+      } finally {
+        setRssLoading(false);
+      }
+    };
+
+    fetchRssItems();
+  }, [API_URL, activeSources]);
+
   const searchLower = searchTerm.toLowerCase();
-  const filteredNews = allNews.filter(
+  const mergedNews = [...allNews, ...rssNews];
+  const filteredNews = mergedNews.filter(
     (news) =>
       activeSources.includes(news.source) &&
       (news.title.toLowerCase().includes(searchLower) ||
@@ -91,8 +130,8 @@ export default function FilteredNews() {
 
   return (
     <>
-      <header className="fixed top-0 left-23 right-23 z-50 bg-white dark:bg-gray-800 shadow-lg rounded-b-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-lg rounded-b-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
           <h1 className="text-2xl font-bold text-red-600 dark:text-red-500">
             Saját Hírfolyam
           </h1>
@@ -102,11 +141,10 @@ export default function FilteredNews() {
             placeholder="Keresés cím vagy kategória alapján..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-120 p-3 border border-gray-300 dark:border-gray-700 rounded-lg
-                      focus:ring-red-500 focus:border-red-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+            className="w-full max-w-xl p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-red-500 focus:border-red-500 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
           />
 
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <button
               className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
               onClick={() => navigate("/Home")}
@@ -126,7 +164,7 @@ export default function FilteredNews() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-24">
         {/*mobilom 1, közepes mérettől (md) 2 oszlop */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {loading ? (
+          {loading || rssLoading ? (
             <div className="col-span-full text-center py-20">
               <p className="text-gray-500 text-xl">Cikkek betöltése...</p>
             </div>

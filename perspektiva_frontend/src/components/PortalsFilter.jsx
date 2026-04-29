@@ -67,22 +67,22 @@ export default function PortalsFilter() {
 
   return (
     <>
-      <header className="fixed top-0 left-23 right-23 z-50 bg-white dark:bg-gray-800 shadow-lg rounded-b-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-lg rounded-b-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
           <button
             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
             onClick={backHomePage}
           >
             Vissza
           </button>
-          <h1 className="text-2xl font-bold text-red-600 dark:text-red-500 ">
+          <h1 className="text-2xl font-bold text-red-600 dark:text-red-500 text-center">
             Források Kezelése
           </h1>
           <button
             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-150"
             onClick={goToFilteredNews}
           >
-            Keresés {/*Idk kell-e */}
+            Keresés
           </button>
         </div>
       </header>
@@ -97,8 +97,7 @@ export default function PortalsFilter() {
             type="text"
             id="sourceSearch"
             placeholder="Keresés hírforrás névre (pl. Mandiner)..."
-            className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg
-                      focus:ring-red-500 focus:border-red-500 dark:bg-gray-800 dark:text-white dark:placeholder-amber-400"
+            className="w-full max-w-2xl p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-red-500 focus:border-red-500 dark:bg-gray-800 dark:text-white dark:placeholder-amber-400"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -181,7 +180,7 @@ export default function PortalsFilter() {
         )}
       </main>
 
-      <footer className="bg-gray-800 dark:bg-gray-950 mt-12 py-8">
+      <footer className="fixed bottom-0 left-0 right-0 w-full bg-gray-800 dark:bg-gray-950 mt-12 py-8">
         <div className="max-w-7xl mx-auto px-4 text-center text-gray-400">
           <p className="text-sm">&copy; Hírfolyam Szűrő. Tesztoldal.</p>
         </div>

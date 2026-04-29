@@ -171,7 +171,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col bg-gray-50">
+    <div className="min-h-screen w-screen flex flex-col bg-gray-50">
       <header className="bg-white shadow-md rounded-xl">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center rounded-xl">
           <h1 className="text-3xl font-bold text-red-600">PERSPEKTÍVA</h1>
@@ -201,7 +201,7 @@ export default function AdminPage() {
         </div>
       </header>
 
-      <main className="flex-1 w-screen overflow-auto">
+      <main className="flex-1 w-full overflow-auto">
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8 mt-8 mx-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
             Adminisztrációs Felület

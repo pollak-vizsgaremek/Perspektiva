@@ -20,14 +20,16 @@ model ArticleInterest {
 }
 
 model article {
-  id          Int               @id @default(autoincrement())
-  title       String
-  publicistId Int
-  content     String            @db.LongText
-  createdAt   Int               @default(dbgenerated("(unix_timestamp())")) @map("created_At")
-  publicist   publicist         @relation(fields: [publicistId], references: [id], map: "Article_publicistId_fkey")
-  interests   ArticleInterest[]
-  favourites  favourites[]
+  id           Int               @id @default(autoincrement())
+  title        String
+  publicistId  Int
+  content      String            @db.LongText
+  tag          String
+  image_base64 String            @db.VarChar(1000)
+  createdAt    Int               @default(dbgenerated("(unix_timestamp())")) @map("created_At")
+  publicist    publicist         @relation(fields: [publicistId], references: [id], map: "Article_publicistId_fkey")
+  interests    ArticleInterest[]
+  favourites   favourites[]
 
   @@index([publicistId], map: "Article_publicistId_fkey")
 }

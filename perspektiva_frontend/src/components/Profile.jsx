@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 
 export default function Profile({ closeProfile = () => void 0, onLogout = () => void 0 }) {
   const [userData, setUserData] = useState(null);
+  const [favourites, setFavourites] = useState([]);
   const [activeTab, setActiveTab] = useState("articles");
   const [filterCategory, setFilterCategory] = useState("all");
   const [isEditing, setIsEditing] = useState(false);
@@ -20,6 +21,7 @@ export default function Profile({ closeProfile = () => void 0, onLogout = () => 
 
   useEffect(() => {
     fetchUserData();
+    fetchFavourites();
   }, []);
 
   useEffect(() => {
@@ -43,10 +45,24 @@ export default function Profile({ closeProfile = () => void 0, onLogout = () => 
     }
   };
 
+  const fetchFavourites = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/favourites`, {
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+      });
+      const data = await response.json();
+      setFavourites(data);
+    } catch (error) {
+      console.error("Failed to fetch favourites:", error);
+    }
+  };
+
   const getCategories = () => {
-    if (!userData?.favourites) return [];
+    if (!favourites || favourites.length === 0) return [];
     const categories = new Set();
-    userData.favourites.forEach(fav => {
+    favourites.forEach(fav => {
       if (fav.article?.category) {
         categories.add(fav.article.category);
       }
@@ -55,11 +71,11 @@ export default function Profile({ closeProfile = () => void 0, onLogout = () => 
   };
 
   const getFilteredArticles = () => {
-    if (!userData?.favourites) return [];
+    if (!favourites || favourites.length === 0) return [];
     if (filterCategory === "all") {
-      return userData.favourites.filter(fav => fav.article);
+      return favourites.filter(fav => fav.article);
     }
-    return userData.favourites.filter(
+    return favourites.filter(
       fav => fav.article && fav.article.category === filterCategory
     );
   };
@@ -251,7 +267,7 @@ export default function Profile({ closeProfile = () => void 0, onLogout = () => 
         </div>
 
         {/* Bottom Actions */}
-        <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-6 flex gap-3 max-w-md mx-auto">
+        <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}

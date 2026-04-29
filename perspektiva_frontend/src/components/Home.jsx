@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useIntersection } from "../hooks/useIntersection";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./Profile";
@@ -27,8 +27,17 @@ export default function Home() {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [userData, setUserData] = useState(null);
   const [rssItems, setRssItems] = useState([]);
+  const [tags, setTags] = useState([]);
   const API_URL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.toast) {
+      toast(location.state.toast);
+      window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+    }
+  }, [location.state]);
 
   const formatSource = (item) => {
     if (item.source) return item.source;
@@ -38,6 +47,37 @@ export default function Home() {
       return "Ismeretlen forrás";
     }
   };
+
+  const isValidImageUrl = (url) =>
+    typeof url === "string" &&
+    (url.startsWith("data:image/") ||
+      /\.(?:jpe?g|png|gif|bmp|webp|svg|avif|apng)(?:[?#].*)?$/i.test(url));
+
+  const getArticleImage = (item) => {
+    if (item.rss) return item.image;
+    if (item.image_base64) {
+      return item.image_base64.startsWith("data:image/")
+        ? item.image_base64
+        : `data:image/jpeg;base64,${item.image_base64}`;
+    }
+    return item.image;
+  };
+
+  const shuffleArray = (array) => {
+    const copy = [...array];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  const [mixedItems, setMixedItems] = useState([]);
+
+  useEffect(() => {
+    const combined = [...article, ...rssItems];
+    setMixedItems(shuffleArray(combined));
+  }, [article, rssItems]);
 
   // --- WORDLE STATE-EK ---
   const [solution, setSolution] = useState("");
@@ -50,7 +90,23 @@ export default function Home() {
   function getarticle() {
     fetch(`${API_URL}/api/articles`).then(async (res) => {
       const data = await res.json();
-      setArticle(data);
+      const normalized = Array.isArray(data)
+        ? data.map((article) => {
+            if (article.image_base64) {
+              const imageSrc = article.image_base64.startsWith("data:image/")
+                ? article.image_base64
+                : `data:image/jpeg;base64,${article.image_base64}`;
+              return {
+                ...article,
+                image: imageSrc,
+                rss: false,
+              };
+            }
+            return { ...article, rss: false };
+          })
+        : [];
+      setArticle(normalized);
+      console.log("Cikkek betöltve:", normalized);
     });
   }
 
@@ -67,6 +123,21 @@ export default function Home() {
       setRssItems(data);
     } catch (error) {
       console.error("RSS fetch error:", error);
+    }
+  }
+
+  async function getTags() {
+    try {
+      const res = await fetch(`${API_URL}/api/tags`);
+      if (!res.ok) {
+        console.error("Tags fetch failed:", res.status, res.statusText);
+        return;
+      }
+      const data = await res.json();
+      console.log("Tags loaded:", data.length);
+      setTags(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Tags fetch error:", error);
     }
   }
 
@@ -139,6 +210,7 @@ export default function Home() {
   useEffect(() => {
     getarticle();
     getRssItems();
+    getTags();
     fetchNewWord();
   }, [fetchNewWord]);
 
@@ -150,11 +222,11 @@ export default function Home() {
   useEffect(() => {
     if (isVisible) {
       setOldalSzam((prev) => {
-        const maxPage = Math.ceil(article.length / 4);
+        const maxPage = Math.ceil(mixedItems.length / 4);
         return maxPage > prev ? prev + 1 : prev;
       });
     }
-  }, [isVisible, article.length]);
+  }, [isVisible, mixedItems.length]);
 
   useEffect(() => {
     const getToken = localStorage.getItem("accessToken");
@@ -207,7 +279,7 @@ export default function Home() {
   };
 
   const handleLoadMore = () => {
-    const maxPage = Math.ceil(article.length / 4);
+    const maxPage = Math.ceil(mixedItems.length / 4);
     if (oldalSzam < maxPage) {
       setOldalSzam((s) => s + 1);
       return;
@@ -335,52 +407,39 @@ export default function Home() {
 
             {/* Hírfolyam */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {article &&
-                article.slice(0, 4 + (oldalSzam - 1) * 4).map((item) => (
-                  <article
-                    className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
-                    key={item.id}
-                  >
-                    <div className="h-40 bg-gray-300 flex items-center justify-center text-gray-600">
-                      {item.picture}
-                    </div>
-                    <div className="p-4">
-                      <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
-                        {item.category}
-                      </span>
-                      <h3 className="mt-1">
-                        <button
-                          type="button"
-                          onClick={() => openArticle(item)}
-                          className="w-full text-left block text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-150 px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
-                        >
-                          <span className="truncate block">{item.title}</span>
-                        </button>
-                      </h3>
-                      <p className="text-sm text-gray-500 mt-2 ">
-                        {item.content}
-                      </p>
-                    </div>
-                  </article>
-                ))}
-
-              {rssItems.map((item) => (
+              {mixedItems.slice(0, 4 + (oldalSzam - 1) * 4).map((item) => (
                 <article
                   className="bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
                   key={item.id}
                 >
                   <div className="h-40 overflow-hidden bg-gray-100">
-                    {item.image ? (
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="h-full bg-red-100 flex items-center justify-center text-red-600 text-4xl">
-                        📰
-                      </div>
-                    )}
+                    {(() => {
+                      const imageSrc = getArticleImage(item);
+                      if (isValidImageUrl(imageSrc)) {
+                        return (
+                          <img
+                            src={imageSrc}
+                            alt={item.title}
+                            className="h-full w-full object-cover"
+                          />
+                        );
+                      }
+                      if (item.picture) {
+                        return (
+                          <div className="h-full bg-gray-300 flex items-center justify-center text-gray-600">
+                            {item.picture}
+                          </div>
+                        );
+                      }
+                      return (
+                        
+                        <div className="h-full bg-red-100 flex items-center justify-center text-red-600 text-4xl">
+                          📰
+                        </div>
+                      );
+                    })()}
+
+                    
                   </div>
                   <div className="p-4">
                     <span className="text-xs font-semibold text-red-600 uppercase tracking-wider">
@@ -390,7 +449,7 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={() => openArticle(item)}
-                        className="w-full text-left block text-lg font-semibold text-gray-900 hover:text-red-600 transition-colors duration-150 px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+                        className="w-full text-left block text-lg font-semibold text-white hover:text-red-600 transition-colors duration-150 px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
                       >
                         <span className="truncate block">{item.title}</span>
                       </button>
@@ -398,9 +457,11 @@ export default function Home() {
                     <p className="text-sm text-gray-500 mt-2">
                       {item.content}
                     </p>
-                    <div className="mt-4 text-xs text-gray-500">
-                      <div>Forrás: {formatSource(item)}</div>
-                    </div>
+                    {item.source && (
+                      <div className="mt-4 text-xs text-gray-500">
+                        <div>Forrás: {formatSource(item)}</div>
+                      </div>
+                    )}
                   </div>
                 </article>
               ))}
@@ -497,15 +558,19 @@ export default function Home() {
                 Népszerű Kategóriák
               </h3>
               <div className="flex flex-wrap gap-2">
-                {["#Politika", "#Tech", "#Sport", "#Pénz", "#Autó"].map(
-                  (tag) => (
+                {tags.length > 0 ? (
+                  tags.map((tag) => (
                     <span
-                      key={tag}
+                      key={tag.tag}
                       className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full hover:bg-red-100 cursor-pointer"
                     >
-                      {tag}
+                      {tag.tag}
                     </span>
-                  ),
+                  ))
+                ) : (
+                  <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
+                    Nincsenek betöltött kategóriák
+                  </span>
                 )}
               </div>
             </div>

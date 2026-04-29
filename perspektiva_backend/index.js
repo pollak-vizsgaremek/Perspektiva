@@ -174,7 +174,7 @@ app.get("/api/mediums/rss", async (req, res) => {
           extractTag(itemXml, "dc:creator") ||
           "Ismeretlen szerző";
         const category = extractTag(itemXml, "category") || medium.name;
-        const image = extractImage(itemXml) || medium.url;
+        const image = extractImage(itemXml) || "";
 
         return {
           id: `rss-${medium.id}-${index}`,
@@ -230,10 +230,34 @@ app.get("/api/mediums/rss", async (req, res) => {
   }
 });
 
-app.get("/api/user", async (req, res) => {
+app.get("/api/tags", async (req, res) => {
   try {
-    const user = await prisma.user.findMany();
-    res.status(200).json(user);
+    const tags = await prisma.article.findMany();
+    console.log("Fetched tags:", tags);
+    res.status(200).json(tags);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(404)
+      .json({ message: "Sikertelen címke lekérdezés!", error: error.message });
+  }
+});
+
+app.get("/api/favourites", authMiddleware, async (req, res) => {
+  try {    
+    const favourites = await prisma.favourites.findMany({
+      where: {
+        user_id: req.user.id,
+      },
+      include: {
+        article: {
+          include: {
+            publicist: true,
+          },
+        },
+      },
+    });
+    res.status(200).json(favourites);
   } catch (error) {
     res
       .status(404)
@@ -329,12 +353,14 @@ app.post("/api/articles", authMiddleware, async (req, res) => {
         .status(403)
         .json({ message: "Nem vagy jogosult cikk létrehozására!" });
 
-    const { title, content } = req.body;
+    const { title, content, tags, image } = req.body;
     const newArticle = await prisma.article.create({
       data: {
         publicistId: user.publicist.id,
         title,
         content: content || "",
+        tags: tags || "",
+        image: image || "",
       },
     });
     res.status(201).json(newArticle);

@@ -83,6 +83,8 @@ export default function ArticleCreation() {
       publicistId: Number(pidCandidate),
       title: title.trim(),
       content: content.trim(),
+      tags: tags.trim(),
+      image: image.trim(),
     };
 
     try {

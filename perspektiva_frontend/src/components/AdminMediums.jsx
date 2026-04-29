@@ -1,18 +1,90 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 export default function AdminMediums({ mediumId, mediumName }) {
+  const [userData, setUserData] = useState(null);
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
+  const [resolvedMediumId, setResolvedMediumId] = useState(mediumId);
   const [error, setError] = useState(null);
   const [processingIds, setProcessingIds] = useState([]);
 
+  const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
-    if (!mediumId) return;
+    const verifyAccess = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        setError("You must be signed in to access this page.");
+        setAuthLoading(false);
+        navigate("/Home", { replace: true });
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/api/user/me`, {
+          headers: {
+            authorization: "Bearer " + token,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error("Unauthorized");
+        }
+
+        const data = await res.json();
+        const isChiefEditor =
+          data?.publicist?.isChiefEditor === 1 ||
+          data?.publicist?.isChiefEditor === true;
+        const isAccepted =
+          data?.publicist?.accepted === 1 ||
+          data?.publicist?.accepted === true;
+
+        if (!isChiefEditor || !isAccepted) {
+          throw new Error("Access denied");
+        }
+
+        setUserData(data);
+        setResolvedMediumId(
+          mediumId || data?.publicist?.medium_id || data?.publicist?.mediumId,
+        );
+        setAuthorized(true);
+      } catch (err) {
+        setError(
+          "Csak elfogadott főszerkesztők tekinthetik meg ezt az oldalt. Átirányítás a főoldalra.",
+        );
+        setAuthorized(false);
+        toast.error(
+          "Csak elfogadott főszerkesztők tekinthetik meg ezt az oldalt. Átirányítás a főoldalra.",
+        );
+        navigate("/Home", { replace: true });
+      } finally {
+        setAuthLoading(false);
+      }
+    };
+
+    verifyAccess();
+  }, [API_URL, mediumId, navigate]);
+
+  useEffect(() => {
+    if (!resolvedMediumId || !authorized) return;
     setLoading(true);
     setError(null);
+
     fetch(
-      `/api/mediums/${encodeURIComponent(mediumId)}/articles?status=pending`,
+      `${API_URL}/api/mediums/${encodeURIComponent(
+        resolvedMediumId,
+      )}/articles?status=pending`,
+      {
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+      },
     )
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch articles");
@@ -21,7 +93,7 @@ export default function AdminMediums({ mediumId, mediumName }) {
       .then((data) => setArticles(Array.isArray(data) ? data : []))
       .catch((err) => setError(err.message || "Unknown error"))
       .finally(() => setLoading(false));
-  }, [mediumId]);
+  }, [API_URL, authorized, resolvedMediumId]);
 
   const setProcessing = (id, val) =>
     setProcessingIds((prev) =>
@@ -34,10 +106,13 @@ export default function AdminMediums({ mediumId, mediumName }) {
     setProcessing(articleId, true);
     try {
       const res = await fetch(
-        `/api/articles/${encodeURIComponent(articleId)}`,
+        `${API_URL}/api/articles/${encodeURIComponent(articleId)}`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + localStorage.getItem("accessToken"),
+          },
           body: JSON.stringify({ status }),
         },
       );
@@ -67,17 +142,22 @@ export default function AdminMediums({ mediumId, mediumName }) {
     }
   };
 
-  //   if (!mediumId)
-  //     return (
-  //       <div>
-  //         Please open this page from a medium owner account or provide a mediumId.
-  //       </div>
-  //     );
+  if (authLoading) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+        <div>Loading access rights…</div>
+      </div>
+    );
+  }
+
+  if (!authorized) {
+    return null;
+  }
 
   return (
-    <div style={{ maxWidth: 980, margin: "0 auto", padding: 16 }}>
-      <h2 style={{ marginTop: 0 }}>
-        Publisher jelentkezések — {mediumName || mediumId}
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">
+        Publisher jelentkezések — {mediumName || resolvedMediumId}
       </h2>
 
       {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
@@ -177,7 +257,6 @@ export default function AdminMediums({ mediumId, mediumName }) {
 }
 
 AdminMediums.propTypes = {
-  mediumId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
+  mediumId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   mediumName: PropTypes.string,
 };

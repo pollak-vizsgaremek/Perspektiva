@@ -32,12 +32,10 @@ export default function Login({ closeLogin = () => void 0 }) {
         localStorage.setItem("isAdmin", parsedJwt.admin);
         if (res.status == 200) {
           closeLogin();
-          const currentPath = location.pathname.toLowerCase();
-          if (currentPath === "/" || currentPath === "/register") {
-            navigate("/Home");
-          } else {
-            window.location.reload();
-          }
+          navigate("/Home", {
+            replace: true,
+            state: { toast: "Bejelentkezés sikeres!" },
+          });
         }
       })
       .catch((err) => {
