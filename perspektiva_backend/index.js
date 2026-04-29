@@ -97,6 +97,7 @@ app.get("/api/articles", async (req, res) => {
         },
       },
     });
+    console.log("Fetched articles:", articles);
     res.status(200).json(articles);
   } catch (error) {
     res
@@ -136,7 +137,10 @@ app.get("/api/mediums/rss", async (req, res) => {
     };
 
     const extractAttribute = (xmlText, tag, attribute) => {
-      const regex = new RegExp(`<${tag}[^>]*${attribute}=["']([^"']+)["'][^>]*>`, "i");
+      const regex = new RegExp(
+        `<${tag}[^>]*${attribute}=["']([^"']+)["'][^>]*>`,
+        "i",
+      );
       const match = xmlText.match(regex);
       return match ? match[1].trim() : "";
     };
@@ -146,14 +150,19 @@ app.get("/api/mediums/rss", async (req, res) => {
         extractAttribute(xmlText, "enclosure", "url") ||
         extractAttribute(xmlText, "media:content", "url") ||
         extractAttribute(xmlText, "img", "src") ||
-        (xmlText.match(/<img[^>]+src=["']([^"']+)["']/i)?.[1] || "")
+        xmlText.match(/<img[^>]+src=["']([^"']+)["']/i)?.[1] ||
+        ""
       );
     };
 
     const parseRssItems = (xml, medium) => {
-      const itemMatches = Array.from(xml.matchAll(/<item[^>]*>([\s\S]*?)<\/item>/gi));
+      const itemMatches = Array.from(
+        xml.matchAll(/<item[^>]*>([\s\S]*?)<\/item>/gi),
+      );
       if (itemMatches.length === 0) {
-        itemMatches.push(...Array.from(xml.matchAll(/<entry[^>]*>([\s\S]*?)<\/entry>/gi)));
+        itemMatches.push(
+          ...Array.from(xml.matchAll(/<entry[^>]*>([\s\S]*?)<\/entry>/gi)),
+        );
       }
 
       return itemMatches.slice(0, 3).map((match, index) => {
@@ -217,7 +226,9 @@ app.get("/api/mediums/rss", async (req, res) => {
         }
 
         if (!fetched) {
-          console.warn(`No RSS items parsed for medium ${medium.name} (${medium.id})`);
+          console.warn(
+            `No RSS items parsed for medium ${medium.name} (${medium.id})`,
+          );
         }
       }),
     );
@@ -244,7 +255,7 @@ app.get("/api/tags", async (req, res) => {
 });
 
 app.get("/api/favourites", authMiddleware, async (req, res) => {
-  try {    
+  try {
     const favourites = await prisma.favourites.findMany({
       where: {
         user_id: req.user.id,
@@ -281,8 +292,13 @@ app.put("/api/articles", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "Article not found" });
     }
 
-    if (!existingArticle.publicist || existingArticle.publicist.user_id !== req.user.id) {
-      return res.status(403).json({ message: "Nem te hoztad létre ezt a cikket" });
+    if (
+      !existingArticle.publicist ||
+      existingArticle.publicist.user_id !== req.user.id
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Nem te hoztad létre ezt a cikket" });
     }
 
     const updateData = {};
@@ -290,7 +306,9 @@ app.put("/api/articles", authMiddleware, async (req, res) => {
     if (content !== undefined) updateData.content = content;
 
     if (Object.keys(updateData).length === 0) {
-      return res.status(400).json({ message: "At least one field to update is required" });
+      return res
+        .status(400)
+        .json({ message: "At least one field to update is required" });
     }
 
     const updatearticle = await prisma.article.update({
@@ -322,8 +340,13 @@ app.delete("/api/articles", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "Article not found" });
     }
 
-    if (!existingArticle.publicist || existingArticle.publicist.user_id !== req.user.id) {
-      return res.status(403).json({ message: "Nem te hoztad létre ezt a cikket" });
+    if (
+      !existingArticle.publicist ||
+      existingArticle.publicist.user_id !== req.user.id
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Nem te hoztad létre ezt a cikket" });
     }
 
     await prisma.article.delete({
@@ -354,13 +377,16 @@ app.post("/api/articles", authMiddleware, async (req, res) => {
         .json({ message: "Nem vagy jogosult cikk létrehozására!" });
 
     const { title, content, tags, image } = req.body;
+    console.log(content.toString());
+    console.log(content.toString());
+    console.log(content);
     const newArticle = await prisma.article.create({
       data: {
         publicistId: user.publicist.id,
         title,
-        content: content || "",
-        tags: tags || "",
-        image: image || "",
+        content: content.toString() || "",
+        tag: tags || "",
+        image_base64: image || "",
       },
     });
     res.status(201).json(newArticle);

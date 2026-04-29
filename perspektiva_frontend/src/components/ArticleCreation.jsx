@@ -8,7 +8,7 @@ export default function ArticleCreation() {
   useEffect(() => {
     document.title = `Perspektíva — Új Cikk`;
   }, []);
-  const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3300";
+  const API_URL = import.meta.env.VITE_BACKEND_URL || "https://localhost:3300";
   const navigate = useNavigate();
   const location = useLocation();
   const [userData, setUserData] = useState(null);
@@ -18,6 +18,11 @@ export default function ArticleCreation() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [tag, setTag] = useState("");
+  const [isEditingTag, setIsEditingTag] = useState(true);
+  const [image, setImage] = useState(""); // base64 image string
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
 
   // Use a ref to access the quill instance directly
   const quillRef = useRef();
@@ -54,8 +59,45 @@ export default function ArticleCreation() {
 
   function validate() {
     if (!title.trim()) return "Cím megadása kötelező.";
-    if (!content.trim()) return "Tartalom megadása kötelező.";
+    if (!content) return "Tartalom megadása kötelező.";
     return "";
+  }
+
+  function handleImageChange(e) {
+    const file = e.target.files && e.target.files[0];
+    setImageFile(file || null);
+    if (!file) {
+      setImage("");
+      setImagePreview(null);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImage(String(reader.result));
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleTagKeyDown(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const val = (tag || "").trim();
+      if (val.length >= 3) {
+        const newTag = val.startsWith("#") ? val : `#${val}`;
+        setTag(newTag);
+        setIsEditingTag(false);
+      }
+    }
+  }
+
+  function handleEditorChange(delta, oldDelta, source) {
+    // Quill callback receives (delta, oldDelta, source)
+    // Save the full Delta object (with formatting) as JSON string
+    if (quillRef.current) {
+      const contents = quillRef.current.getContents();
+      setContent(JSON.stringify(contents));
+    }
   }
 
   async function handleSubmit(e) {
@@ -82,8 +124,8 @@ export default function ArticleCreation() {
     const payload = {
       publicistId: Number(pidCandidate),
       title: title.trim(),
-      content: content.trim(),
-      tags: tags.trim(),
+      content: content,
+      tags: tag.trim(),
       image: image.trim(),
     };
 
@@ -110,6 +152,11 @@ export default function ArticleCreation() {
       setContent("");
       // rövid visszairányítás a főoldalra
       toast("Sikeres létrehozás!");
+      setTag("");
+      setIsEditingTag(true);
+      setImage("");
+      setImagePreview(null);
+      setImageFile(null);
     } catch (err) {
       setError("Mentési hiba: " + (err.message || err.toString()));
     } finally {
@@ -125,7 +172,7 @@ export default function ArticleCreation() {
           <div className="flex gap-2">
             <button
               onClick={() => navigate("/Home")}
-              className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 disabled:opacity-60 transition"
             >
               Mégse
             </button>
@@ -155,6 +202,22 @@ export default function ArticleCreation() {
                 className="mt-2 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-gray-900"
               />
             </div>
+            <div>
+              <label className="text-sm font-medium text-gray-700">Kép</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="mt-2 w-full p-2 border border-gray-300 rounded-lg bg-white"
+              />
+              {imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="preview"
+                  className="mt-2 w-full max-h-48 object-cover rounded-lg"
+                />
+              )}
+            </div>
 
             <div>
               <label className="text-sm font-medium text-gray-700">
@@ -170,7 +233,7 @@ export default function ArticleCreation() {
               <Editor
                 ref={quillRef}
                 readOnly={false}
-                onTextChange={setContent}
+                onTextChange={handleEditorChange}
               />
             </div>
 
@@ -231,6 +294,40 @@ export default function ArticleCreation() {
                   - Legalább néhány bekezdés a tartalomban jobb megjelenésért.
                 </li>
               </ul>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-lg">
+              <h4 className="text-sm font-bold text-gray-700 mb-2">Címke</h4>
+              {tag && !isEditingTag ? (
+                <div className="inline-flex items-center gap-2">
+                  <div
+                    className="px-3 py-1 rounded-full border-2 border-blue-600 text-blue-700 text-sm font-medium"
+                    onClick={() => setIsEditingTag(true)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") setIsEditingTag(true);
+                    }}
+                  >
+                    {tag}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setTag("")}
+                    className="text-sm text-gray-500 hover:text-gray-700"
+                  >
+                    Törlés
+                  </button>
+                </div>
+              ) : (
+                <input
+                  type="text"
+                  value={tag}
+                  onChange={(e) => setTag(e.target.value)}
+                  onKeyDown={handleTagKeyDown}
+                  placeholder="Add meg a címkét... (Enter: hashtag)"
+                  className="border border-gray-300 rounded-lg p-2 text-gray-900 w-full"
+                />
+              )}
             </div>
           </aside>
         </div>

@@ -35,7 +35,11 @@ export default function Home() {
   useEffect(() => {
     if (location.state?.toast) {
       toast(location.state.toast);
-      window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+      window.history.replaceState(
+        {},
+        document.title,
+        window.location.pathname + window.location.search,
+      );
     }
   }, [location.state]);
 
@@ -45,6 +49,28 @@ export default function Home() {
       return new URL(item.link).hostname.replace(/^www\./, "");
     } catch {
       return "Ismeretlen forrás";
+    }
+  };
+
+  const renderQuillContent = (content) => {
+    // Parse Quill Delta JSON and extract text for preview
+    try {
+      if (!content) return "";
+      if (typeof content === "string" && content.startsWith("{")) {
+        const delta = JSON.parse(content);
+        if (delta.ops && Array.isArray(delta.ops)) {
+          // Extract text from Delta ops
+          return delta.ops
+            .map((op) => (typeof op.insert === "string" ? op.insert : ""))
+            .join("")
+            .slice(0, 150); // First 150 chars as preview
+        }
+      }
+      // Fallback to plain text content
+      return typeof content === "string" ? content.slice(0, 150) : "";
+    } catch (err) {
+      console.warn("Error parsing Quill content:", err);
+      return "";
     }
   };
 
@@ -380,27 +406,10 @@ export default function Home() {
         <main className="max-w-7xl mx-auto mt-8 px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             {/* Kiemelt hír */}
-            <article className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
-              <div className="md:w-1/2">
-                <div className="h-64 bg-red-200 flex items-center justify-center text-red-700 font-bold">
-                  KIEMELT HÍR KÉPE
-                </div>
-              </div>
-              <div className="p-6 md:w-1/2">
-                <span className="text-xs font-semibold text-red-600 uppercase tracking-wider">
-                  Politika
-                </span>
-                <h2 className="mt-1 mb-3 text-3xl font-bold text-gray-900 leading-tight hover:text-red-600 transition duration-150">
-                  <a href="#">
-                    Áttörő Nemzetközi Megállapodás: Új Kockázatok És Lehetőségek
-                  </a>
-                </h2>
-                <p className="text-gray-600 mb-4">
-                  A szakértők szerint a frissen aláírt egyezmény alapjaiban
-                  változtathatja meg a globális kereskedelmet.
-                </p>
-                <div className="text-sm text-gray-500">
-                  Szerző: Kovács Péter | 5 perce
+            <article className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row h-40">
+              <div className="md:w-3/3">
+                <div className=" h-full bg-red-200 flex items-center justify-center text-red-700 font-bold">
+                  AKTUÁLIS HÍREK
                 </div>
               </div>
             </article>
@@ -432,14 +441,11 @@ export default function Home() {
                         );
                       }
                       return (
-                        
                         <div className="h-full bg-red-100 flex items-center justify-center text-red-600 text-4xl">
                           📰
                         </div>
                       );
                     })()}
-
-                    
                   </div>
                   <div className="p-4">
                     <span className="text-xs font-semibold text-red-600 uppercase tracking-wider">
@@ -455,7 +461,7 @@ export default function Home() {
                       </button>
                     </h3>
                     <p className="text-sm text-gray-500 mt-2">
-                      {item.content}
+                      {renderQuillContent(item.content)}
                     </p>
                     {item.source && (
                       <div className="mt-4 text-xs text-gray-500">
@@ -540,18 +546,6 @@ export default function Home() {
               )}
             </div>
             {/* --- WORDLE VÉGE --- */}
-
-            <div className="bg-blue-900 p-8 rounded-lg text-center shadow-2xl">
-              <p className="text-xs font-bold text-blue-300 uppercase mb-2">
-                SZPONZORÁLT TARTALOM
-              </p>
-              <h4 className="text-2xl font-extrabold text-white leading-snug">
-                Vásárolj Űrhajót Még Ma!
-              </h4>
-              <button className="mt-6 bg-green-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition transform hover:scale-105">
-                Tájékozódj!
-              </button>
-            </div>
 
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4 text-gray-800 border-b pb-2">

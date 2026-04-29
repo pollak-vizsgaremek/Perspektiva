@@ -1,6 +1,41 @@
 import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 
+const deltaToHtml = (deltaJson) => {
+  try {
+    if (!deltaJson) return "";
+    if (typeof deltaJson === "string" && deltaJson.startsWith("{")) {
+      const delta = JSON.parse(deltaJson);
+      if (delta.ops && Array.isArray(delta.ops)) {
+        return delta.ops
+          .map((op) => {
+            if (typeof op.insert !== "string") return "";
+            let text = op.insert
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/\n/g, "<br />");
+
+            if (op.attributes) {
+              if (op.attributes.bold) text = `<strong>${text}</strong>`;
+              if (op.attributes.italic) text = `<em>${text}</em>`;
+              if (op.attributes.underline) text = `<u>${text}</u>`;
+              if (op.attributes.link)
+                text = `<a href="${op.attributes.link}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${text}</a>`;
+            }
+            return text;
+          })
+          .join("");
+      }
+    }
+    // Fallback: return as-is if not Delta
+    return deltaJson;
+  } catch (err) {
+    console.warn("Error converting Delta to HTML:", err);
+    return String(deltaJson);
+  }
+};
+
 export default function News({ article, onClose }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -101,7 +136,9 @@ export default function News({ article, onClose }) {
           )}
 
           <div className="prose max-w-none dark:prose-invert text-gray-800 dark:text-gray-200 whitespace-pre-line">
-            {data.content || "Nincs tartalom."}
+            <div
+              dangerouslySetInnerHTML={{ __html: deltaToHtml(data.content) }}
+            />
           </div>
 
           <div className="mt-6 flex flex-col gap-3 border-t pt-4 sm:flex-row sm:items-center sm:justify-between">

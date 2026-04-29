@@ -46,47 +46,11 @@ const Editor = forwardRef(
         onSelectionChangeRef.current?.(...args);
       });
 
-      // Move picker options to document.body so dropdowns overlay the page
-      // instead of expanding inside the toolbar. Keep references to cleanup.
-      const movedPickers = [];
-      const repositionFns = [];
-      try {
-        const toolbar = container.querySelector(".ql-toolbar");
-        if (toolbar) {
-          const pickers = toolbar.querySelectorAll(".ql-picker");
-          pickers.forEach((picker) => {
-            const label = picker.querySelector(".ql-picker-label");
-            const options = picker.querySelector(".ql-picker-options");
-            if (!label || !options) return;
-
-            // move options to body
-            document.body.appendChild(options);
-            options.style.position = "absolute";
-            options.style.zIndex = "10000";
-            options.style.minWidth = "110px";
-            options.style.whiteSpace = "nowrap";
-
-            const reposition = () => {
-              const rect = label.getBoundingClientRect();
-              options.style.top = `${rect.bottom + window.scrollY + 6}px`;
-              options.style.left = `${rect.left + window.scrollX}px`;
-            };
-
-            // reposition on open (Quill toggles visibility on click) and on scroll/resize
-            const onClick = () => setTimeout(reposition, 0);
-            label.addEventListener("click", onClick);
-            window.addEventListener("scroll", reposition);
-            window.addEventListener("resize", reposition);
-
-            // keep refs for cleanup
-            movedPickers.push({ picker, options });
-            repositionFns.push({ label, onClick, reposition });
-          });
-        }
-      } catch (err) {
-        // ignore any DOM errors
-        console.warn("picker reposition error", err);
-      }
+      // NOTE: moving picker option nodes out of Quill's toolbar can break
+      // Quill internals because Quill keeps references to those nodes. To
+      // avoid runtime errors we intentionally do not move picker options.
+      // If overlaying is required, consider using CSS or cloning nodes
+      // carefully. For now, leave pickers in place.
 
       return () => {
         // cleanup moved pickers and event listeners
