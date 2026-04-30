@@ -51,7 +51,7 @@ export default function AdminMediums({ mediumId, mediumName }) {
 
         setUserData(data);
         setResolvedMediumId(
-          mediumId || data?.publicist?.medium_id || data?.publicist?.mediumId,
+          data?.publicist?.medium_id || data?.publicist?.mediumId,
         );
         setAuthorized(true);
       } catch (err) {
@@ -69,29 +69,36 @@ export default function AdminMediums({ mediumId, mediumName }) {
     };
 
     verifyAccess();
-  }, [API_URL, mediumId, navigate]);
+  }, [API_URL, navigate]);
 
   useEffect(() => {
     if (!resolvedMediumId || !authorized) return;
     setLoading(true);
     setError(null);
 
-    fetch(
-      `${API_URL}/api/mediums/${encodeURIComponent(
-        resolvedMediumId,
-      )}/articles?status=pending`,
-      {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("accessToken"),
-        },
+    fetch(`${API_URL}/api/articles`, {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("accessToken"),
       },
-    )
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch articles");
         return res.json();
       })
-      .then((data) => setArticles(Array.isArray(data) ? data : []))
-      .catch((err) => setError(err.message || "Unknown error"))
+      .then((data) => {
+        const articlesForMedium = Array.isArray(data)
+          ? data.filter((article) => {
+              const articleMediumId =
+                article.publicist?.mediums?.id || article.publicist?.medium_id;
+              return String(articleMediumId) === String(resolvedMediumId);
+            })
+          : [];
+        setArticles(articlesForMedium);
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+        setError(err.message || "Unknown error");
+      })
       .finally(() => setLoading(false));
   }, [API_URL, authorized, resolvedMediumId]);
 
@@ -100,37 +107,57 @@ export default function AdminMediums({ mediumId, mediumName }) {
       val ? [...prev, id] : prev.filter((x) => x !== id),
     );
 
-  const updateStatus = async (articleId, status) => {
+  const deleteArticle = async (articleId) => {
     if (!articleId) return;
     setError(null);
     setProcessing(articleId, true);
     try {
-      const res = await fetch(
-        `${API_URL}/api/articles/${encodeURIComponent(articleId)}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: "Bearer " + localStorage.getItem("accessToken"),
-          },
-          body: JSON.stringify({ status }),
+      const res = await fetch(`${API_URL}/api/articles`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + localStorage.getItem("accessToken"),
         },
-      );
-      if (!res.ok) throw new Error("Failed to update article status");
-      setArticles((prev) =>
-        prev.filter((a) => String(a.id) !== String(articleId)),
-      );
+        body: JSON.stringify({ Article_id: articleId }),
+      });
+
+      if (!res.ok) throw new Error("Failed to delete article");
+      setArticles((prev) => prev.filter((a) => String(a.id) !== String(articleId)));
     } catch (err) {
-      setError(err.message || "Update failed");
+      setError(err.message || "Delete failed");
     } finally {
       setProcessing(articleId, false);
     }
   };
 
-  const handleDisallow = (id) => {
-    if (!window.confirm("Are you sure you want to disallow this submission?"))
-      return;
-    updateStatus(id, "rejected");
+  const handleDelete = (id) => {
+    if (!window.confirm("Biztosan törölni szeretnéd ezt a cikket?")) return;
+    deleteArticle(id);
+  };
+
+  const renderQuillContent = (content) => {
+    try {
+      if (!content) return "";
+      if (typeof content === "string" && content.trim().startsWith("{")) {
+        const delta = JSON.parse(content);
+        if (delta.ops && Array.isArray(delta.ops)) {
+          return delta.ops
+            .map((op) =>
+              typeof op.insert === "string"
+                ? op.insert
+                : op.insert?.image
+                ? ""
+                : "",
+            )
+            .join("")
+            .replace(/\n{2,}/g, "\n\n");
+        }
+      }
+      return typeof content === "string" ? content : "";
+    } catch (err) {
+      console.warn("Error parsing Quill content:", err);
+      return "";
+    }
   };
 
   const formatDate = (iso) => {
@@ -155,103 +182,103 @@ export default function AdminMediums({ mediumId, mediumName }) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">
-        Publisher jelentkezések — {mediumName || resolvedMediumId}
-      </h2>
-
-      {error && <div style={{ color: "red", marginBottom: 12 }}>{error}</div>}
-
-      {loading ? (
-        <div>Loading pending submissions…</div>
-      ) : articles.length === 0 ? (
-        <div>No pending submissions for this medium.</div>
-      ) : (
-        <div
-          style={{
-            border: "1px solid #e6e6e6",
-            borderRadius: 6,
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              background: "#fafafa",
-              padding: "10px 12px",
-              fontWeight: 600,
-            }}
-          >
-            <div style={{ flex: 3 }}>Title</div>
-            <div style={{ flex: 2 }}>Author</div>
-            <div style={{ flex: 1 }}>Submitted</div>
-            <div style={{ flex: 4 }}>Excerpt</div>
-            <div style={{ width: 170 }}>Actions</div>
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <div className="bg-white shadow-lg rounded-3xl border border-gray-200 overflow-hidden">
+        <div className="px-6 py-5 bg-red-600 sm:px-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold text-white">
+              Publisher jelentkezések
+            </h2>
+            <p className="text-sm text-red-100 mt-1">
+              {mediumName || articles[0]?.publicist?.mediums?.name || `Medium #${resolvedMediumId}`}
+            </p>
           </div>
-
-          {articles.map((a) => (
-            <div
-              key={a.id}
-              style={{
-                display: "flex",
-                padding: "12px",
-                borderTop: "1px solid #f0f0f0",
-                alignItems: "flex-start",
-              }}
-            >
-              <div style={{ flex: 3 }}>
-                <div style={{ fontSize: 15, fontWeight: 600 }}>{a.title}</div>
-                {a.tags && a.tags.length > 0 && (
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: "#666",
-                      marginTop: 6,
-                    }}
-                  >
-                    {a.tags.join(", ")}
-                  </div>
-                )}
-              </div>
-
-              <div style={{ flex: 2, fontSize: 13, color: "#333" }}>
-                {a.authorName || a.author || "Unknown"}
-                {a.authorEmail && (
-                  <div style={{ fontSize: 12, color: "#666" }}>
-                    {a.authorEmail}
-                  </div>
-                )}
-              </div>
-
-              <div style={{ flex: 1, fontSize: 12, color: "#666" }}>
-                {formatDate(a.createdAt || a.submittedAt)}
-              </div>
-
-              <div style={{ flex: 4, fontSize: 13, color: "#444" }}>
-                {a.excerpt ||
-                  (a.content ? `${String(a.content).slice(0, 220)}…` : "")}
-              </div>
-
-              <div style={{ width: 170 }}>
-                <button
-                  onClick={() => updateStatus(a.id, "approved")}
-                  disabled={processingIds.includes(a.id)}
-                  style={{ marginRight: 8 }}
-                >
-                  {processingIds.includes(a.id) ? "..." : "Allow"}
-                </button>
-                <button
-                  onClick={() => handleDisallow(a.id)}
-                  disabled={processingIds.includes(a.id)}
-                  style={{ background: "#fff", border: "1px solid #ddd" }}
-                >
-                  Disallow
-                </button>
-              </div>
-            </div>
-          ))}
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-white ring-1 ring-white/20">
+            <span className="font-semibold">Cikkek:</span>
+            <span>{articles.length}</span>
+          </div>
         </div>
-      )}
+
+        <div className="px-6 py-6 sm:px-8">
+          {error && (
+            <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+
+          {loading ? (
+            <div className="rounded-2xl border border-dashed border-gray-200 px-6 py-10 text-center text-gray-500">
+              Loading submissions…
+            </div>
+          ) : articles.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-gray-200 px-6 py-10 text-center text-gray-500">
+              Nincsenek cikkek ehhez a médiumhoz.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {articles.map((a) => (
+                <div
+                  key={a.id}
+                  className="rounded-3xl border border-gray-200 bg-gray-50 p-5 shadow-sm transition hover:shadow-md"
+                >
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                    <div className="space-y-3 lg:flex-1">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900">
+                            {a.title}
+                          </h3>
+                          {a.tags && a.tags.length > 0 && (
+                            <p className="mt-2 text-sm text-gray-500">
+                              {a.tags.join(", ")}
+                            </p>
+                          )}
+                        </div>
+                        <div className="rounded-full bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 ring-1 ring-gray-200">
+                          {formatDate(a.createdAt || a.submittedAt) || "Ismeretlen dátum"}
+                        </div>
+                      </div>
+
+                      <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+                        <div>
+                          <p className="text-sm text-gray-700 whitespace-pre-wrap">
+                            {a.excerpt ||
+                              (a.content ? `${String(renderQuillContent(a.content)).slice(0, 240)}…` : "Nincs tartalom")}
+                          </p>
+                        </div>
+                        <div className="rounded-3xl bg-white px-4 py-3 text-sm text-gray-600 ring-1 ring-gray-200">
+                          <div className="font-semibold text-gray-900">
+                            {a.publicist?.name || a.authorName || a.author || "Ismeretlen szerző"}
+                          </div>
+                          {a.publicist?.user?.email ? (
+                            <div className="text-xs text-gray-500">
+                              {a.publicist.user.email}
+                            </div>
+                          ) : a.authorEmail ? (
+                            <div className="text-xs text-gray-500">
+                              {a.authorEmail}
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-start gap-3 pt-3 lg:pt-0">
+                      <button
+                        onClick={() => handleDelete(a.id)}
+                        disabled={processingIds.includes(a.id)}
+                        className="inline-flex items-center justify-center rounded-2xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        {processingIds.includes(a.id) ? "Törlés…" : "Törlés"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -263,7 +263,11 @@ app.get("/api/favourites", authMiddleware, async (req, res) => {
       include: {
         article: {
           include: {
-            publicist: true,
+            publicist: {
+              include: {
+                mediums: true,
+              },
+            },
           },
         },
       },
@@ -273,6 +277,45 @@ app.get("/api/favourites", authMiddleware, async (req, res) => {
     res
       .status(404)
       .json({ message: "Sikertelen lekérdezés!", error: error.message });
+  }
+});
+
+app.post("/api/favourites", authMiddleware, async (req, res) => {
+  try {
+    const { article_id } = req.body;
+    if (!article_id) {
+      return res.status(400).json({ message: "Article_id is required" });
+    }
+
+    const articleId = Number(article_id);
+    if (Number.isNaN(articleId)) {
+      return res.status(400).json({ message: "Invalid article_id" });
+    }
+
+    const existing = await prisma.favourites.findFirst({
+      where: {
+        user_id: req.user.id,
+        article_id: articleId,
+      },
+    });
+
+    if (existing) {
+      return res.status(409).json({ message: "Article already favourited" });
+    }
+
+    const favourite = await prisma.favourites.create({
+      data: {
+        user_id: req.user.id,
+        article_id: articleId,
+      },
+    });
+
+    res.status(201).json(favourite);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Sikertelen mentés!", error: error.message });
   }
 });
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
-export default function Profile({ closeProfile = () => void 0, onLogout = () => void 0 }) {
+export default function Profile({ closeProfile = () => void 0, onLogout = () => void 0, openArticle = () => void 0 }) {
   const [userData, setUserData] = useState(null);
   const [favourites, setFavourites] = useState([]);
   const [activeTab, setActiveTab] = useState("articles");
@@ -30,6 +30,25 @@ export default function Profile({ closeProfile = () => void 0, onLogout = () => 
       setDefaultEmail(userData.email);
     }
   }, [userData]);
+
+  const renderQuillContent = (content) => {
+    try {
+      if (!content) return "";
+      if (typeof content === "string" && content.trim().startsWith("{")) {
+        const delta = JSON.parse(content);
+        if (delta.ops && Array.isArray(delta.ops)) {
+          return delta.ops
+            .map((op) => (typeof op.insert === "string" ? op.insert : ""))
+            .join("")
+            .replace(/\n{2,}/g, "\n\n");
+        }
+      }
+      return typeof content === "string" ? content : "";
+    } catch (error) {
+      console.warn("Error parsing Quill content:", error);
+      return "";
+    }
+  };
 
   const fetchUserData = async () => {
     try {
@@ -241,14 +260,26 @@ export default function Profile({ closeProfile = () => void 0, onLogout = () => 
                       </span>
                     )}
                   </div>
-                  <p className="text-gray-600 dark:text-gray-300 mb-3">
-                    {fav.article?.description || "Nincs leírás"}
+                  <p className="text-gray-600 dark:text-gray-300 mb-3 whitespace-pre-wrap">
+                    {fav.article?.content
+                      ? `${String(renderQuillContent(fav.article.content)).slice(0, 240)}…`
+                      : "Nincs leírás"}
                   </p>
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Kiadó: <span className="font-semibold">{fav.article?.publisher?.name || "Ismeretlen"}</span>
+                      Kiadó: <span className="font-semibold">
+                        {fav.article?.publicist?.mediums?.name || fav.article?.publisher?.name || "Ismeretlen"}
+                      </span>
                     </p>
-                    <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-150 font-medium text-sm">
+                    <button
+                      onClick={() => {
+                        if (fav.article) {
+                          openArticle(fav.article);
+                          closeProfile();
+                        }
+                      }}
+                      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-150 font-medium text-sm"
+                    >
                       Megnyitás
                     </button>
                   </div>

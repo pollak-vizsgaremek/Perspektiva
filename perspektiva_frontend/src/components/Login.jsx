@@ -36,6 +36,7 @@ export default function Login({ closeLogin = () => void 0 }) {
             replace: true,
             state: { toast: "Bejelentkezés sikeres!" },
           });
+          window.location.reload();
         }
       })
       .catch((err) => {

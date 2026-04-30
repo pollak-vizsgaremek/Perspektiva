@@ -28,6 +28,7 @@ export default function Home() {
   const [userData, setUserData] = useState(null);
   const [rssItems, setRssItems] = useState([]);
   const [tags, setTags] = useState([]);
+  const [savingFavouriteIds, setSavingFavouriteIds] = useState([]);
   const API_URL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const location = useLocation();
@@ -166,7 +167,42 @@ export default function Home() {
       console.error("Tags fetch error:", error);
     }
   }
+  const saveFavourite = async (articleId) => {
+    if (!articleId || savingFavouriteIds.includes(articleId)) return;
+    if (!isLoggedIn) {
+      toast.info("Jelentkezz be a kedvencekhez adáshoz.");
+      return;
+    }
 
+    setSavingFavouriteIds((prev) => [...prev, articleId]);
+
+    try {
+      const res = await fetch(`${API_URL}/api/favourites`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({ article_id: articleId }),
+      });
+
+      if (res.status === 409) {
+        toast.info("A cikk már a kedvenceid között van.");
+        return;
+      }
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText || "Hiba történt.");
+      }
+
+      toast.success("Cikk hozzáadva a kedvencekhez.");
+    } catch (err) {
+      console.error("Save favourite failed:", err);
+      toast.error("Nem sikerült kedvenccé tenni a cikket.");
+    } finally {
+      setSavingFavouriteIds((prev) => prev.filter((id) => id !== articleId));
+    }
+  };
   // --- GEMINI SZÓGENERÁLÁS ---
   const fetchNewWord = useCallback(async () => {
     try {
@@ -468,6 +504,19 @@ export default function Home() {
                         <div>Forrás: {formatSource(item)}</div>
                       </div>
                     )}
+                    {!item.rss && isLoggedIn && (
+                      <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <button
+                          onClick={() => saveFavourite(item.id)}
+                          disabled={savingFavouriteIds.includes(item.id)}
+                          className="inline-flex items-center justify-center rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {savingFavouriteIds.includes(item.id)
+                            ? "Mentés…"
+                            : "Mentés a kedvencekhez"}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </article>
               ))}
@@ -581,7 +630,7 @@ export default function Home() {
 
       {isLoggedIn && isProfileOpen && (
         <div className="fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center backdrop-blur-sm">
-          <Profile closeProfile={closeProfile} onLogout={handleLogout} />
+          <Profile closeProfile={closeProfile} onLogout={handleLogout} openArticle={openArticle} />
         </div>
       )}
 

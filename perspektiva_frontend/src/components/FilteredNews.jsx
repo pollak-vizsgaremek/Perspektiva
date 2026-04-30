@@ -16,6 +16,28 @@ export default function FilteredNews() {
   const [loading, setLoading] = useState(true);
   const [rssLoading, setRssLoading] = useState(true);
 
+  const renderQuillContent = (content) => {
+    try {
+      if (!content) return "";
+      if (typeof content === "string" && content.trim().startsWith("{")) {
+        const delta = JSON.parse(content);
+        if (delta.ops && Array.isArray(delta.ops)) {
+          return delta.ops
+            .map((op) =>
+              typeof op.insert === "string" ? op.insert : "",
+            )
+            .join("")
+            .replace(/\n{2,}/g, "\n\n")
+            .trim();
+        }
+      }
+      return typeof content === "string" ? content : "";
+    } catch (err) {
+      console.warn("Error parsing Quill content:", err);
+      return typeof content === "string" ? content : "";
+    }
+  };
+
   useEffect(() => {
     const storedSources = localStorage.getItem("sources");
     if (storedSources) {
@@ -56,13 +78,17 @@ export default function FilteredNews() {
               })()
             : "N/A";
 
+          const parsedContent = renderQuillContent(article.content);
           return {
             id: article.id,
             source: article.publicist?.mediums?.name || "Unknown",
             title: article.title,
-            excerpt: article.content.substring(0, 150) + "...",
+            excerpt:
+              parsedContent.length > 0
+                ? `${parsedContent.slice(0, 150)}...`
+                : "",
             date: dateValue,
-            category: "Cikk",
+            category: article.tag || "Cikk",
           };
         });
 
@@ -193,7 +219,7 @@ export default function FilteredNews() {
 
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-400 italic">
-                    #{news.category}
+                    {news.category}
                   </span>
                   <button className="text-red-600 font-bold hover:text-red-700 transition-colors">
                     OLVASÁS &rarr;
